@@ -1,8 +1,8 @@
 <?php
 /*
-Plugin Name: SimplyRETS
+Plugin Name: Objectiv SimplyRETS
 Plugin URI: https://simplyrets.com
-Description: Show your Real Estate listings on your Wordpress site. SimplyRETS provides a very simple set up and full control over your listings.
+Description: Form of SimplyRETS WP Plugin - Show your Real Estate listings on your Wordpress site. SimplyRETS provides a very simple set up and full control over your listings.
 Author: SimplyRETS
 Version: 2.3.0
 License: GNU General Public License v3 or later
