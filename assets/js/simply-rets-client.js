@@ -222,7 +222,7 @@ var updatePagination = function(that) {
 
         pagWrapper.empty(); // clear the current pagination elements
 
-        var prev = "<a href=\"#\">Prev</a> | ";
+        var prev = "<a href=\"#\">Prev</a>";
         var next = "<a href=\"#\">Next</a>";
 
         var pag;
