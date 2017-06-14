@@ -1341,7 +1341,26 @@ HTML;
 
             // append markup for this listing to the content
             $resultsMarkup .= <<<HTML
-              <hr>
+                <div class="Property">
+                    <a href="$link">
+                        <div class="Property-image" style="background-image:url('$main_photo');">
+                            $compliance_markup
+                        </div>
+                    </a>
+                    <div class="Property-data">
+                        <a href="$link">
+                            <h4 class="Property-price">$listing_USD </br>
+                                <span class="Property-address">$address</span>
+                            </h4>
+                        </a>
+                        <ul class="Property-meta">
+                            <span class="Property-beds">$bedsMarkup</span>
+                            <span class="Property-baths">$bathsMarkup</span>
+                            <span class="Property-area">$areaMarkup</span>
+                        </ul>
+                    </div>
+                </div>
+              <!--<hr>
               <div class="sr-listing">
                 <a href="$link">
                   <div class="sr-photo" style="background-image:url('$main_photo');">
@@ -1373,7 +1392,7 @@ HTML;
                     $compliance_markup
                   </div>
                 </div>
-              </div>
+              </div>-->
 HTML;
 
         }
