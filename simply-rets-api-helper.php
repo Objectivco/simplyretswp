@@ -1383,8 +1383,10 @@ HTML;
         }
 
         if( $map_position == 'list_only' )
-        {
+        {   
+            $cont .= '<div class="Properties">';
             $cont .= $resultsMarkup;
+            $cont .= '</div>';
         }
         elseif( $map_position == 'map_only' )
         {
@@ -1393,12 +1395,15 @@ HTML;
         elseif( $map_position == 'map_above' )
         {
             $cont .= $mapMarkup;
+            $cont .= '<div class="Properties">';
             $cont .= $resultsMarkup;
+            $cont .= '</div>';
         }
         elseif( $map_position == 'map_below' )
         {
+            $cont .= '<div class="Properties">';
             $cont .= $resultsMarkup;
-            $cont .= '<hr>';
+            $cont .= '</div>';
             $cont .= $mapMarkup;
         }
         else
@@ -1408,8 +1413,11 @@ HTML;
 
         $disclaimer_text = SrUtils::mkDisclaimerText($lastUpdate);
 
-        $cont .= "<hr><p class='sr-pagination'>$prev_link $next_link</p>";
-        $cont .= "<br>{$disclaimer_text}";
+        $cont .= "<p class='sr-pagination'>$prev_link $next_link</p>";
+
+        if ( $disclaimer_text ) {
+            $cont .= "<div class='sr-disclaimer'>{$disclaimer_text}</div>";
+        }
 
         return $cont;
 
