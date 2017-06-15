@@ -4,7 +4,6 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "11f811a25982885aa2822c06871ec3a2",
     "content-hash": "787345aa111ffcc393e123cd47095185",
     "packages": [
         {
@@ -114,20 +113,20 @@
                 "builder",
                 "json"
             ],
-            "time": "2014-11-08 10:51:34"
+            "time": "2014-11-08T10:51:34+00:00"
         },
         {
             "name": "symfony/property-access",
-            "version": "v2.8.8",
+            "version": "v2.8.22",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/property-access.git",
-                "reference": "8fa1fe88f80fd8baefcc71d7cb3007c977d769bd"
+                "reference": "43f19429ef128373f30549456e5b363255d4789d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/property-access/zipball/8fa1fe88f80fd8baefcc71d7cb3007c977d769bd",
-                "reference": "8fa1fe88f80fd8baefcc71d7cb3007c977d769bd",
+                "url": "https://api.github.com/repos/symfony/property-access/zipball/43f19429ef128373f30549456e5b363255d4789d",
+                "reference": "43f19429ef128373f30549456e5b363255d4789d",
                 "shasum": ""
             },
             "require": {
@@ -174,7 +173,7 @@
                 "property path",
                 "reflection"
             ],
-            "time": "2016-06-29 05:29:29"
+            "time": "2017-06-01T20:52:29+00:00"
         },
         {
             "name": "widop/http-adapter",
@@ -236,7 +235,7 @@
                 "http",
                 "request"
             ],
-            "time": "2014-07-20 18:29:58"
+            "time": "2014-07-20T18:29:58+00:00"
         }
     ],
     "packages-dev": [],
