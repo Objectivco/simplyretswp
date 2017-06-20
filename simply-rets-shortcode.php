@@ -487,7 +487,7 @@ HTML;
         if( array_key_exists('advanced', $atts) && $atts['advanced'] == 'true' || $atts['advanced'] == 'True' ) {
             ?>
 
-            <div class="sr-adv-search-wrap">
+            <div class="sr-adv-search-wrap SearchForm">
               <form method="get" class="sr-search" action="<?php echo $home_url; ?>">
                 <input type="hidden" name="sr-listings" value="sr-search">
                 <input type="hidden" name="advanced" value="true">
@@ -623,7 +623,7 @@ HTML;
         }
 
         ?>
-        <div id="sr-search-wrapper">
+        <div id="sr-search-wrapper" class="SearchForm">
           <h3>Search Listings</h3>
           <form method="get" class="sr-search" action="<?php echo $home_url; ?>">
             <input type="hidden" name="sr-listings" value="sr-search">

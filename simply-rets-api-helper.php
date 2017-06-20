@@ -528,7 +528,7 @@ HTML;
          * status.
          */
         $listing_mls_status = SrListing::listingStatus($listing);
-        $mls_status = SimplyRetsApiHelper::srDetailsTable($listing_mls_status, "MLS Status");
+        $mls_status = "<li><strong>$listing_mls_status</strong></li>";
 
         // price
         $listing_price = $listing->listPrice;
@@ -539,13 +539,12 @@ HTML;
         $type = SimplyRetsApiHelper::srDetailsTable($listing_type, "Property Type");
         // bedrooms
         $listing_bedrooms = $listing->property->bedrooms;
-        $bedrooms = SimplyRetsApiHelper::srDetailsTable($listing_bedrooms, "Bedrooms");
+        $bedrooms = "<li><strong>$listing_bedrooms</strong> beds";
         // full baths
         $listing_bathsFull = $listing->property->bathsFull;
-        $bathsFull = SimplyRetsApiHelper::srDetailsTable($listing_bathsFull, "Full Baths");
         // half baths
         $listing_bathsHalf = $listing->property->bathsHalf;
-        $bathsHalf = SimplyRetsApiHelper::srDetailsTable($listing_bathsHalf, "Half Baths");
+        $baths = "<li class='SingleProperty-baths'><strong>$listing_bathsFull</strong> full</br><strong>$listing_bathsHalf</strong> half</li>";
         // total baths
         $listing_bathsTotal = $listing->property->bathrooms;
         $bathsTotal = SimplyRetsApiHelper::srDetailsTable($listing_bathsTotal, "Total Baths");
@@ -649,7 +648,7 @@ HTML;
         $lotsizeareaunits_markup  = SimplyRetsApiHelper::srDetailsTable($listing_lotSizeAreaUnits, "Lot Size Area Units");
         // acres
         $listing_acres = $listing->property->acres;
-        $acres_markup  = SimplyRetsApiHelper::srDetailsTable($acres, "Acres");
+        $acres = "<li><strong>$listing_acres</strong> acres lot</li>";
         // street address info
         $listing_postal_code = $listing->address->postalCode;
         $postal_code = SimplyRetsApiHelper::srDetailsTable($listing_postal_code, "Postal Code");
@@ -722,6 +721,7 @@ HTML;
         $area = $listing->property->area == 0
               ? 'n/a'
               : number_format($listing->property->area);
+        $areaMarkup = "<li><strong>$area</strong> sq ft</li>";
 
 
         // Determine the best field to show in the primary-details section
@@ -985,29 +985,25 @@ HTML;
                 </div>
 HTML;
             $mapLink = <<<HTML
-              <span style="float:left;">
-                <a href="#details-map">
+              <a href="#details-map" class="PillButton">
                   View on map
                 </a>
-              </span>
 HTML;
         } else {
             $mapMarkup = '';
             $mapLink = '';
         }
+
+        $map_image = plugin_dir_url(__FILE__) . 'assets/img/map.jpg';
+        $mapImageMarkup = "<a href='#details-map' class='SingleProperty-mapLink'><img src='$map_image' /></a>";
         /************************************************/
 
 
         // listing markup
+        $cont .="<div class='PropertyDetails'>";
         $cont .= <<<HTML
-          <div class="sr-details" style="text-align:left;">
-            <p class="sr-details-links" style="clear:both;">
-              $mapLink
-              $more_photos
-              <span id="sr-listing-contact">
-                <a href="#sr-contact-form">$contact_text</a>
-              </span>
-            </p>
+          <div class="SingleProperty" itemscope itemtype="http://schema.org/Product">
+            <link itemprop="additionalType" href="http://www.productontology.org/id/Real_estate">
             $gallery_markup
             <script>
               if(document.getElementById('sr-fancy-gallery')) {
@@ -1025,19 +1021,34 @@ HTML;
                   Galleria.run('.sr-gallery');
               }
             </script>
-            <div class="sr-primary-details">
-              <div class="sr-detail" id="sr-primary-details-beds">
-                <h3>$listing_bedrooms <small>Beds</small></h3>
-              </div>
-              <div class="sr-detail" id="sr-primary-details-baths">
-                <h3>$primary_baths<small> Baths</small></h3>
-              </div>
-              <div class="sr-detail" id="sr-primary-details-size">
-                <h3>$area <small class="sr-listing-area-sqft">SqFt</small></h3>
-              </div>
-              <div class="sr-detail" id="sr-primary-details-status">
-                <h3>$listing_mls_status</h3>
-              </div>
+            <div class="SingleProperty-details">
+                <div class="SingleProperty-info">
+                    <div class="SingleProperty-mapbutton">
+                        $mapImageMarkup
+                    </div>
+                    <div class="SingleProperty-meta">
+                        <ul class="SingleProperty-metaList">
+                            $bedrooms
+                            $baths
+                            $areaMarkup
+                            $mls_status
+                        </ul>
+                    </div>
+                    <div class="SingleProperty-address" itemprop="name">
+                        <h2 itemscope itemtype="http://schema.org/PostalAddress">
+                            <span itemprop="streetAddress">$listing_address</span>
+                            <span itemprop="addressLocality">$listing_city</span>, 
+                            <span itemprop="addressRegion">$listing_state</span>
+                            <span itemprop="postalCode">$listing_postal_code</span>
+                        </h2>
+                    </div>
+                </div>
+                <div class="SingleProperty-price">
+                    <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" itemid="#offer">
+                        <span itemprop="price" content="$listing_price">$listing_price_USD</span>
+                        <meta itemprop="priceCurrentcy" content="USD">
+                    </div>
+                </div>
             </div>
             $remarks_markup
             <table style="width:100%;">
@@ -1137,6 +1148,7 @@ HTML;
 
         // Add disclaimer to the bottom of the page
         $disclaimer = SrUtils::mkDisclaimerText($last_update);
+        $cont .= "</div>";
         $cont .= "<br/>{$disclaimer}";
 
         return $cont;
@@ -1533,8 +1545,7 @@ HTML;
 
 
     public static function srContactFormMarkup($listing) {
-        $markup .= '<hr>';
-        $markup .= '<div id="sr-contact-form">';
+        $markup .= '<div id="sr-contact-form" class="PropertyDetails-contact">';
         $markup .= '<h3>Contact us about this listing</h3>';
         $markup .= '<form action="' . esc_url( $_SERVER['REQUEST_URI'] ) . '" method="post">';
         $markup .= '<p>';

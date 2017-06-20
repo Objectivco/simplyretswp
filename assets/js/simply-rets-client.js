@@ -222,7 +222,7 @@ var updatePagination = function(that) {
 
         pagWrapper.empty(); // clear the current pagination elements
 
-        var prev = "<a href=\"#\">Prev</a>";
+        var prev = "<a href=\"#\">Previous</a>";
         var next = "<a href=\"#\">Next</a>";
 
         var pag;
@@ -248,7 +248,7 @@ var updatePagination = function(that) {
                 if(childs[c].text === "Next") {
                     nextEl = childs[c];
                 }
-                if(childs[c].text === "Prev") {
+                if(childs[c].text === "Previous") {
                     prevEl = childs[c];
                 }
             });

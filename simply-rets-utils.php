@@ -129,7 +129,7 @@ class SrUtils {
         if( $pagination['next'] !== null && !empty($pagination['next'] ) ) {
             $nextLink = $pagination['next'];
             $next = str_replace( 'https://api.simplyrets.com/properties?', $siteUrl, $nextLink );
-            $next_link = "| <a href='{$next}'>Next</a>";
+            $next_link = "<a href='{$next}'>Next</a>";
             $pag['next'] = $next_link;
         }
 
