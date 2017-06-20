@@ -648,7 +648,9 @@ HTML;
         $lotsizeareaunits_markup  = SimplyRetsApiHelper::srDetailsTable($listing_lotSizeAreaUnits, "Lot Size Area Units");
         // acres
         $listing_acres = $listing->property->acres;
-        $acres = "<li><strong>$listing_acres</strong> acres lot</li>";
+        if ( ! $listing_acres == NULL ) {
+            $acres = "<li><strong>$listing_acres</strong> acres lot</li>";
+        }
         // street address info
         $listing_postal_code = $listing->address->postalCode;
         $postal_code = SimplyRetsApiHelper::srDetailsTable($listing_postal_code, "Postal Code");
@@ -996,6 +998,12 @@ HTML;
 
         $map_image = plugin_dir_url(__FILE__) . 'assets/img/map.jpg';
         $mapImageMarkup = "<a href='#details-map' class='SingleProperty-mapLink'><img src='$map_image' /></a>";
+
+        if ( ! $listing_price == null && ! $listing->property->area == null ) {
+            $pricePer = $listing_price / $listing->property->area;
+            $pricePerUSD = '$' . number_format( $pricePer );
+            $areaPriceMarkup = "<li><strong>$pricePerUSD</strong> price/sq ft</li>";
+        }
         /************************************************/
 
 
@@ -1031,6 +1039,8 @@ HTML;
                             $bedrooms
                             $baths
                             $areaMarkup
+                            $areaPriceMarkup
+                            $acres
                             $mls_status
                         </ul>
                     </div>
@@ -1050,8 +1060,7 @@ HTML;
                     </div>
                 </div>
             </div>
-            $remarks_markup
-            <table style="width:100%;">
+            <table>
               <thead>
                 <tr>
                   <th colspan="3"><h5>Property Details</h5></th></tr></thead>
@@ -1092,6 +1101,8 @@ HTML;
                 $additional_rooms
                 $roomsMarkup
               </tbody>
+            </table>
+            <table>
               $geo_table_header
                 $geo_directions
                 $geo_county
@@ -1099,6 +1110,8 @@ HTML;
                 $geo_longitude
                 $geo_market_area
               </tbody>
+            </table>
+            <table>
               <thead>
                 <tr>
                   <th colspan="3"><h5>Address Information</h5></th></tr></thead>
@@ -1111,6 +1124,8 @@ HTML;
                 $state
                 $country
               </tbody>
+            </table>
+            <table>
               <thead>
                 <tr>
                   <th colspan="3"><h5>Listing Information</h5></th></tr></thead>
@@ -1123,6 +1138,8 @@ HTML;
                 $terms
                 $virtual_tour
               </tbody>
+            </table>
+            <table>
               $school_data
               <thead>
                 <tr>
@@ -1149,7 +1166,7 @@ HTML;
         // Add disclaimer to the bottom of the page
         $disclaimer = SrUtils::mkDisclaimerText($last_update);
         $cont .= "</div>";
-        $cont .= "<br/>{$disclaimer}";
+        $cont .= "<div class='sr-disclaimer'>{$disclaimer}</div>";
 
         return $cont;
     }
@@ -1317,9 +1334,9 @@ HTML;
              * If the field is empty, they'll be hidden
              * TODO: Create a ranking system 1 - 10 to smartly replace missing values
              */
-            $bedsMarkup  = SimplyRetsApiHelper::resultDataColumnMarkup($bedrooms, 'Bedrooms');
+            $bedsMarkup  = SimplyRetsApiHelper::resultDataColumnMarkup($bedrooms, 'beds');
             $areaMarkup  = SimplyRetsApiHelper::resultDataColumnMarkup(
-                $area, '<span class="sr-listing-area-sqft">SqFt</span>'
+                $area, '<span class="sr-listing-area-sqft">sq ft</span>'
             );
             $yearMarkup  = SimplyRetsApiHelper::resultDataColumnMarkup($yearBuilt, 'Built in', true);
             $cityMarkup  = SimplyRetsApiHelper::resultDataColumnMarkup($city, 'Located in', true);
@@ -1337,13 +1354,13 @@ HTML;
             }
 
             if ( ! $acres == null ) {
-                $acresMarkup = SimplyRetsApiHelper::resultDataColumnMarkup($acres, 'Acres');
+                $acresMarkup = SimplyRetsApiHelper::resultDataColumnMarkup($acres, 'acres lot');
             }
 
             if ( ! $listing_price == null && ! $listing->property->area == null ) {
                 $pricePer = $listing_price / $listing->property->area;
                 $pricePerUSD = '$' . number_format( $pricePer );
-                $areaPriceMarkup = SimplyRetsApiHelper::resultDataColumnMarkup($pricePerUSD, 'Price per SqFt');
+                $areaPriceMarkup = SimplyRetsApiHelper::resultDataColumnMarkup($pricePerUSD, 'price/sq ft');
             }
 
 
@@ -1356,9 +1373,9 @@ HTML;
             $bathsMarkup;
             if(is_numeric($bathsTotal)) {
                 $total_baths = $bathsTotal + 0; // strips extraneous decimals
-                $bathsMarkup = SimplyRetsApiHelper::resultDataColumnMarkup($total_baths, 'Bath');
+                $bathsMarkup = SimplyRetsApiHelper::resultDataColumnMarkup($total_baths, 'bath');
             } else {
-                $bathsMarkup = SimplyRetsApiHelper::resultDataColumnMarkup($bathsFull, 'Full Baths');
+                $bathsMarkup = SimplyRetsApiHelper::resultDataColumnMarkup($bathsFull, 'full baths');
             }
 
 
