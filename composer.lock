@@ -4,6 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
+    "hash": "11f811a25982885aa2822c06871ec3a2",
     "content-hash": "787345aa111ffcc393e123cd47095185",
     "packages": [
         {
@@ -113,7 +114,7 @@
                 "builder",
                 "json"
             ],
-            "time": "2014-11-08T10:51:34+00:00"
+            "time": "2014-11-08 10:51:34"
         },
         {
             "name": "symfony/property-access",
@@ -173,7 +174,7 @@
                 "property path",
                 "reflection"
             ],
-            "time": "2017-06-01T20:52:29+00:00"
+            "time": "2017-06-01 20:52:29"
         },
         {
             "name": "widop/http-adapter",
@@ -235,7 +236,7 @@
                 "http",
                 "request"
             ],
-            "time": "2014-07-20T18:29:58+00:00"
+            "time": "2014-07-20 18:29:58"
         }
     ],
     "packages-dev": [],
