@@ -528,7 +528,7 @@ HTML;
          * status.
          */
         $listing_mls_status = SrListing::listingStatus($listing);
-        $mls_status = "<li><strong>$listing_mls_status</strong></li>";
+        $mls_status_li = "<li><strong>$listing_mls_status</strong></li>";
 
         // price
         $listing_price = $listing->listPrice;
@@ -539,7 +539,8 @@ HTML;
         $type = SimplyRetsApiHelper::srDetailsTable($listing_type, "Property Type");
         // bedrooms
         $listing_bedrooms = $listing->property->bedrooms;
-        $bedrooms = "<li><strong>$listing_bedrooms</strong> beds";
+        $bedroomsLi = "<li><strong>$listing_bedrooms</strong> beds";
+        $bedrooms = SimplyRetsApiHelper::srDetailsTable($listing_bedrooms, "Bedrooms");
         // full baths
         $listing_bathsFull = $listing->property->bathsFull;
         // half baths
@@ -1036,18 +1037,18 @@ HTML;
                     </div>
                     <div class="SingleProperty-meta">
                         <ul class="SingleProperty-metaList">
-                            $bedrooms
+                            $bedroomsLi
                             $baths
                             $areaMarkup
                             $areaPriceMarkup
                             $acres
-                            $mls_status
+                            $mls_status_li
                         </ul>
                     </div>
                     <div class="SingleProperty-address" itemprop="name">
                         <h2 itemscope itemtype="http://schema.org/PostalAddress">
                             <span itemprop="streetAddress">$listing_address</span>
-                            <span itemprop="addressLocality">$listing_city</span>, 
+                            <span itemprop="addressLocality">$listing_city</span>,
                             <span itemprop="addressRegion">$listing_state</span>
                             <span itemprop="postalCode">$listing_postal_code</span>
                         </h2>
@@ -1412,7 +1413,7 @@ HTML;
         }
 
         if( $map_position == 'list_only' )
-        {   
+        {
             $cont .= '<div class="Properties">';
             $cont .= $resultsMarkup;
             $cont .= '</div>';
