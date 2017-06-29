@@ -393,7 +393,7 @@ class SimplyRetsApiHelper {
         // client-side js
         wp_register_script('simply-rets-client-js',
                            plugins_url('assets/js/simply-rets-client.js', __FILE__),
-                           array('jquery'));
+                           array('jquery'), null, true);
         wp_enqueue_script('simply-rets-client-js');
 
         // image gallery js
