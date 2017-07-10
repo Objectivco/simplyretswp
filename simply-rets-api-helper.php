@@ -379,7 +379,7 @@ class SimplyRetsApiHelper {
 
         // listings slider css
         wp_register_style('simply-rets-carousel',
-                          'https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css');
+                          plugins_url('assets/owl/dist/assets/owl.carousel.min.css', __FILE__));
         wp_enqueue_style('simply-rets-carousel');
 
         // listings slider css
@@ -396,15 +396,9 @@ class SimplyRetsApiHelper {
                            array('jquery'), null, true);
         wp_enqueue_script('simply-rets-client-js');
 
-        // image gallery js
-        wp_register_script('simply-rets-galleria-js',
-                           plugins_url('assets/galleria/galleria-1.4.2.min.js', __FILE__),
-                           array('jquery'));
-        wp_enqueue_script('simply-rets-galleria-js');
-
         // listings slider js
         wp_register_script('simply-rets-carousel',
-                           'https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.js',
+                           plugins_url('assets/owl/dist/owl.carousel.min.js', __FILE__),
                            array('jquery'));
         wp_enqueue_script('simply-rets-carousel');
 
@@ -1005,162 +999,7 @@ HTML;
             $pricePerUSD = '$' . number_format( $pricePer );
             $areaPriceMarkup = "<li><strong>$pricePerUSD</strong> price/sq ft</li>";
         }
-        /************************************************/
 
-
-        // listing markup
-        $cont .="<div class='PropertyDetails'>";
-        $cont .= <<<HTML
-          <div class="SingleProperty" itemscope itemtype="http://schema.org/Product">
-            <link itemprop="additionalType" href="http://www.productontology.org/id/Real_estate">
-            $gallery_markup
-            <script>
-              if(document.getElementById('sr-fancy-gallery')) {
-                  Galleria.loadTheme('$galleria_theme');
-                  Galleria.configure({
-                      height: 500,
-                      width:  "90%",
-                      showinfo: false,
-                      dummy: "$dummy",
-                      lightbox: true,
-                      imageCrop: false,
-                      imageMargin: 0,
-                      fullscreenDoubleTap: true
-                  });
-                  Galleria.run('.sr-gallery');
-              }
-            </script>
-            <div class="SingleProperty-details">
-                <div class="SingleProperty-info">
-                    <div class="SingleProperty-mapbutton">
-                        $mapImageMarkup
-                    </div>
-                    <div class="SingleProperty-meta">
-                        <ul class="SingleProperty-metaList">
-                            $bedroomsLi
-                            $baths
-                            $areaMarkup
-                            $areaPriceMarkup
-                            $acres
-                            $mls_status_li
-                        </ul>
-                    </div>
-                    <div class="SingleProperty-address" itemprop="name">
-                        <h2 itemscope itemtype="http://schema.org/PostalAddress">
-                            <span itemprop="streetAddress">$listing_address</span>
-                            <span itemprop="addressLocality">$listing_city</span>,
-                            <span itemprop="addressRegion">$listing_state</span>
-                            <span itemprop="postalCode">$listing_postal_code</span>
-                        </h2>
-                    </div>
-                </div>
-                <div class="SingleProperty-price">
-                    <div itemprop="offers" itemscope itemtype="http://schema.org/Offer" itemid="#offer">
-                        <span itemprop="price" content="$listing_price">$listing_price_USD</span>
-                        <meta itemprop="priceCurrentcy" content="USD">
-                    </div>
-                </div>
-            </div>
-            <table>
-              <thead>
-                <tr>
-                  <th colspan="3"><h5>Property Details</h5></th></tr></thead>
-              <tbody>
-                $price
-                $bedrooms
-                $bathsFull
-                $bathsHalf
-                $bathsTotal
-                $style
-                $lotsize_markup
-
-                $lotsizearea_markup
-                $lotsizeareaunits_markup
-                $acres_markup
-
-                $stories
-                $interiorFeatures
-                $exteriorFeatures
-                $yearBuilt
-                $fireplaces
-                $subdivision
-                $view
-                $roof
-                $water
-                $heating
-                $foundation
-                $accessibility
-                $lot_description
-                $laundry_features
-                $pool
-                $parking_description
-                $parking_spaces
-                $garage_spaces
-                $association_name
-                $association_fee
-                $association_amenities
-                $additional_rooms
-                $roomsMarkup
-              </tbody>
-            </table>
-            <table>
-              $geo_table_header
-                $geo_directions
-                $geo_county
-                $geo_latitude
-                $geo_longitude
-                $geo_market_area
-              </tbody>
-            </table>
-            <table>
-              <thead>
-                <tr>
-                  <th colspan="3"><h5>Address Information</h5></th></tr></thead>
-              <tbody>
-                $address
-                $unit
-                $postal_code
-                $city
-                $cross_street
-                $state
-                $country
-              </tbody>
-            </table>
-            <table>
-              <thead>
-                <tr>
-                  <th colspan="3"><h5>Listing Information</h5></th></tr></thead>
-              <tbody>
-                $office
-                $officePhone
-                $officeEmail
-                $agent
-                $agent_phone
-                $terms
-                $virtual_tour
-              </tbody>
-            </table>
-            <table>
-              $school_data
-              <thead>
-                <tr>
-                  <th colspan="3"><h5>Mls Information</h5></th></tr></thead>
-              <tbody>
-                $days_on_market
-                $mls_status
-                $list_date
-                $date_modified_markup
-                $tax_data
-                $tax_year
-                $tax_annual_amount
-                $mls_area
-                $mlsid
-              </tbody>
-            </table>
-            $mapMarkup
-            <script>$lh_analytics</script>
-          </div>
-HTML;
         $cont .= SimplyRetsApiHelper::srContactFormDeliver();
         $cont .= $contact_markup;
 
@@ -1168,8 +1007,66 @@ HTML;
         $disclaimer = SrUtils::mkDisclaimerText($last_update);
         $cont .= "</div>";
         $cont .= "<div class='sr-disclaimer'>{$disclaimer}</div>";
-
-        return $cont;
+        ?>
+        <div class="PropertyDetails">
+            <div class="SingleProperty" itemscope itemtype="http://schema.org/Product">
+              <link itemprop="additionalType" href="http://www.productontology.org/id/Real_estate">
+              <div class="SingleProperty-gallery owl-carousel owl-theme">
+                  <?php foreach ( $listing->photos as $photo ): ?>
+                      <div class="SingleProperty-galleryItem item">
+                          <div class="SingleProperty-galleryItem-bg">
+                              <img src="<?php echo $photo; ?>" />
+                          </div>
+                          <img src="<?php echo $photo; ?>" />
+                      </div>
+                  <?php endforeach; ?>
+              </div>
+              <script type="text/javascript">
+                jQuery(document).ready(function() {
+                    jQuery('.SingleProperty-gallery').owlCarousel({
+                        items: 1,
+                        nav: true,
+                        dots: false,
+                        loop: true,
+                        navText: ["<span class='SingleProperty-galleryNav'></span>","<span class='SingleProperty-galleryNav'></span>"]
+                    });
+                });
+              </script>
+              <div class="SingleProperty-details">
+                  <div class="SingleProperty-price">
+                      <span><?php echo $listing_price_USD; ?></span>
+                  </div>
+                  <div class="SingleProperty-meta">
+                      <div class="SingleProperty-beds">
+                          <span class="SingleProperty-metaValue">5</span>
+                          <span class="SingleProperty-metaLabel">Bedrooms</span>
+                      </div>
+                      <div class="SingleProperty-fullBaths">
+                          <span class="SingleProperty-metaValue">3</span>
+                          <span class="SingleProperty-metaLabel">Bathrooms</span>
+                      </div>
+                      <div class="SingleProperty-halfBaths">
+                          <span class="SingleProperty-metaValue">1</span>
+                          <span class="SingleProperty-metaLabel">Half Bath</span>
+                      </div>
+                      <div class="SingleProperty-sqft">
+                          <span class="SingleProperty-metaValue">2,345</span>
+                          <span class="SingleProperty-metaLabel">Approx. Sq. Ft.</span>
+                      </div>
+                      <div class="SingleProperty-priceSqft">
+                          <span class="SingleProperty-metaValue">$123.23</span>
+                          <span class="SingleProperty-metaLabel">Price per Sq. Ft.</span>
+                      </div>
+                      <div class="SingleProperty-acres">
+                          <span class="SingleProperty-metaValue">1.75</span>
+                          <span class="SingleProperty-metaLabel">Acres</span>
+                      </div>
+                  </div>
+              </div>
+              <!-- <?php echo $mapMarkup; ?> -->
+            </div>
+        </div>
+        <?php
     }
 
 

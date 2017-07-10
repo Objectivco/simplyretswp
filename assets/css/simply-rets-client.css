@@ -71,7 +71,6 @@ of the image, use this class.
     background-repeat: no-repeat;
 }
 
-
 /*
 Primary Data
 ---
@@ -177,7 +176,6 @@ is to change the `margin-left` property to align better in some themes.
     width: 70%;
 }
 
-
 /*
 Notice that we also provide you with `sr-data-column` for
 managing the spacing and margin between the two columns of
@@ -190,8 +188,6 @@ secondary data. For example, set the `.sr-data-column` to
     vertical-align: top;
     min-width: 15%;
 }
-
-
 
 /*
 Listing Details
@@ -248,10 +244,10 @@ without affecting the overall look of the section.
 ```
 */
 .sr-primary-details {
-  display: flex;
-  justify-content: space-between;
-  clear: both;
-  padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+    clear: both;
+    padding-top: 15px;
 }
 
 /*
@@ -370,7 +366,6 @@ standard class names like `button` and `btn`.
     margin-top: 5px;
     margin-bottom: 10px !important;
 }
-
 
 /**
  * SimplyRETS Search Form Widget
@@ -564,7 +559,7 @@ elsewhere, this should be a breeze.
 ```
 
 */
-.sr-slider{
+.sr-slider {
     max-width: 650px;
     width: 100%;
     position: relative;
@@ -574,7 +569,7 @@ elsewhere, this should be a breeze.
     transition: all 0.5s;
 }
 
-.sr-slider>img{
+.sr-slider > img {
     position: absolute;
     left: 0;
     top: 0;
@@ -604,7 +599,7 @@ elsewhere, this should be a breeze.
     display: none;
 }
 
-.sr-slider input[name='slide_switch']:checked+label {
+.sr-slider input[name='slide_switch']:checked + label {
     border-color: #666;
     opacity: 1;
 }
@@ -612,7 +607,7 @@ elsewhere, this should be a breeze.
     opacity: 0;
     transform: scale(1.1);
 }
-.sr-slider input[name='slide_switch']:checked+label+img {
+.sr-slider input[name='slide_switch']:checked + label + img {
     opacity: 1;
     transform: scale(1);
 }
@@ -634,7 +629,6 @@ elsewhere, this should be a breeze.
 .galleria-errors {
     display: none !important;
 }
-
 
 /**
   * Advanced Search Form
@@ -660,7 +654,6 @@ elsewhere, this should be a breeze.
 .sr-adv-search-wrap .sr-minmax-filters {
     margin-bottom: 0px;
 }
-
 
 /** Single Column */
 .sr-adv-search-part .sr-adv-search-col1 {
@@ -756,7 +749,6 @@ elsewhere, this should be a breeze.
     }
 }
 
-
 /*
  * Responsive CSS
 */
@@ -814,13 +806,13 @@ elsewhere, this should be a breeze.
 .sr-iw-inner__img #sr-iw-inner__img-img {
     max-width: 100% !important;
     max-height: 170px !important;
-    box-shadow: 0px 0px 3px #8B9293;
+    box-shadow: 0px 0px 3px #8b9293;
 }
 
 #sr-iw-inner__img-img {
     max-width: 100% !important;
     max-height: 170px !important;
-    box-shadow: 0px 0px 3px #8B9293;
+    box-shadow: 0px 0px 3px #8b9293;
 }
 
 .leaflet-popup-content {
@@ -854,7 +846,6 @@ elsewhere, this should be a breeze.
     line-height: 1em !important;
     font-size: 23px !important;
 }
-
 
 /** Listing Slider */
 .sr-listing-slider-item {
@@ -890,4 +881,95 @@ elsewhere, this should be a breeze.
 
 #sr-map-search img {
     margin: auto;
+}
+
+/**
+ * New Owl Carousel
+ */
+.SingleProperty-gallery {
+    margin-bottom: 40px;
+}
+.SingleProperty-gallery.owl-carousel .owl-item {
+    overflow: hidden;
+}
+
+.SingleProperty-gallery.owl-carousel .owl-item img {
+    width: auto !important;
+}
+
+.SingleProperty-galleryItem {
+    position: relative;
+    height: 500px;
+    overflow: hidden;
+}
+
+.SingleProperty-galleryItem > img {
+    position: absolute;
+    vertical-align: middle;
+    max-width: 100%;
+    min-width: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.SingleProperty-galleryItem-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-background-size: contain;
+    background-size: contain;
+}
+
+.SingleProperty-galleryItem-bg > img {
+    min-width: 105%;
+    min-height: 105%;
+    opacity: 0.8;
+    filter: blur(10px);
+}
+
+.SingleProperty-gallery.owl-carousel .owl-nav {
+    display: flex;
+    opacity: 0;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    transition: opacity 0.5s ease-in-out;
+    width: 100%;
+}
+
+.SingleProperty-gallery.owl-carousel:hover .owl-nav {
+    opacity: 1;
+}
+
+.SingleProperty-galleryNav {
+    background: rgba(0, 0, 0, 0.7);
+    display: block;
+    height: 60px;
+    width: 60px;
+    position: relative;
+}
+
+.SingleProperty-galleryNav:after {
+    background-size: contain;
+    content: "";
+    display: block;
+    height: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 20px;
+}
+
+.SingleProperty-gallery.owl-carousel .owl-nav .owl-next .SingleProperty-galleryNav:after {
+    background-image: url('../img/arrow-right.svg');
+}
+
+.SingleProperty-gallery.owl-carousel .owl-nav .owl-prev .SingleProperty-galleryNav:after {
+    background-image: url('../img/arrow-left.svg');
+}
+
+.SingleProperty-gallery.owl-carousel .owl-nav .owl-next {
+    margin-left: auto;
 }
