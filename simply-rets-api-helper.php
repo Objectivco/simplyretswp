@@ -525,416 +525,125 @@ HTML;
         $mls_status_li = "<li><strong>$listing_mls_status</strong></li>";
 
         // price
-        $listing_price = $listing->listPrice;
-        $listing_price_USD = '$' . number_format( $listing_price );
-        $price = SimplyRetsApiHelper::srDetailsTable($listing_price_USD, "Price");
-        // type
-        $listing_type = $listing->property->type;
-        $type = SimplyRetsApiHelper::srDetailsTable($listing_type, "Property Type");
-        // bedrooms
-        $listing_bedrooms = $listing->property->bedrooms;
-        $bedroomsLi = "<li><strong>$listing_bedrooms</strong> beds";
-        $bedrooms = SimplyRetsApiHelper::srDetailsTable($listing_bedrooms, "Bedrooms");
-        // full baths
-        $listing_bathsFull = $listing->property->bathsFull;
-        // half baths
-        $listing_bathsHalf = $listing->property->bathsHalf;
-        $baths = "<li class='SingleProperty-baths'><strong>$listing_bathsFull</strong> full</br><strong>$listing_bathsHalf</strong> half</li>";
-        // total baths
-        $listing_bathsTotal = $listing->property->bathrooms;
-        $bathsTotal = SimplyRetsApiHelper::srDetailsTable($listing_bathsTotal, "Total Baths");
-        // stories
-        $listing_stories = $listing->property->stories;
-        $stories = SimplyRetsApiHelper::srDetailsTable($listing_stories, "Stories");
-        // fireplaces
-        $listing_fireplaces = $listing->property->fireplaces;
-        $fireplaces = SimplyRetsApiHelper::srDetailsTable($listing_fireplaces, "Fireplaces");
-        // Long
-        $listing_longitude = $listing->geo->lng;
-        $geo_longitude = SimplyRetsApiHelper::srDetailsTable($listing_longitude, "Longitude");
-        // Long
-        $listing_lat = $listing->geo->lat;
-        $geo_latitude = SimplyRetsApiHelper::srDetailsTable($listing_lat, "Latitude");
-        // County
-        $listing_county = $listing->geo->county;
-        $geo_county = SimplyRetsApiHelper::srDetailsTable($listing_county, "County");
-        // County
-        $listing_directions = $listing->geo->directions;
-        $geo_directions = SimplyRetsApiHelper::srDetailsTable($listing_directions , "Directions");
-        // Market Area
-        $listing_market_area = $listing->geo->marketArea;
-        $geo_market_area = SimplyRetsApiHelper::srDetailsTable($listing_market_area, "Market Area");
-        // mls area
-        $listing_mlsarea = $listing->mls->area;
-        $mls_area = SimplyRetsApiHelper::srDetailsTable($listing_mlsarea, "MLS Area");
-        // tax data
-        $listing_taxdata = $listing->tax->id;
-        $tax_data = SimplyRetsApiHelper::srDetailsTable($listing_taxdata, "Tax ID");
-        // tax year
-        $listing_tax_year = $listing->tax->taxYear;
-        $tax_year = SimplyRetsApiHelper::srDetailsTable($listing_tax_year, "Tax Year");
-        // tax annual amount
-        $listing_tax_annual_amount = $listing->tax->taxAnnualAmount;
-        $tax_annual_amount = SimplyRetsApiHelper::srDetailsTable($listing_tax_annual_amount, "Tax Annual Amount");
-        // roof
-        $listing_roof = $listing->property->roof;
-        $roof = SimplyRetsApiHelper::srDetailsTable($listing_roof, "Roof");
-        // style
-        $listing_style = $listing->property->style;
-        $style = SimplyRetsApiHelper::srDetailsTable($listing_style, "Property Style");
-        // subdivision
-        $listing_subdivision = $listing->property->subdivision;
-        $subdivision = SimplyRetsApiHelper::srDetailsTable($listing_subdivision, "Subdivision");
-        // unit
-        $listing_unit = $listing->address->unit;
-        $unit = SimplyRetsApiHelper::srDetailsTable($listing_unit, "Unit");
-        // int/ext features
-        $listing_interiorFeatures = $listing->property->interiorFeatures;
-        $interiorFeatures = SimplyRetsApiHelper::srDetailsTable($listing_interiorFeatures, "Features");
-        // int/ext features
-        $listing_exteriorFeatures = $listing->property->exteriorFeatures;
-        $exteriorFeatures = SimplyRetsApiHelper::srDetailsTable($listing_exteriorFeatures, "Exterior Features");
-        // year built
-        $listing_yearBuilt = $listing->property->yearBuilt;
-        $yearBuilt = SimplyRetsApiHelper::srDetailsTable($listing_yearBuilt, "Year Built");
-        // listing id (MLS #)
-        $listing_mlsid = $listing->listingId;
-        $mlsid = SimplyRetsApiHelper::srDetailsTable($listing_mlsid, "MLS #");
-        // heating
-        $listing_heating = $listing->property->heating;
-        $heating = SimplyRetsApiHelper::srDetailsTable($listing_heating, "Heating");
-        // foundation
-        $listing_foundation = $listing->property->foundation;
-        $foundation = SimplyRetsApiHelper::srDetailsTable($listing_foundation, "Foundation");
-        // laundry features
-        $listing_laundry = $listing->property->laundryFeatures;
-        $laundry_features = SimplyRetsApiHelper::srDetailsTable($listing_laundry, "Laundry Features");
-        // lot description
-        $listing_lot_descrip = $listing->property->lotDescription;
-        $lot_description = SimplyRetsApiHelper::srDetailsTable($listing_lot_descrip, "Lot Description");
-        // additional rooms
-        $listing_rooms = $listing->property->additionalRooms;
-        $additional_rooms = SimplyRetsApiHelper::srDetailsTable($listing_rooms, "Additional Rooms");
-        // view
-        $listing_view = $listing->property->view;
-        $view = SimplyRetsApiHelper::srDetailsTable($listing_view, "View");
-        // accessibility
-        $listing_accessibility = $listing->property->accessibility;
-        $accessibility = SimplyRetsApiHelper::srDetailsTable($listing_accessibility, "Accessibility");
-        // waterfront
-        $listing_water = $listing->property->water;
-        $water = SimplyRetsApiHelper::srDetailsTable($listing_water, "Water");
-        // listing date
-        $listing_list_date = $listing->listDate;
-        if($listing_list_date) { $list_date_formatted = date("M j, Y", strtotime($listing_list_date)); }
-        $list_date = SimplyRetsApiHelper::srDetailsTable($list_date_formatted, "Listing Date");
-        // listing date modified
-        $listing_modified = $listing->modified;
-        if($listing_modified) { $date_modified = date("M j, Y", strtotime($listing_modified)); }
-        $date_modified_markup = SimplyRetsApiHelper::srDetailsTable($date_modified, "Listing Last Modified");
-        // lot size
-        $listing_lotSize = $listing->property->lotSize;
-        $lotsize_markup  = SimplyRetsApiHelper::srDetailsTable($listing_lotSize, "Lot Size");
-        // lot size area
-        $listing_lotSizeArea = $listing->property->lotSizeArea;
-        $lotsizearea_markup  = SimplyRetsApiHelper::srDetailsTable($listing_lotSizeArea, "Lot Size Area");
-        // lot size area units
-        $listing_lotSizeAreaUnits = $listing->property->lotSizeAreaUnits;
-        $lotsizeareaunits_markup  = SimplyRetsApiHelper::srDetailsTable($listing_lotSizeAreaUnits, "Lot Size Area Units");
-        // acres
-        $listing_acres = $listing->property->acres;
-        if ( ! $listing_acres == NULL ) {
-            $acres = "<li><strong>$listing_acres</strong> acres lot</li>";
+        $address = $listing->address->full;
+        $price = '$' . number_format( $listing->listPrice );
+        $status = $listing->mls->status;
+        $beds = $listing->property->bedrooms;
+        $fullBaths = $listing->property->bathsFull;
+        $halfBaths = $listing->property->bathsHalf;
+        $area = $listing->property->area == 0 ? 'n/a' : number_format( $listing->property->area);
+        $acres = number_format( $listing->property->acres );
+
+        if ( $listing->listPrice !== null && $listing->property->area !== null ) {
+            $pricePer = $listing->listPrice / $listing->property->area;
+            $pricePerUSD = '$' . number_format( $pricePer );
         }
-        // street address info
-        $listing_postal_code = $listing->address->postalCode;
-        $postal_code = SimplyRetsApiHelper::srDetailsTable($listing_postal_code, "Postal Code");
 
-        $listing_country = $listing->address->country;
-        $country = SimplyRetsApiHelper::srDetailsTable($listing_country, "Country");
+        $remarks = $listing->remarks;
 
-        $listing_address = $listing->address->full;
-        $address = SimplyRetsApiHelper::srDetailsTable($listing_address, "Address");
+        if ( $listing->property->type == 'RES' ) {
+            $propertyType = 'Residential';
+        }
 
-        $listing_city = $listing->address->city;
-        $city = SimplyRetsApiHelper::srDetailsTable($listing_city, "City");
+        if ( $listing->property->construction ) {
+            $constructionArray = explode( ',', $listing->property->construction );
+            $construction = implode( ', ', $constructionArray );
+        }
 
-        $listing_cross_street = $listing->address->crossStreet;
-        $cross_street = SimplyRetsApiHelper::srDetailsTable($listing_cross_street, "Cross Street");
+        $styleArray = explode( ',', $listing->property->style );
+        $style = implode( ', ', $styleArray );
 
-        $listing_state = $listing->address->state;
-        $state = SimplyRetsApiHelper::srDetailsTable($listing_state, "State");
+        $coolingArray = explode( ',', $listing->property->cooling );
+        $cooling = implode( ', ', $coolingArray );
 
-        $listing_terms = $listing->terms;
-        $terms = SimplyRetsApiHelper::srDetailsTable($listing_terms, "Terms");
+        $heatingArray = explode( ',', $listing->property->heating );
+        $heating = implode( ', ', $heatingArray );
 
-        $listing_lease_term = $listing->leaseTerm;
-        $lease_term = SimplyRetsApiHelper::srDetailsTable($listing_lease_term, "Lease Term");
-
-        $listing_lease_type = $listing->leaseType;
-        $lease_type = SimplyRetsApiHelper::srDetailsTable($listing_lease_type, "Lease Type");
-
-        $listing_pool = $listing->property->pool;
-        $pool = SimplyRetsApiHelper::srDetailsTable($listing_pool, "Pool features");
-
-        // Garage and Parking info
-        $listing_garage_spaces = $listing->property->garageSpaces;
-        $garage_spaces = SimplyRetsApiHelper::srDetailsTable($listing_garage_spaces, "Garage spaces");
-
-        $listing_parking_spaces = $listing->property->parking->spaces;
-        $parking_spaces = SimplyRetsApiHelper::srDetailsTable($listing_parking_spaces, "Parking Spaces");
-
-        $listing_parking_description = $listing->property->parking->description;
-        $parking_description = SimplyRetsApiHelper::srDetailsTable(
-            $listing_parking_description, "Parking Description"
+        $keyDetails = array(
+            array(
+                'key'   => 'MLS ID',
+                'val'   => $listing->mlsId
+            ),
+            array(
+                'key'   => 'PropertyType',
+                'val'   => $propertyType
+            ),
+            array(
+                'key'   => 'Taxes',
+                'val'   => '$' . number_format( $listing->tax->taxAnnualAmount )
+            ),
+            array(
+                'key'   => 'County',
+                'val'   => $listing->geo->county
+            ),
+            array(
+                'key'   => 'Market Area',
+                'val'   => $listing->geo->marketArea
+            ),
+            array(
+                'key'   => 'Subdivision',
+                'val'   => $listing->property->subdivision
+            ),
+            array(
+                'key'   => 'Year Built',
+                'val'   => $listing->property->yearBuilt
+            ),
+            array(
+                'key'   => 'Style',
+                'val'   => $style
+            ),
+            array(
+                'key'   => 'Lot Size',
+                'val'   => number_format( $listing->property->lotSizeArea ) . ' sq. ft.'
+            ),
+            array(
+                'key'   => 'Construction',
+                'val'   => $construction
+            ),
+            array(
+                'key'   => 'Roof',
+                'val'   => $listing->property->roof
+            ),
+            array(
+                'key'   => 'Cooling',
+                'val'   => $cooling
+            ),
+            array(
+                'key'   => 'Heating',
+                'val'   => $heating
+            ),
+            array(
+                'key'   => 'Stories',
+                'val'   => $listing->property->stories
+            ),
+            array(
+                'key'   => 'Fireplaces',
+                'val'   => $listing->property->fireplaces
+            ),
+            array(
+                'key'   => 'Flooring',
+                'val'   => $listing->property->flooring
+            ),
+            array(
+                'key'   => 'Foundation',
+                'val'   => $listing->property->foundation
+            ),
+            array(
+                'key'   => 'Laundry Features',
+                'val'   => $listing->property->laundryFeatures
+            ),
+            array(
+                'key'   => 'Pool',
+                'val'   => $listing->property->pool
+            ),
+            array(
+                'key'   => 'Garages',
+                'val'   => $listing->property->garageSpaces
+            )
         );
 
-        // association data
-        $listing_association_fee = $listing->association->fee;
-        $association_fee = SimplyRetsApiHelper::srDetailsTable($listing_association_fee, "Association Fee");
-
-        $listing_association_name = $listing->association->name;
-        $association_name = SimplyRetsApiHelper::srDetailsTable($listing_association_name, "Association Name");
-
-        $listing_association_amenities = $listing->association->amenities;
-        $association_amenities = SimplyRetsApiHelper::srDetailsTable(
-            $listing_association_amenities, "Association Amenities"
-        );
-
-        // Virtual tour URL
-        $listing_virtual_tour = $listing->virtualTourUrl;
-        if (!empty($listing_virtual_tour)) {
-            // Make the URL a link
-            $listing_virtual_tour = "<a href='$listing_virtual_tour' target='_blank'>"
-                                  . $listing_virtual_tour
-                                  . "</a>";
-
-        }
-
-        $virtual_tour = SimplyRetsApiHelper::srDetailsTable($listing_virtual_tour, "Virtual Tour URL");
-
-
-        // area
-        $area = $listing->property->area == 0
-              ? 'n/a'
-              : number_format($listing->property->area);
-        $areaMarkup = "<li><strong>$area</strong> sq ft</li>";
-
-
-        // Determine the best field to show in the primary-details section
-        $primary_baths = "";
-        if(is_numeric($listing_bathsTotal)) {
-            $primary_baths = $listing_bathsTotal + 0; // strips extraneous decimals
-        } elseif(!empty($listing_bathsFull)) {
-            $primary_baths = $listing_bathsFull;
-        } else {
-            $primary_baths = 'n/a';
-        }
-
-
-        if( $listing_bedrooms == null || $listing_bedrooms == "" ) {
-            $listing_bedrooms = 0;
-        }
-        if( $listing_bathsFull == null || $listing_bathsFull == "" ) {
-            $listing_bathsFull = 0;
-        }
-
-
-        // Rooms data
-        $roomsMarkup = '';
-        if(is_array($listing->property->rooms)) {
-
-            $rooms = $listing->property->rooms;
-
-            usort($rooms, function ($a, $b) {
-                return (is_null($a->level) OR $a->level == "") ? 1 : -1;
-            });
-
-            $roomsMarkup .= count($rooms) < 1 ? "" : "
-              <thead>
-                <tr>
-                  <th colspan=\"3\"><h5>Room Details</h5></th></tr></thead>";
-
-            foreach($rooms as $room) {
-
-                if(!is_null($room->dimensions)) {
-                    $roomSize = $room->dimensions;
-                } else {
-                    $roomSize = "$room->length" .  " x " . "$room->width";
-                }
-                $level = $room->level;
-                $levelText = empty($level) ? '' : SrUtils::ordinalSuffix($level) . " level";
-                $roomsMarkup .= SimplyRetsApiHelper::srDetailsTable(
-                    $roomSize,
-                    $room->type,
-                    $levelText,
-                    $room->description
-                );
-            }
-        }
-
-        // photo gallery
-        $photos         = $listing->photos;
-        $photo_gallery  = SimplyRetsApiHelper::srDetailsGallery( $photos );
-        $gallery_markup = $photo_gallery['markup'];
-        $more_photos    = $photo_gallery['more'];
-        $dummy          = plugins_url( 'assets/img/defprop.jpg', __FILE__ );
-        !empty($photos) ? $main_photo = $photos[0] : $main_photo = $dummy;
-
-        // geographic data
-        if($geo_directions
-           || $listing_lat
-           || $listing_longitude
-           || $listing_county
-           || $listing_market_area
-        ) {
-            $geo_table_header = <<<HTML
-              <thead>
-                <tr>
-                  <th colspan="3"><h5>Geographic Data</h5></th></tr></thead>
-              <tbody>
-HTML;
-        } else {
-            $geo_table_header = "";
-        }
-
-        // school data
-        $listing_school_district = $listing->school->district;
-        $school_district = SimplyRetsApiHelper::srDetailsTable($listing_school_district, "District");
-        // elementary school
-        $listing_elementary = $listing->school->elementarySchool;
-        $school_elementary = SimplyRetsApiHelper::srDetailsTable($listing_elementary, "Elementary School");
-        // middle school
-        $listing_middle_school = $listing->school->middleSchool;
-        $school_middle = SimplyRetsApiHelper::srDetailsTable($listing_middle_school, "Middle School");
-        // high school
-        $listing_high_school = $listing->school->highSchool;
-        $school_high = SimplyRetsApiHelper::srDetailsTable($listing_high_school, "High School");
-
-        if($listing_school_district
-           || $listing_elementary
-           || $listing_middle_school
-           || $listing_high_school
-        ) {
-            $school_data = <<<HTML
-              <thead>
-                <tr>
-                  <th colspan="3"><h5>School Information</h5></th></tr></thead>
-              <tbody>
-              $school_district
-              $school_elementary
-              $school_middle
-              $school_high
-              </tbody>
-HTML;
-        } else {
-            $school_data = "";
-        }
-
-        // list date and listing last modified
-        $show_listing_meta = SrUtils::srShowListingMeta();
-        if($show_listing_meta !== true) {
-            $list_date = '';
-            $date_modified_markup = '';
-            $tax_data = '';
-            $tax_year = '';
-            $tax_annual_amount = '';
-        }
-
-        if( get_option('sr_show_listing_remarks') ) {
-            $show_remarks = false;
-        } else {
-            $show_remarks = true;
-            $remarks = $listing->remarks;
-            $remarks_markup = <<<HTML
-            <div class="sr-remarks-details">
-              <p>$remarks</p>
-            </div>
-HTML;
-        }
-
-        if( get_option('sr_show_leadcapture') ) {
-            $contact_text = 'Contact us about this listing';
-            $cf_listing = $listing_address . ' ( MLS #' . $listing_mlsid . ' )';
-            $contact_markup = SimplyRetsApiHelper::srContactFormMarkup($cf_listing);
-        } else {
-            $contact_text = '';
-            $contact_markup = '';
-        }
-
-
-        /**
-         * Check for ListHub Analytics
-         */
-        if( get_option( 'sr_listhub_analytics' ) ) {
-            $lh_analytics = SimplyRetsApiHelper::srListhubAnalytics();
-            if( get_option( 'sr_listhub_analytics_id' ) ) {
-                $metrics_id = get_option( 'sr_listhub_analytics_id' );
-                $lh_send_details = SimplyRetsApiHelper::srListhubSendDetails(
-                    $metrics_id
-                    , true
-                    , $listing_mlsid
-                    , $postal_code
-                );
-                $lh_analytics .= $lh_send_details;
-            }
-        } else {
-            $lh_analytics = '';
-        }
-
-        ///////////////////////////////////////////////////////
-
-        $show_contact_info = SrUtils::showAgentContact();
-
-        // agent data
-        $listing_agent_id    = $listing->agent->id;
-        $listing_agent_name  = $listing->agent->firstName . ' ' . $listing->agent->lastName;
-
-        $listing_agent_email;
-        if($show_contact_info) {
-            $listing_agent_email = $listing->agent->contact->email;
-        } else {
-            $listing_agent_email = '';
-        }
-
-        // agent email is available
-        $agent_email = trim($listing_agent_email);
-        if(!empty($agent_email)) {
-            $listing_agent_name = "<a href='mailto:$listing_agent_email'>$listing_agent_name</a>";
-        }
-        //agent name is not available - use their id
-        $agent_name = trim($listing_agent_name);
-        if(empty($agent_name)) {
-            $listing_agent_name = $listing_agent_id;
-        }
-
-        $agent = SimplyRetsApiHelper::srDetailsTable($listing_agent_name, "Listing Agent");
-
-        $listing_agent_phone = $listing->agent->contact->office;
-        $agent_phone = SimplyRetsApiHelper::srDetailsTable($listing_agent_phone, "Listing Agent Phone");
-
-
-        // Office
-        $listing_office = $listing->office->name;
-        $office = SimplyRetsApiHelper::srDetailsTable($listing_office, "Listing Office");
-        $listing_office_phone = $listing->office->contact->office;
-        $officePhone = SimplyRetsApiHelper::srDetailsTable($listing_office_phone, "Listing Office Phone");
-
-        $listing_office_email = $listing->office->contact->email;
-        $officeEmail = SimplyRetsApiHelper::srDetailsTable($listing_office_email, "Listing Office Email");
-
-        /* If show_contact_info is false, stub these fields */
-        if(!$show_contact_info) {
-            $agent_phone = '';
-            $officePhone = '';
-            $officeEmail = '';
-        }
-
-
-        $compliance_markup = SrUtils::mkListingSummaryCompliance($listing_office);
-
-
-        $galleria_theme = plugins_url('assets/galleria/themes/classic/galleria.classic.min.js', __FILE__);
+        $interiorFeatures = explode( ',', $listing->property->interiorFeatures );
+        $exteriorFeatures = explode( ',', $listing->property->exteriorFeatures );
 
         // Build details link for map marker
         $link = SrUtils::buildDetailsLink(
@@ -1000,13 +709,6 @@ HTML;
             $areaPriceMarkup = "<li><strong>$pricePerUSD</strong> price/sq ft</li>";
         }
 
-        $cont .= SimplyRetsApiHelper::srContactFormDeliver();
-        $cont .= $contact_markup;
-
-        // Add disclaimer to the bottom of the page
-        $disclaimer = SrUtils::mkDisclaimerText($last_update);
-        $cont .= "</div>";
-        $cont .= "<div class='sr-disclaimer'>{$disclaimer}</div>";
         ?>
         <div class="PropertyDetails">
             <div class="SingleProperty" itemscope itemtype="http://schema.org/Product">
@@ -1035,32 +737,72 @@ HTML;
               <div class="SingleProperty-details">
                   <div class="SingleProperty-meta">
                       <div class="SingleProperty-price">
-                          <span class="SingleProperty-metaValue"><?php echo $listing_price_USD; ?></span>
-                          <span class="SingleProperty-metaLabel"><?php echo $listing_mls_status; ?></span>
+                          <span class="SingleProperty-metaValue"><?php echo $price; ?></span>
+                          <span class="SingleProperty-metaLabel"><?php echo $status; ?></span>
                       </div>
                       <div class="SingleProperty-beds">
-                          <span class="SingleProperty-metaValue">5</span>
+                          <span class="SingleProperty-metaValue"><?php echo $beds; ?></span>
                           <span class="SingleProperty-metaLabel">Bedrooms</span>
                       </div>
                       <div class="SingleProperty-fullBaths">
-                          <span class="SingleProperty-metaValue">3</span>
+                          <span class="SingleProperty-metaValue"><?php echo $fullBaths; ?></span>
                           <span class="SingleProperty-metaLabel">Bathrooms</span>
                       </div>
-                      <div class="SingleProperty-halfBaths">
-                          <span class="SingleProperty-metaValue">1</span>
-                          <span class="SingleProperty-metaLabel">Half Bath</span>
-                      </div>
+                      <?php if ( $halfBaths !== 0 ): ?>
+                          <div class="SingleProperty-halfBaths">
+                              <span class="SingleProperty-metaValue"><?php echo $halfBaths; ?></span>
+                              <span class="SingleProperty-metaLabel">Half Bath</span>
+                          </div>
+                      <?php endif; ?>
                       <div class="SingleProperty-sqft">
-                          <span class="SingleProperty-metaValue">2,345</span>
+                          <span class="SingleProperty-metaValue"><?php echo $area; ?></span>
                           <span class="SingleProperty-metaLabel">Approx. Sq. Ft.</span>
                       </div>
                       <div class="SingleProperty-priceSqft">
-                          <span class="SingleProperty-metaValue">$123.23</span>
+                          <span class="SingleProperty-metaValue"><?php echo $pricePerUSD; ?></span>
                           <span class="SingleProperty-metaLabel">Price per Sq. Ft.</span>
                       </div>
-                      <div class="SingleProperty-acres">
-                          <span class="SingleProperty-metaValue">1.75</span>
-                          <span class="SingleProperty-metaLabel">Acres</span>
+                      <?php if ( $acres !== 0 ): ?>
+                          <div class="SingleProperty-acres">
+                              <span class="SingleProperty-metaValue"><?php echo $acres; ?></span>
+                              <span class="SingleProperty-metaLabel">Acres</span>
+                          </div>
+                      <?php endif; ?>
+                  </div>
+              </div>
+              <div class="SingleProperty-remarks">
+                  <h3>Listing Description</h3>
+                  <p><?php echo $remarks; ?></p>
+              </div>
+              <div class="SingleProperty-keyDetails">
+                  <?php foreach( $keyDetails as $detail ): ?>
+                      <?php if ( $detail['val'] != null || $detail['val'] != '' ): ?>
+                          <div class="SingleProperty-detail">
+                              <div class="SingleProperty-detailVal"><?php echo $detail['val']; ?></div>
+                              <div class="SingleProperty-detailKey"><?php echo $detail['key']; ?></div>
+                          </div>
+                      <?php endif; ?>
+                  <?php endforeach; ?>
+              </div>
+              <div class="SingleProperty-features-wrap">
+                  <div class="SingleProperty-exterior">
+                      <h5>Exterior Features</h5>
+                      <div class="SingleProperty-features">
+                          <?php foreach( $interiorFeatures as $feature ): ?>
+                              <div class="SingleProperty-feature">
+                                  <?php echo $feature; ?>
+                              </div>
+                          <?php endforeach; ?>
+                      </div>
+                  </div>
+                  <div class="SingleProperty-interior">
+                      <h5>Interior Features</h5>
+                      <div class="SingleProperty-features">
+                          <?php foreach( $exteriorFeatures as $feature ): ?>
+                              <div class="SingleProperty-feature">
+                                  <?php echo $feature; ?>
+                              </div>
+                          <?php endforeach; ?>
                       </div>
                   </div>
               </div>
