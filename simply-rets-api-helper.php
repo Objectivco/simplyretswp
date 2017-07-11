@@ -1026,17 +1026,18 @@ HTML;
                     jQuery('.SingleProperty-gallery').owlCarousel({
                         items: 1,
                         nav: true,
-                        dots: false,
+                        dots: true,
                         loop: true,
                         navText: ["<span class='SingleProperty-galleryNav'></span>","<span class='SingleProperty-galleryNav'></span>"]
                     });
                 });
               </script>
               <div class="SingleProperty-details">
-                  <div class="SingleProperty-price">
-                      <span><?php echo $listing_price_USD; ?></span>
-                  </div>
                   <div class="SingleProperty-meta">
+                      <div class="SingleProperty-price">
+                          <span class="SingleProperty-metaValue"><?php echo $listing_price_USD; ?></span>
+                          <span class="SingleProperty-metaLabel"><?php echo $listing_mls_status; ?></span>
+                      </div>
                       <div class="SingleProperty-beds">
                           <span class="SingleProperty-metaValue">5</span>
                           <span class="SingleProperty-metaLabel">Bedrooms</span>
@@ -1631,5 +1632,91 @@ HTML;
 
         return $lh_send_details;
 
+    }
+
+    public static function stickyNavBar() {
+        if (get_query_var('listing_id') != NULL AND get_query_var('listing_title') != NULL) {
+
+            $listing_id = get_query_var('listing_id');
+            $vendor     = get_query_var('sr_vendor', '');
+
+            $add_rooms  = get_option('sr_additional_rooms') ? 'rooms' : '';
+
+            $params = http_build_query(
+                array(
+                    "vendor" => $vendor,
+                    "include" => $add_rooms
+                )
+            );
+
+            $resource = "/{$listing_id}?{$params}";
+            $request_url      = SimplyRetsApiHelper::srRequestUrlBuilder( $resource );
+            $request_response = SimplyRetsApiHelper::srApiRequest( $request_url );
+            $listing = $request_response['response'];
+
+            $address = $listing->address->full;
+            $price = '$' . number_format( $listing->listPrice );
+            $status = $listing->mls->status;
+            $beds = $listing->property->bedrooms;
+            $fullBaths = $listing->property->bathsFull;
+            $halfBaths = $listing->property->bathsHalf;
+            $area = $listing->property->area == 0 ? 'n/a' : number_format( $listing->property->area);
+            $acres = number_format( $listing->property->acres );
+
+            if ( $listing->listPrice !== null && $listing->property->area !== null ) {
+                $pricePer = $listing->listPrice / $listing->property->area;
+                $pricePerUSD = '$' . number_format( $pricePer );
+            }
+
+            ?>
+            <div class="SingleProperty-nav">
+                <div class="wrap">
+                    <div class="SingleProperty-navContent">
+                        <div class="SingleProperty-navAddress"><?php echo $address; ?></div>
+                        <div class="SingleProperty-navMeta">
+                            <div class="SingleProperty-price">
+                                <span class="SingleProperty-metaValue"><?php echo $price; ?></span>
+                                <span class="SingleProperty-metaLabel"><?php echo $status; ?></span>
+                            </div>
+                            <div class="SingleProperty-beds">
+                                <span class="SingleProperty-metaValue"><?php echo $beds; ?></span>
+                                <span class="SingleProperty-metaLabel">Bedrooms</span>
+                            </div>
+                            <div class="SingleProperty-fullBaths">
+                                <span class="SingleProperty-metaValue"><?php echo $fullBaths; ?></span>
+                                <span class="SingleProperty-metaLabel">Bathrooms</span>
+                            </div>
+                            <?php if ( $halfBaths !== 0): ?>
+                                <div class="SingleProperty-halfBaths">
+                                    <span class="SingleProperty-metaValue"><?php echo $halfBaths; ?></span>
+                                    <span class="SingleProperty-metaLabel">Half Bath</span>
+                                </div>
+                            <?php endif; ?>
+                            <div class="SingleProperty-sqft">
+                                <span class="SingleProperty-metaValue"><?php echo $area; ?></span>
+                                <span class="SingleProperty-metaLabel">Approx. Sq. Ft.</span>
+                            </div>
+                            <?php if ( $listing->listPrice !== null && $listing->property->area !== null ): ?>
+                                <div class="SingleProperty-priceSqft">
+                                    <span class="SingleProperty-metaValue"><?php echo $pricePerUSD; ?></span>
+                                    <span class="SingleProperty-metaLabel">Price per Sq. Ft.</span>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ( $acres !== null ): ?>
+                                <div class="SingleProperty-acres">
+                                    <span class="SingleProperty-metaValue"><?php echo $acres; ?></span>
+                                    <span class="SingleProperty-metaLabel">Acres</span>
+                                </div>
+                            <?php endif; ?>
+                        </div>
+                        <div class="SingleProperty-navAction">
+                            <a href="#" class="button">Request Info</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+
+        }
     }
 }

@@ -44,6 +44,7 @@ add_action( 'wp_enqueue_scripts', array( 'SimplyRetsApiHelper', 'simplyRetsClien
 add_action( 'wp_enqueue_scripts', array( 'SimplyRetsApiHelper', 'simplyRetsClientJs' ) );
 add_filter( 'query_vars', array( 'SimplyRetsCustomPostPages', 'srQueryVarsInit' ) );
 add_filter( "plugin_action_links_{$plugin}", array( 'SimplyRetsCustomPostPages', 'srPluginSettingsLink' ) );
+add_action( 'tha_body_top', array( 'SimplyRetsApiHelper', 'stickyNavBar' ) );
 
 register_activation_hook( __FILE__,   array('SimplyRetsCustomPostPages', 'srActivate' ) );
 register_deactivation_hook( __FILE__, array('SimplyRetsCustomPostPages', 'srDeactivate' ) );
