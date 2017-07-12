@@ -734,6 +734,7 @@ HTML;
                     });
                 });
               </script>
+
               <div class="SingleProperty-details">
                   <div class="SingleProperty-meta">
                       <div class="SingleProperty-price">
@@ -778,8 +779,8 @@ HTML;
                   <?php foreach( $keyDetails as $detail ): ?>
                       <?php if ( $detail['val'] != null || $detail['val'] != '' ): ?>
                           <div class="SingleProperty-detail">
-                              <div class="SingleProperty-detailVal"><?php echo $detail['val']; ?></div>
                               <div class="SingleProperty-detailKey"><?php echo $detail['key']; ?></div>
+                              <div class="SingleProperty-detailVal"><?php echo $detail['val']; ?></div>
                           </div>
                       <?php endif; ?>
                   <?php endforeach; ?>
