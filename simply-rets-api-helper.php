@@ -663,6 +663,21 @@ HTML;
             )
         );
 
+        $locationFeatures = array(
+            array(
+                'key' => 'City',
+                'val'   => $listing->address->city
+            ),
+            array(
+                'key'   => 'County',
+                'val'   => $listing->geo->county
+            ),
+            array(
+                'key'   => 'Neighborhood',
+                'val'   => $listing->property->subdivision
+            )
+        );
+
         // Build details link for map marker
         $link = SrUtils::buildDetailsLink(
             $listing,
@@ -695,7 +710,6 @@ HTML;
             $mapMarkup = <<<HTML
                 <hr>
                 <div id="details-map">
-                  <h3>Map View</h3>
                   $mapM
                 </div>
 HTML;
@@ -832,7 +846,37 @@ HTML;
                           <?php endforeach; ?>
                       </div>
                   </div>
-                  <?php echo $mapMarkup; ?>
+                  <div class="SingleProperty-location">
+                      <h5>Location</h5>
+                      <div class="SingleProperty-locationInfo">
+                          <div class="SingleProperty-keyDetails no-border">
+                              <?php foreach( $locationFeatures as $detail ): ?>
+                                  <?php if ( $detail['val'] != null || $detail['val'] != '' ): ?>
+                                      <div class="SingleProperty-detail">
+                                          <div class="SingleProperty-detailKey"><?php echo $detail['key']; ?></div>
+                                          <div class="SingleProperty-detailVal"><?php echo $detail['val']; ?></div>
+                                      </div>
+                                  <?php endif; ?>
+                              <?php endforeach; ?>
+                          </div>
+                          <div class="SingleProperty-locationDirections">
+                              <div class="SingleProperty-detailKey">Directions</div>
+                              <p><?php echo $listing->geo->directions; ?></p>
+                          </div>
+                      </div>
+                  </div>
+                  <div id="SingleProperty-footer" class="SingleProperty-mapContact">
+                      <?php echo $mapMarkup; ?>
+                      <?php if ( function_exists( 'gravity_form' ) ): ?>
+                          <div class="SingleProperty-contact">
+                              <?php gravity_form( 6, true, true, false, array( 'mlsid' => $listing->mlsId, 'address' => $listing->address->full ) ); ?>
+                          </div>
+                      <?php endif; ?>
+                  </div>
+                  <div class="SingleProperty-disclaimer">
+                      <p>Listing courtesy of <?php echo $listing->office->servingName; ?></p>
+                      <p><img src="<?php echo plugin_dir_url(__FILE__) . 'assets/img/a044-logoURL2.gif'; ?>" style="margin-right: 15px;"/>© 2017 Aspen/Glenwood Springs MLS, Inc. The data relating to real estate on this website comes from REALTORS® who submit listing information to the Internet Date Exchange (IDX) Program of the Aspen/Glenwood Springs MLS, Inc. The inclusion of IDX Program data on this website does not constitute an endorsement, acceptance, or approval by the Aspen/Glenwood Springs MLS, Inc. of this website, or the content of this website. The data on this website may not be reliable or accurate and is not guaranteed by the Aspen/Glenwood Springs MLS, Inc.</p>
+                  </div>
               </div>
             </div>
         </div>
@@ -1479,7 +1523,7 @@ HTML;
                             <?php endif; ?>
                         </div>
                         <div class="SingleProperty-navAction">
-                            <a href="#" class="button">Request Info</a>
+                            <a href="#SingleProperty-footer" class="button">Request Info</a>
                         </div>
                     </div>
                 </div>
