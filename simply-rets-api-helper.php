@@ -559,6 +559,8 @@ HTML;
         $heatingArray = explode( ',', $listing->property->heating );
         $heating = implode( ', ', $heatingArray );
 
+        $neighborhoodsArray = array('Red Mountain', 'West End');
+
         $keyDetails = array(
             array(
                 'key'   => 'MLS ID',
@@ -663,6 +665,13 @@ HTML;
             )
         );
 
+        $neighborhoodLink = '';
+
+        if ( in_array( $listing->property->subdivision, $neighborhoodsArray ) ) {
+            $neighborhood = str_replace( ' ', '-', $listing->property->subdivision );
+            $neighborhoodLink = '/' . $neighborhood;
+        }
+
         $locationFeatures = array(
             array(
                 'key' => 'City',
@@ -674,7 +683,8 @@ HTML;
             ),
             array(
                 'key'   => 'Neighborhood',
-                'val'   => $listing->property->subdivision
+                'val'   => $listing->property->subdivision,
+                'link'  => $neighborhoodLink
             )
         );
 
@@ -920,7 +930,11 @@ HTML;
                                   <?php if ( $detail['val'] != null || $detail['val'] != '' ): ?>
                                       <div class="SingleProperty-detail">
                                           <div class="SingleProperty-detailKey"><?php echo $detail['key']; ?></div>
-                                          <div class="SingleProperty-detailVal"><?php echo $detail['val']; ?></div>
+                                          <?php if ( $detail['link'] != '' ): ?>
+                                              <div class="SingleProperty-detailVal"><a href="<?php echo $detail['link']; ?>"><?php echo $detail['val']; ?></a></div>
+                                          <?php else: ?>
+                                              <div class="SingleProperty-detailVal"><?php echo $detail['val']; ?></div>
+                                          <?php endif; ?>
                                       </div>
                                   <?php endif; ?>
                               <?php endforeach; ?>
