@@ -954,7 +954,7 @@ HTML;
                       <?php echo $mapMarkup; ?>
                       <?php if ( function_exists( 'gravity_form' ) ): ?>
                           <div class="SingleProperty-contact">
-                              <?php gravity_form( 6, true, true, false, array( 'mlsid' => $listing->mlsId, 'address' => $listing->address->full ) ); ?>
+                              <?php gravity_form( 5, true, true, false, array( 'mlsid' => $listing->mlsId, 'address' => $listing->address->full ) ); ?>
                           </div>
                       <?php endif; ?>
                   </div>
