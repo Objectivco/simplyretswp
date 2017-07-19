@@ -840,32 +840,42 @@ HTML;
                   </a>
                   <div class="SingleProperty-details">
                       <div class="SingleProperty-meta">
-                          <div class="SingleProperty-price">
-                              <span class="SingleProperty-metaValue"><?php echo $price; ?></span>
-                              <span class="SingleProperty-metaLabel"><?php echo $status; ?></span>
-                          </div>
-                          <div class="SingleProperty-beds">
-                              <span class="SingleProperty-metaValue"><?php echo $beds; ?></span>
-                              <span class="SingleProperty-metaLabel">Bedrooms</span>
-                          </div>
-                          <div class="SingleProperty-fullBaths">
-                              <span class="SingleProperty-metaValue"><?php echo $fullBaths; ?></span>
-                              <span class="SingleProperty-metaLabel">Bathrooms</span>
-                          </div>
-                          <?php if ( $halfBaths !== 0 ): ?>
+                          <?php if ( $price ): ?>
+                              <div class="SingleProperty-price">
+                                  <span class="SingleProperty-metaValue"><?php echo $price; ?></span>
+                                  <span class="SingleProperty-metaLabel"><?php echo $status; ?></span>
+                              </div>
+                          <?php endif; ?>
+                          <?php if( $beds ): ?>
+                              <div class="SingleProperty-beds">
+                                  <span class="SingleProperty-metaValue"><?php echo $beds; ?></span>
+                                  <span class="SingleProperty-metaLabel">Bedrooms</span>
+                              </div>
+                          <?php endif; ?>
+                          <?php if ( $fullBaths ): ?>
+                              <div class="SingleProperty-fullBaths">
+                                  <span class="SingleProperty-metaValue"><?php echo $fullBaths; ?></span>
+                                  <span class="SingleProperty-metaLabel">Bathrooms</span>
+                              </div>
+                          <?php endif; ?>
+                          <?php if ( $halfBaths && $halfBaths !== 0 ): ?>
                               <div class="SingleProperty-halfBaths">
                                   <span class="SingleProperty-metaValue"><?php echo $halfBaths; ?></span>
                                   <span class="SingleProperty-metaLabel">Half Bath</span>
                               </div>
                           <?php endif; ?>
-                          <div class="SingleProperty-sqft">
-                              <span class="SingleProperty-metaValue"><?php echo $area; ?></span>
-                              <span class="SingleProperty-metaLabel">Approx. Sq. Ft.</span>
-                          </div>
-                          <div class="SingleProperty-priceSqft">
-                              <span class="SingleProperty-metaValue"><?php echo $pricePerUSD; ?></span>
-                              <span class="SingleProperty-metaLabel">Price per Sq. Ft.</span>
-                          </div>
+                          <?php if ( $area ): ?>
+                              <div class="SingleProperty-sqft">
+                                  <span class="SingleProperty-metaValue"><?php echo $area; ?></span>
+                                  <span class="SingleProperty-metaLabel">Approx. Sq. Ft.</span>
+                              </div>
+                          <?php endif; ?>
+                          <?php if( $pricePerUSD ): ?>
+                              <div class="SingleProperty-priceSqft">
+                                  <span class="SingleProperty-metaValue"><?php echo $pricePerUSD; ?></span>
+                                  <span class="SingleProperty-metaLabel">Price per Sq. Ft.</span>
+                              </div>
+                          <?php endif; ?>
                           <?php if ( $acres !== 0 ): ?>
                               <div class="SingleProperty-acres">
                                   <span class="SingleProperty-metaValue"><?php echo $acres; ?></span>
@@ -893,63 +903,71 @@ HTML;
                       <?php endforeach; ?>
                   </div>
                   <div class="SingleProperty-features-wrap">
-                      <div class="SingleProperty-exterior">
-                          <h5>Exterior Features</h5>
-                          <div class="SingleProperty-features">
-                              <?php foreach( $interiorFeatures as $feature ): ?>
-                                  <div class="SingleProperty-feature">
-                                      <?php echo $feature; ?>
-                                  </div>
-                              <?php endforeach; ?>
+                      <?php if ( $interiorFeatures ): ?>
+                          <div class="SingleProperty-interior">
+                              <h5>Interior Features</h5>
+                              <div class="SingleProperty-features">
+                                  <?php foreach( $interiorFeatures as $feature ): ?>
+                                      <div class="SingleProperty-feature">
+                                          <?php echo $feature; ?>
+                                      </div>
+                                  <?php endforeach; ?>
+                              </div>
                           </div>
-                      </div>
-                      <div class="SingleProperty-interior">
-                          <h5>Interior Features</h5>
-                          <div class="SingleProperty-features">
-                              <?php foreach( $exteriorFeatures as $feature ): ?>
-                                  <div class="SingleProperty-feature">
-                                      <?php echo $feature; ?>
-                                  </div>
-                              <?php endforeach; ?>
+                      <?php endif; ?>
+                      <?php if ( $exteriorFeatures ): ?>
+                          <div class="SingleProperty-exterior">
+                              <h5>Exterior Features</h5>
+                              <div class="SingleProperty-features">
+                                  <?php foreach( $exteriorFeatures as $feature ): ?>
+                                      <div class="SingleProperty-feature">
+                                          <?php echo $feature; ?>
+                                      </div>
+                                  <?php endforeach; ?>
+                              </div>
                           </div>
-                      </div>
+                      <?php endif; ?>
                   </div>
-                  <div class="SingleProperty-finance">
-                      <h5>Financial Information</h5>
-                      <div class="SingleProperty-keyDetails no-border">
-                          <?php foreach( $financeFeatures as $detail ): ?>
-                              <?php if ( $detail['val'] != null || $detail['val'] != '' ): ?>
-                                  <div class="SingleProperty-detail">
-                                      <div class="SingleProperty-detailKey"><?php echo $detail['key']; ?></div>
-                                      <div class="SingleProperty-detailVal"><?php echo $detail['val']; ?></div>
-                                  </div>
-                              <?php endif; ?>
-                          <?php endforeach; ?>
-                      </div>
-                  </div>
-                  <div class="SingleProperty-location">
-                      <h5>Location</h5>
-                      <div class="SingleProperty-locationInfo">
+                  <?php if( $financeFeatures ): ?>
+                      <div class="SingleProperty-finance">
+                          <h5>Financial Information</h5>
                           <div class="SingleProperty-keyDetails no-border">
-                              <?php foreach( $locationFeatures as $detail ): ?>
+                              <?php foreach( $financeFeatures as $detail ): ?>
                                   <?php if ( $detail['val'] != null || $detail['val'] != '' ): ?>
                                       <div class="SingleProperty-detail">
                                           <div class="SingleProperty-detailKey"><?php echo $detail['key']; ?></div>
-                                          <?php if ( $detail['link'] != '' ): ?>
-                                              <div class="SingleProperty-detailVal"><a href="<?php echo $detail['link']; ?>"><?php echo $detail['val']; ?></a></div>
-                                          <?php else: ?>
-                                              <div class="SingleProperty-detailVal"><?php echo $detail['val']; ?></div>
-                                          <?php endif; ?>
+                                          <div class="SingleProperty-detailVal"><?php echo $detail['val']; ?></div>
                                       </div>
                                   <?php endif; ?>
                               <?php endforeach; ?>
                           </div>
-                          <div class="SingleProperty-locationDirections">
-                              <div class="SingleProperty-detailKey">Directions</div>
-                              <p><?php echo $listing->geo->directions; ?></p>
+                      </div>
+                  <?php endif; ?>
+                  <?php if( $locationFeatures ): ?>
+                      <div class="SingleProperty-location">
+                          <h5>Location</h5>
+                          <div class="SingleProperty-locationInfo">
+                              <div class="SingleProperty-keyDetails no-border">
+                                  <?php foreach( $locationFeatures as $detail ): ?>
+                                      <?php if ( $detail['val'] != null || $detail['val'] != '' ): ?>
+                                          <div class="SingleProperty-detail">
+                                              <div class="SingleProperty-detailKey"><?php echo $detail['key']; ?></div>
+                                              <?php if ( $detail['link'] != '' ): ?>
+                                                  <div class="SingleProperty-detailVal"><a href="<?php echo $detail['link']; ?>"><?php echo $detail['val']; ?></a></div>
+                                              <?php else: ?>
+                                                  <div class="SingleProperty-detailVal"><?php echo $detail['val']; ?></div>
+                                              <?php endif; ?>
+                                          </div>
+                                      <?php endif; ?>
+                                  <?php endforeach; ?>
+                              </div>
+                              <div class="SingleProperty-locationDirections">
+                                  <div class="SingleProperty-detailKey">Directions</div>
+                                  <p><?php echo $listing->geo->directions; ?></p>
+                              </div>
                           </div>
                       </div>
-                  </div>
+                  <?php endif; ?>
                   <div id="SingleProperty-footer" class="SingleProperty-mapContact">
                       <?php echo $mapMarkup; ?>
                       <?php if ( function_exists( 'gravity_form' ) ): ?>
@@ -1241,10 +1259,6 @@ HTML;
 
         $cont .= "<p class='sr-pagination'>$prev_link $next_link</p>";
 
-        if ( $disclaimer_text ) {
-            $cont .= "<div class='sr-disclaimer'>{$disclaimer_text}</div>";
-        }
-
         return $cont;
 
     }
@@ -1497,7 +1511,6 @@ HTML;
                 $inner
               </div>
               <br/>
-              $disclaimer
             </div>
 HTML;
 
