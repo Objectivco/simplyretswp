@@ -420,58 +420,44 @@ HTML;
          */
         $type_options             = '';
         $available_property_types = get_option("sr_adv_search_meta_types_$vendor", array());
+        $new_property_types = array();
         $default_type_option      = '<option value="">Property Type</option>';
 
         if( empty( $available_property_types ) ) {
-            $available_property_types = array("Single Family Home", "Condominium", "Rental" );
+            $new_property_types = array("Single Family Home", "Condominium", "Rental" );
+        }
+
+        if ( is_array( $available_property_types ) && ! empty( $available_property_types ) ) {
+            foreach( $available_property_types as $type ) {
+                if ( $type == 'Residential' ) {
+                    array_push( $new_property_types, 'Single Family Home' );
+                } else if ( $type == 'Farm' ) {
+                    array_push( $new_property_types, 'Farm/Ranch' );
+                } else if ( $type == 'Rental' || $type == 'Multi-Family' ) {
+                    continue;
+                } else {
+                    array_push( $new_property_types, $type );
+                }
+            }
         }
 
         if((is_array($config_type) == TRUE) && isset($_GET['sr_ptype'])) {
             $type_string = join(';', $config_type);
             $default_type_option = "<option value='$type_string' selected>Property Type</option>";
-            foreach($available_property_types as $key=>$value) {
-                if ( $value == 'Residential' ) {
-                    $label = 'Single Family Home';
-                } else if ( $value == 'Rental' || $value == 'Multi-Family' ) {
-                    continue;
-                } else {
-                    $label = $value;
-                }
-
-                $type_options .= "<option value='$value' />$label</option>";
+            foreach($new_property_types as $key=>$value) {
+                $type_options .= "<option value='$value' />$value</option>";
             }
         } elseif(strpos($config_type, ";") !== FALSE) {
             $default_type_option = "<option value='$config_type' selected>Property Type</option>";
-            foreach($available_property_types as $key=>$value) {
-                if ( $value == 'Residential' ) {
-                    $label = 'Single Family Home';
-                } else if ( $value == 'Rental' || $value == 'Multi-Family' ) {
-                    continue;
-                } else {
-                    $label = $value;
-                }
-                $type_options .= "<option value='$value' />$label</option>";
+            foreach($new_property_types as $key=>$value) {
+                $type_options .= "<option value='$value' />$value</option>";
             }
         } else {
-            foreach($available_property_types as $key=>$value) {
+            foreach($new_property_types as $key=>$value) {
                 if( $value == $config_type ) {
-                    if ( $value == 'Residential' ) {
-                        $label = 'Single Family Home';
-                    } else if ( $value == 'Rental' || $value == 'Multi-Family' ) {
-                        continue;
-                    } else {
-                        $label = $value;
-                    }
-                    $type_options .= "<option value='$value' selected />$label</option>";
+                    $type_options .= "<option value='$value' selected />$value</option>";
                 } else {
-                    if ( $value == 'Residential' ) {
-                        $label = 'Single Family Home';
-                    } else if ( $value == 'Rental' || $value == 'Multi-Family' ) {
-                        continue;
-                    } else {
-                        $label = $value;
-                    }
-                    $type_options .= "<option value='$value' />$label</option>";
+                    $type_options .= "<option value='$value' />$value</option>";
                 }
             }
         }
