@@ -423,26 +423,47 @@ HTML;
         $default_type_option      = '<option value="">Property Type</option>';
 
         if( empty( $available_property_types ) ) {
-            $available_property_types = array("Residential", "Condominium", "Rental" );
+            $available_property_types = array("Single Family Home", "Condominium", "Rental" );
         }
 
         if((is_array($config_type) == TRUE) && isset($_GET['sr_ptype'])) {
             $type_string = join(';', $config_type);
             $default_type_option = "<option value='$type_string' selected>Property Type</option>";
             foreach($available_property_types as $key=>$value) {
-                $type_options .= "<option value='$value' />$value</option>";
+                if ( $value == 'Residential' ) {
+                    $label = 'Single Family Home';
+                } else {
+                    $label = $value;
+                }
+
+                $type_options .= "<option value='$value' />$label</option>";
             }
         } elseif(strpos($config_type, ";") !== FALSE) {
             $default_type_option = "<option value='$config_type' selected>Property Type</option>";
             foreach($available_property_types as $key=>$value) {
-                $type_options .= "<option value='$value' />$value</option>";
+                if ( $value == 'Residential' ) {
+                    $label = 'Single Family Home';
+                } else {
+                    $label = $value;
+                }
+                $type_options .= "<option value='$value' />$label</option>";
             }
         } else {
             foreach($available_property_types as $key=>$value) {
                 if( $value == $config_type ) {
-                    $type_options .= "<option value='$value' selected />$value</option>";
+                    if ( $value == 'Residential' ) {
+                        $label = 'Single Family Home';
+                    } else {
+                        $label = $value;
+                    }
+                    $type_options .= "<option value='$value' selected />$label</option>";
                 } else {
-                    $type_options .= "<option value='$value' />$value</option>";
+                    if ( $value == 'Residential' ) {
+                        $label = 'Single Family Home';
+                    } else {
+                        $label = $value;
+                    }
+                    $type_options .= "<option value='$value' />$label</option>";
                 }
             }
         }
