@@ -977,7 +977,7 @@ HTML;
                       <?php endif; ?>
                   </div>
                   <div class="SingleProperty-disclaimer">
-                      <p>Listing courtesy of <?php echo $listing->office->servingName; ?></p>
+                      <p class="SingleProperty-association">Listing courtesy of <?php echo $listing->office->servingName; ?></p>
                       <p><img src="<?php echo plugin_dir_url(__FILE__) . 'assets/img/a044-logoURL2.gif'; ?>" style="margin-right: 15px;"/>© 2017 Aspen/Glenwood Springs MLS, Inc. The data relating to real estate on this website comes from REALTORS® who submit listing information to the Internet Date Exchange (IDX) Program of the Aspen/Glenwood Springs MLS, Inc. The inclusion of IDX Program data on this website does not constitute an endorsement, acceptance, or approval by the Aspen/Glenwood Springs MLS, Inc. of this website, or the content of this website. The data on this website may not be reliable or accurate and is not guaranteed by the Aspen/Glenwood Springs MLS, Inc.</p>
                   </div>
               </div>
