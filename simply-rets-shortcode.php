@@ -432,6 +432,8 @@ HTML;
             foreach($available_property_types as $key=>$value) {
                 if ( $value == 'Residential' ) {
                     $label = 'Single Family Home';
+                } else if ( $value == 'Rental' || $value == 'Multi-Family' ) {
+                    continue;
                 } else {
                     $label = $value;
                 }
@@ -443,6 +445,8 @@ HTML;
             foreach($available_property_types as $key=>$value) {
                 if ( $value == 'Residential' ) {
                     $label = 'Single Family Home';
+                } else if ( $value == 'Rental' || $value == 'Multi-Family' ) {
+                    continue;
                 } else {
                     $label = $value;
                 }
@@ -453,6 +457,8 @@ HTML;
                 if( $value == $config_type ) {
                     if ( $value == 'Residential' ) {
                         $label = 'Single Family Home';
+                    } else if ( $value == 'Rental' || $value == 'Multi-Family' ) {
+                        continue;
                     } else {
                         $label = $value;
                     }
@@ -460,6 +466,8 @@ HTML;
                 } else {
                     if ( $value == 'Residential' ) {
                         $label = 'Single Family Home';
+                    } else if ( $value == 'Rental' || $value == 'Multi-Family' ) {
+                        continue;
                     } else {
                         $label = $value;
                     }
@@ -676,24 +684,14 @@ HTML;
 
             <div class="sr-minmax-filters">
               <div class="sr-search-field" id="sr-search-minprice">
-                <input name="sr_minprice" step="1000" min="0" type="number" value="<?php echo $minprice; ?>" placeholder="Min Price.." />
+                <input name="sr_minprice" step="500000" min="0" type="number" value="<?php echo $minprice; ?>" placeholder="Min Price.." />
               </div>
               <div class="sr-search-field" id="sr-search-maxprice">
-                <input name="sr_maxprice" step="1000" min="0" type="number" value="<?php echo $maxprice; ?>" placeholder="Max Price.." />
+                <input name="sr_maxprice" step="500000" min="0" type="number" value="<?php echo $maxprice; ?>" placeholder="Max Price.." />
               </div>
 
               <div class="sr-search-field" id="sr-search-minbeds">
                 <input name="sr_minbeds" min="0" type="number" value="<?php echo $minbeds; ?>" placeholder="Min Beds.." />
-              </div>
-              <div class="sr-search-field" id="sr-search-maxbeds">
-                <input name="sr_maxbeds" min="0" type="number" value="<?php echo $maxbeds; ?>" placeholder="Max Beds.." />
-              </div>
-
-              <div class="sr-search-field" id="sr-search-minbaths">
-                <input name="sr_minbaths" min="0" type="number" value="<?php echo $minbaths; ?>" placeholder="Min Baths.." />
-              </div>
-              <div class="sr-search-field" id="sr-search-maxbaths">
-                <input name="sr_maxbaths" min="0" type="number" value="<?php echo $maxbaths; ?>" placeholder="Max Baths.." />
               </div>
             </div>
 
