@@ -532,7 +532,9 @@ HTML;
         $fullBaths = $listing->property->bathsFull;
         $halfBaths = $listing->property->bathsHalf;
         $area = $listing->property->area == 0 ? 'n/a' : number_format( $listing->property->area);
+        $garage = $listing->property->garageSpaces;
         $acres = number_format( $listing->property->acres );
+        $lotSize = number_format( $listing->property->lotSizeArea );
 
         if ( $listing->listPrice !== null && $listing->property->area !== null ) {
             $pricePer = $listing->listPrice / $listing->property->area;
@@ -570,77 +572,36 @@ HTML;
 
         $keyDetails = array(
             array(
-                'key'   => 'MLS ID',
-                'val'   => $listing->mlsId
+                'key'   => 'Listing ID',
+                'val'   => $listing->listingId
             ),
             array(
                 'key'   => 'PropertyType',
                 'val'   => $propertyType
             ),
             array(
-                'key'   => 'County',
-                'val'   => $listing->geo->county
-            ),
-            array(
-                'key'   => 'Market Area',
-                'val'   => $listing->geo->marketArea
-            ),
-            array(
-                'key'   => 'Neighborhood',
-                'val'   => $listing->property->subdivision,
-                'link'  => $neighborhoodLink
-            ),
-            array(
-                'key'   => 'Year Built',
-                'val'   => $listing->property->yearBuilt
-            ),
-            array(
-                'key'   => 'Style',
-                'val'   => $style
-            ),
-            array(
-                'key'   => 'Lot Size',
-                'val'   => number_format( $listing->property->lotSizeArea ) . ' sq. ft.'
-            ),
-            array(
-                'key'   => 'Construction',
-                'val'   => $construction
-            ),
-            array(
-                'key'   => 'Roof',
-                'val'   => $listing->property->roof
-            ),
-            array(
                 'key'   => 'Cooling',
                 'val'   => $cooling
-            ),
-            array(
-                'key'   => 'Heating',
-                'val'   => $heating
-            ),
-            array(
-                'key'   => 'Stories',
-                'val'   => $listing->property->stories
             ),
             array(
                 'key'   => 'Fireplaces',
                 'val'   => $listing->property->fireplaces
             ),
             array(
-                'key'   => 'Flooring',
-                'val'   => $listing->property->flooring
+                'key'   => 'Heating',
+                'val'   => $heating
             ),
             array(
-                'key'   => 'Foundation',
-                'val'   => $listing->property->foundation
+                'key'   => 'Laundry',
+                'val'   => $listing->property->laundryFeatures
             ),
             array(
-                'key'   => 'Pool',
-                'val'   => $listing->property->pool
+                'key'   => 'Parking Spaces',
+                'val'   => $listing->property->parking->spaces
             ),
             array(
-                'key'   => 'Garages',
-                'val'   => $listing->property->garageSpaces
+                'key'   => 'Water',
+                'val'   => $listing->property->water
             )
         );
 
@@ -846,37 +807,49 @@ HTML;
                           <?php if( $beds ): ?>
                               <div class="SingleProperty-beds">
                                   <span class="SingleProperty-metaValue"><?php echo $beds; ?></span>
-                                  <span class="SingleProperty-metaLabel">Bedrooms</span>
+                                  <span class="SingleProperty-metaLabel">Bdrms</span>
                               </div>
                           <?php endif; ?>
                           <?php if ( $fullBaths ): ?>
                               <div class="SingleProperty-fullBaths">
                                   <span class="SingleProperty-metaValue"><?php echo $fullBaths; ?></span>
-                                  <span class="SingleProperty-metaLabel">Bathrooms</span>
+                                  <span class="SingleProperty-metaLabel">Ba</span>
                               </div>
                           <?php endif; ?>
                           <?php if ( $halfBaths && $halfBaths !== 0 ): ?>
                               <div class="SingleProperty-halfBaths">
                                   <span class="SingleProperty-metaValue"><?php echo $halfBaths; ?></span>
-                                  <span class="SingleProperty-metaLabel">Half Bath</span>
+                                  <span class="SingleProperty-metaLabel">HBa</span>
                               </div>
                           <?php endif; ?>
                           <?php if ( $area ): ?>
                               <div class="SingleProperty-sqft">
                                   <span class="SingleProperty-metaValue"><?php echo $area; ?></span>
-                                  <span class="SingleProperty-metaLabel">Approx. Sq. Ft.</span>
+                                  <span class="SingleProperty-metaLabel">LvHtSqFt</span>
                               </div>
                           <?php endif; ?>
                           <?php if( $pricePerUSD ): ?>
                               <div class="SingleProperty-priceSqft">
                                   <span class="SingleProperty-metaValue"><?php echo $pricePerUSD; ?></span>
-                                  <span class="SingleProperty-metaLabel">Price per Sq. Ft.</span>
+                                  <span class="SingleProperty-metaLabel">Price/LvHtSqFt</span>
                               </div>
                           <?php endif; ?>
-                          <?php if ( $acres !== 0 ): ?>
+                          <?php if( $garage ): ?>
+                              <div class="SingleProperty-priceSqft">
+                                  <span class="SingleProperty-metaValue"><?php echo $garage; ?></span>
+                                  <span class="SingleProperty-metaLabel">Garage</span>
+                              </div>
+                          <?php endif; ?>
+                          <?php if ( $acres ): ?>
                               <div class="SingleProperty-acres">
                                   <span class="SingleProperty-metaValue"><?php echo $acres; ?></span>
                                   <span class="SingleProperty-metaLabel">Acres</span>
+                              </div>
+                          <?php endif; ?>
+                          <?php if ( $lotSize ): ?>
+                              <div class="SingleProperty-acres">
+                                  <span class="SingleProperty-metaValue"><?php echo $lotSize; ?></span>
+                                  <span class="SingleProperty-metaLabel">Lot Size</span>
                               </div>
                           <?php endif; ?>
                       </div>
@@ -898,8 +871,20 @@ HTML;
                               </div>
                           <?php endif; ?>
                       <?php endforeach; ?>
+                      <?php if ( $exteriorFeatures ): ?>
+                          <div class="SingleProperty-extras">
+                              <h5>Extras</h5>
+                              <div class="SingleProperty-features">
+                                  <?php foreach( $exteriorFeatures as $feature ): ?>
+                                      <div class="SingleProperty-feature">
+                                          <?php echo $feature; ?>
+                                      </div>
+                                  <?php endforeach; ?>
+                              </div>
+                          </div>
+                      <?php endif; ?>
                   </div>
-                  <div class="SingleProperty-features-wrap">
+                  <!-- <div class="SingleProperty-features-wrap">
                       <?php if ( $interiorFeatures ): ?>
                           <div class="SingleProperty-interior">
                               <h5>Interior Features</h5>
@@ -912,19 +897,7 @@ HTML;
                               </div>
                           </div>
                       <?php endif; ?>
-                      <?php if ( $exteriorFeatures ): ?>
-                          <div class="SingleProperty-exterior">
-                              <h5>Exterior Features</h5>
-                              <div class="SingleProperty-features">
-                                  <?php foreach( $exteriorFeatures as $feature ): ?>
-                                      <div class="SingleProperty-feature">
-                                          <?php echo $feature; ?>
-                                      </div>
-                                  <?php endforeach; ?>
-                              </div>
-                          </div>
-                      <?php endif; ?>
-                  </div>
+                  </div> -->
                   <?php if( $financeFeatures ): ?>
                       <div class="SingleProperty-finance">
                           <h5>Financial Information</h5>
@@ -1570,6 +1543,8 @@ HTML;
             $halfBaths = $listing->property->bathsHalf;
             $area = $listing->property->area == 0 ? 'n/a' : number_format( $listing->property->area);
             $acres = number_format( $listing->property->acres );
+            $lotsize = number_format( $listing->property->lotSizeArea );
+            $yearBuilt = $listing->property->yearBuilt;
 
             if ( $listing->listPrice !== null && $listing->property->area !== null ) {
                 $pricePer = $listing->listPrice / $listing->property->area;
@@ -1588,32 +1563,44 @@ HTML;
                             </div>
                             <div class="SingleProperty-beds">
                                 <span class="SingleProperty-metaValue"><?php echo $beds; ?></span>
-                                <span class="SingleProperty-metaLabel">Bedrooms</span>
+                                <span class="SingleProperty-metaLabel">Bdrms</span>
                             </div>
                             <div class="SingleProperty-fullBaths">
                                 <span class="SingleProperty-metaValue"><?php echo $fullBaths; ?></span>
-                                <span class="SingleProperty-metaLabel">Bathrooms</span>
+                                <span class="SingleProperty-metaLabel">Ba</span>
                             </div>
                             <?php if ( $halfBaths !== 0): ?>
                                 <div class="SingleProperty-halfBaths">
                                     <span class="SingleProperty-metaValue"><?php echo $halfBaths; ?></span>
-                                    <span class="SingleProperty-metaLabel">Half Bath</span>
+                                    <span class="SingleProperty-metaLabel">Hba</span>
                                 </div>
                             <?php endif; ?>
                             <div class="SingleProperty-sqft">
                                 <span class="SingleProperty-metaValue"><?php echo $area; ?></span>
-                                <span class="SingleProperty-metaLabel">Approx. Sq. Ft.</span>
+                                <span class="SingleProperty-metaLabel">LvHtSqFt</span>
                             </div>
                             <?php if ( $listing->listPrice !== null && $listing->property->area !== null ): ?>
                                 <div class="SingleProperty-priceSqft">
                                     <span class="SingleProperty-metaValue"><?php echo $pricePerUSD; ?></span>
-                                    <span class="SingleProperty-metaLabel">Price per Sq. Ft.</span>
+                                    <span class="SingleProperty-metaLabel">Price/LvHtSqFt</span>
                                 </div>
                             <?php endif; ?>
-                            <?php if ( $acres !== null ): ?>
+                            <?php if ( $acres ): ?>
                                 <div class="SingleProperty-acres">
                                     <span class="SingleProperty-metaValue"><?php echo $acres; ?></span>
                                     <span class="SingleProperty-metaLabel">Acres</span>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ( $lotsize ): ?>
+                                <div class="SingleProperty-acres">
+                                    <span class="SingleProperty-metaValue"><?php echo $lotsize; ?></span>
+                                    <span class="SingleProperty-metaLabel">Lot Size</span>
+                                </div>
+                            <?php endif; ?>
+                            <?php if ( $yearBuilt ): ?>
+                                <div class="SingleProperty-acres">
+                                    <span class="SingleProperty-metaValue"><?php echo $yearBuilt; ?></span>
+                                    <span class="SingleProperty-metaLabel">Built</span>
                                 </div>
                             <?php endif; ?>
                         </div>
