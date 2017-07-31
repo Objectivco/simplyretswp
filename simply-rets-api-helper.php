@@ -700,7 +700,7 @@ HTML;
             $areaPriceMarkup = "<li><strong>$pricePerUSD</strong> price/sq ft</li>";
         }
 
-        if ( SimplyRetsApiHelper::isBestDealProperty( $listing->mlsId ) ) {
+        if ( SimplyRetsApiHelper::isSavedProperty( $listing->mlsId ) ) {
             $notes = SimplyRetsApiHelper::getPropertyNotes( $listing->mlsId );
         }
 
@@ -1525,38 +1525,29 @@ HTML;
 
     }
 
-    public static function getBestDealProperties() {
+    public static function getSavedProperties() {
         $args = array(
             'post_type'	=> 'saved_properties',
             'posts_per_page'    => -1,
-            'tax_query' => array(
-        		array(
-        			'taxonomy' => 'property_type',
-        			'field'    => 'slug',
-        			'terms'    => 'best-deals',
-        		),
-    	) );
+        );
 
         return $properties = get_posts( $args );
     }
 
-    public static function isBestDealProperty( $mlsId ) {
-        $properties = SimplyRetsApiHelper::getBestDealProperties();
+    public static function isSavedProperty( $mlsId ) {
+        $properties = SimplyRetsApiHelper::getSavedProperties();
         if ( empty( $properties ) ) return;
 
         foreach( $properties as $property ) {
             $savedId = get_post_meta( $property->ID, 'saved_mls_id', true );
-
             if ( $savedId == $mlsId ) {
                 return true;
-            } else {
-                return false;
             }
         }
     }
 
     public static function getPropertyNotes( $mlsId ) {
-        $properties = SimplyRetsApiHelper::getBestDealProperties();
+        $properties = SimplyRetsApiHelper::getSavedProperties();
         if ( empty( $properties ) ) return;
 
         foreach( $properties as $property ) {
