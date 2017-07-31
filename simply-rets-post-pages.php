@@ -153,7 +153,8 @@ class SimplyRetsCustomPostPages {
             'hierarchical'    => true,
             'taxonomies'      => array(),
             'supports'        => array( 'title', 'editor', 'thumbnail', 'page-attributes' ),
-            'rewrite'         => true
+            'rewrite'         => true,
+            'show_ui'   => false
         );
         register_post_type( 'sr-listings', $args );
     }
