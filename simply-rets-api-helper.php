@@ -722,6 +722,7 @@ HTML;
                 <hr>
                 <div id="details-map">
                   $mapM
+                  <p class="Map-disclaimer">To view street view zoom in on street and then click and drag the pedestrian icon and place him on the bubble. If no street view available, it may be that Google hasn't mapped this property or road.</p>
                 </div>
 HTML;
             $mapLink = <<<HTML
