@@ -700,6 +700,10 @@ HTML;
             $areaPriceMarkup = "<li><strong>$pricePerUSD</strong> price/sq ft</li>";
         }
 
+        if ( SimplyRetsApiHelper::isBestDealProperty( $listing->mlsId ) ) {
+            $notes = SimplyRetsApiHelper::getPropertyNotes( $listing->mlsId );
+        }
+
         ?>
         <div class="PropertyDetails">
             <div class="SingleProperty" itemscope itemtype="http://schema.org/Product">
@@ -854,6 +858,12 @@ HTML;
                           <?php endif; ?>
                       </div>
                   </div>
+                  <?php if ( $notes ): ?>
+                      <div class="SingleProperty-remarks">
+                          <h3>Tim's Notes</h3>
+                          <?php echo wpautop( $notes ); ?>
+                      </div>
+                  <?php endif; ?>
                   <div class="SingleProperty-remarks">
                       <h3>Listing Description</h3>
                       <p><?php echo $remarks; ?></p>
@@ -1513,6 +1523,48 @@ HTML;
 
         return $lh_send_details;
 
+    }
+
+    public static function getBestDealProperties() {
+        $args = array(
+            'post_type'	=> 'saved_properties',
+            'posts_per_page'    => -1,
+            'tax_query' => array(
+        		array(
+        			'taxonomy' => 'property_type',
+        			'field'    => 'slug',
+        			'terms'    => 'best-deals',
+        		),
+    	) );
+
+        return $properties = get_posts( $args );
+    }
+
+    public static function isBestDealProperty( $mlsId ) {
+        $properties = SimplyRetsApiHelper::getBestDealProperties();
+        if ( empty( $properties ) ) return;
+
+        foreach( $properties as $property ) {
+            $savedId = get_post_meta( $property->ID, 'saved_mls_id', true );
+
+            if ( $savedId == $mlsId ) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    public static function getPropertyNotes( $mlsId ) {
+        $properties = SimplyRetsApiHelper::getBestDealProperties();
+        if ( empty( $properties ) ) return;
+
+        foreach( $properties as $property ) {
+            $savedId = get_post_meta( $property->ID, 'saved_mls_id', true );
+            if ( $savedId == $mlsId ) {
+                return $property->post_content;
+            }
+        }
     }
 
     public static function stickyNavBar() {
