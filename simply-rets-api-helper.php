@@ -635,10 +635,6 @@ HTML;
                 'val'   => $listing->property->foundation
             ),
             array(
-                'key'   => 'Laundry Features',
-                'val'   => $listing->property->laundryFeatures
-            ),
-            array(
                 'key'   => 'Pool',
                 'val'   => $listing->property->pool
             ),
