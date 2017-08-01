@@ -704,6 +704,10 @@ HTML;
             $notes = SimplyRetsApiHelper::getPropertyNotes( $listing->mlsId );
         }
 
+        if ( SimplyRetsApiHelper::hasPropertyHistory( $listing->mlsId ) ) {
+            $history = SimplyRetsApiHelper::getPropertyHistory( $listing->mlsId );
+        }
+
         ?>
         <div class="PropertyDetails">
             <div class="SingleProperty" itemscope itemtype="http://schema.org/Product">
@@ -946,6 +950,12 @@ HTML;
                                   <p><?php echo $listing->geo->directions; ?></p>
                               </div>
                           </div>
+                      </div>
+                  <?php endif; ?>
+                  <?php if ( $history ): ?>
+                      <div class="SingleProperty-history">
+                          <h5>Property &amp; Listing History</h5>
+                          <?php echo $history; ?>
                       </div>
                   <?php endif; ?>
                   <div id="SingleProperty-footer" class="SingleProperty-mapContact">
@@ -1554,6 +1564,32 @@ HTML;
             $savedId = get_post_meta( $property->ID, 'saved_mls_id', true );
             if ( $savedId == $mlsId ) {
                 return $property->post_content;
+            }
+        }
+    }
+
+    public static function hasPropertyHistory( $mlsId ) {
+        $properties = SimplyRetsApiHelper::getSavedProperties();
+        if ( empty( $properties ) ) return;
+
+        foreach( $properties as $property ) {
+            $savedId = get_post_meta( $property->ID, 'saved_mls_id', true );
+            $propertyHistory = get_post_meta( $property->ID, 'property_history', true );
+            if ( $savedId == $mlsId && ! empty( $propertyHistory ) ) {
+                return true;
+            }
+        }
+    }
+
+    public static function getPropertyHistory( $mlsId ) {
+        $properties = SimplyRetsApiHelper::getSavedProperties();
+        if ( empty( $properties ) ) return;
+
+        foreach( $properties as $property ) {
+            $savedId = get_post_meta( $property->ID, 'saved_mls_id', true );
+            $propertyHistory = get_post_meta( $property->ID, 'property_history', true );
+            if ( $savedId == $mlsId && ! empty( $propertyHistory ) ) {
+                return $propertyHistory;
             }
         }
     }
