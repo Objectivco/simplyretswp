@@ -1148,7 +1148,7 @@ HTML;
                       </div>
                   <?php endif; ?>
                   <?php if( $details ): ?>
-                      <div class="SingleProperty-finance">
+                      <div class="SingleProperty-moreDetails">
                           <h5>Details</h5>
                           <div class="SingleProperty-keyDetails in-thirds no-border">
                               <?php foreach( $details as $detail ): ?>
