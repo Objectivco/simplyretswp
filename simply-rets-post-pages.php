@@ -806,7 +806,7 @@ class SimplyRetsCustomPostPages {
 
             $listing_USD = $post_price == '' ? '' : '$' . number_format( $post_price );
             $title_normalize = "background-color:transparent;padding:0px;";
-            $post_title = "{$post_addr} <span style='{$title_normalize}'><small><i> {$listing_USD}</i></small></span>";
+            $post_title = "{$post_addr}";
 
             $post = (object)array(
                 "ID"             => $post_id,

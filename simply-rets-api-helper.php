@@ -568,40 +568,82 @@ HTML;
         if ( in_array( $listing->property->subdivision, $neighborhoodsArray ) ) {
             $neighborhood = str_replace( ' ', '-', $listing->property->subdivision );
             $neighborhoodLink = '/neighborhoods/' . $neighborhood;
-        }
+        }   
+    
+        $typeArray = array(
+            'RES'   => 'Single Family Home',
+            'CND'   => 'Condo or Townhome',
+            'MLF'   => 'Multi-Family',
+            'LND'   => 'Land',
+            'FRM'   => 'Farm',
+            'CRE'   => 'Commercial',
+            'RNT'   => 'Rental'
+        );
 
         $keyDetails = array(
             array(
-                'key'   => 'Listing ID',
+                'key'   => 'MLS #',
                 'val'   => $listing->listingId
             ),
             array(
-                'key'   => 'PropertyType',
-                'val'   => $propertyType
+                'key'    => 'Ask Price',
+                'val'   => $price
             ),
             array(
-                'key'   => 'Cooling',
-                'val'   => $cooling
+                'key'   => 'Ask Price/Sq Ft',
+                'val'   => $pricePerUSD
             ),
             array(
-                'key'   => 'Fireplaces',
-                'val'   => $listing->property->fireplaces
+                'key'   => 'Type',
+                'val'   => $typeArray[$listing->property->type]
             ),
             array(
-                'key'   => 'Heating',
-                'val'   => $heating
+                'key'   => 'Bdrms',
+                'val'   => $beds
             ),
             array(
-                'key'   => 'Laundry',
-                'val'   => $listing->property->laundryFeatures
+                'key'   => 'Baths',
+                'val'   => $fullBaths
             ),
             array(
-                'key'   => 'Parking Spaces',
+                'key'   => 'Half Baths',
+                'val'   => $halfBaths
+            ),
+            array(
+                'key'   => 'Year Built',
+                'val'   => $listing->property->yearBuilt
+            ),
+            array(
+                'key'   => 'Year Remodeled',
+                'val'   => ''
+            ),
+            array(
+                'key'   => 'Lot Size',
+                'val'   => $lotSize
+            ),
+            array(
+                'key'   => 'Acres',
+                'val'   => $acres
+            ),
+            array(
+                'key'   => 'Furnished',
+                'val'   => ''
+            ),
+            array(
+                'key'   => 'Garage',
+                'val'   => $listing->property->garageSpaces
+            ),
+            array(
+                'key'   => 'Parking',
                 'val'   => $listing->property->parking->spaces
             ),
             array(
-                'key'   => 'Water',
-                'val'   => $listing->property->water
+                'key'   => 'Stories/Levels',
+                'val'   => ''
+            ),
+            array(
+                'key'   => 'Style',
+                'val'   => ''
             )
         );
 
@@ -611,38 +653,217 @@ HTML;
         $amenitiesArray = explode( ',', $listing->association->amenities );
         $amenities = implode( ', ', $amenitiesArray );
 
+        $locationFeatures = array(
+            array(
+                'key'   => 'Area',
+                'val'   => $listing->geo->marketArea
+            ),
+            array(
+                'key'    => 'Major Area',
+                'val'    => ''
+            ),
+            array(
+                'key'    => 'Sub/Loc',
+                'val'    => $listing->property->subdivision
+            ),
+            array(
+                'key'    => 'County',
+                'val'    => $listing->geo->county
+            ),
+            array(
+                'key'    => 'Zoning',
+                'val'    => ''
+            ),
+        );
+        
+        $hoaFeesUSD = '$' . number_format( $listing->association->fee );
+        $hoaAmenitiesArray = explode(',', $listing->association->amenities );
+        $hoaAmenities = implode( ', ', $hoaAmenitiesArray );
+        $taxes = '$' . number_format( $listing->tax->taxAnnualAmount );
+
         $financeFeatures = array(
             array(
-                'key'   => 'Tax Year',
-                'val'   => $listing->tax->taxYear
+                'key'   => 'HOA Fees',
+                'val'   => $hoaFeesUSD
             ),
             array(
-                'key'   => 'Taxes',
-                'val'   => '$' . number_format( $listing->tax->taxAnnualAmount )
+                'key'   => 'Payment Per',
+                'val'   => ''
             ),
             array(
-                'key'   => 'HOA Fee',
-                'val'   => '$' . number_format( $listing->association->fee )
+                'key'   => 'Special Assessment',
+                'val'   => ''
             ),
             array(
                 'key'   => 'HOA Amenities',
-                'val'   => $amenities
+                'val'   => $hoaAmenities
+            ),
+            array(
+                'key'   => 'HOA Fees Include',
+                'val'   => ''
+            ),
+            array(
+                'key'   => 'HOA Transfer Fee',
+                'val'   => ''
+            ),
+            array(
+                'key'   => 'Transfer Tax',
+                'val'   => ''
+            ),
+            array(
+                'key'   => 'Taxes',
+                'val'   => $taxes
+            ),
+            array(
+                'key'   => 'Tax Year',
+                'val'   => $listing->tax->taxYear
             )
-        );
+        ); 
 
-        $locationFeatures = array(
+        $exteriorArray = explode( ',', $listing->property->exteriorFeatures );
+        $exterior = implode( ', ', $exteriorArray );
+
+        $inclusionsArray = explode( ',', $listing->property->interiorFeatures );
+        $inclusions = implode( ', ', $inclusionsArray );
+
+        $termsArray = explode( ',', $listing->terms );
+        $terms = implode( ', ', $termsArray );
+
+        $parkingArray = explode( ',', $listing->property->parking->description );
+        $parking = implode( ', ', $parkingArray );
+
+        $details = array(
             array(
-                'key' => 'City',
-                'val'   => $listing->address->city
+                'key'   => 'Construction',
+                'val'   => $listing->property->construction
             ),
             array(
-                'key'   => 'County',
-                'val'   => $listing->geo->county
+                'key'   => 'Gas',
+                'val'   => ''
             ),
             array(
-                'key'   => 'Neighborhood',
-                'val'   => $listing->property->subdivision,
-                'link'  => $neighborhoodLink
+                'key'   => 'Roof',
+                'val'   => $listing->property->roof
+            ),
+            array(
+                'key'   => 'Exterior',
+                'val'   => $exterior
+            ),
+            array(
+                'key'    => 'Substructure',
+                'val'    => $listing->property->foundation
+            ),
+            array(
+                'key'    => 'Cooling',
+                'val'    => $listing->property->cooling
+            ),
+            array(
+                'key'    => 'Sign',
+                'val'    => ''
+            ),
+            array(
+                'key'    => 'Condition',
+                'val'    => ''
+            ),
+            array(
+                'key'    => 'Heating',
+                'val'    => $listing->property->heating
+            ),
+            array(
+                'key'    => 'Showing Instructions',
+                'val'    => $listing->showingInstructions
+            ),
+            array(
+                'key'    => 'Carport',
+                'val'    => ''
+            ),
+            array(
+                'key'    => 'Inclusions',
+                'val'    => $inclusions
+            ),
+            array(
+                'key'    => 'Sanitation',
+                'val'    => ''
+            ),
+            array(
+                'key'    => 'Documents on File',
+                'val'    => ''
+            ),
+            array(
+                'key'    => 'Indoor Air Quality',
+                'val'    => ''
+            ),
+            array(
+                'key'    => 'Style',
+                'val'    => $listing->property->style
+            ),
+            array(
+                'key'    => 'Disclosures',
+                'val'    => ''
+            ),
+            array(
+                'key'    => 'Location Amenities',
+                'val'    => ''
+            ),
+            array(
+                'key'    => 'Sustainable Material',
+                'val'    => ''
+            ),
+            array(
+                'key'    => 'Electric',
+                'val'    => ''
+            ),
+            array(
+                'key'    => 'Laundry Facility',
+                'val'    => $listing->property->laundryFeatures
+            ),
+            array(
+                'key'    => 'Terms Offered',
+                'val'    => $terms
+            ),
+            array(
+                'key'    => 'Energy Efficiency',
+                'val'    => ''
+            ),
+            array(
+                'key'    => 'Mineral Rights',
+                'val'    => ''
+            ),
+            array(
+                'key'    => 'Unit Faces',
+                'val'    => ''
+            ),
+            array(
+                'key'    => 'Exclusions',
+                'val'    => ''
+            ),
+            array(
+                'key'    => 'Parking Area',
+                'val'    =>  $parking
+            ),
+            array(
+                'key'   => 'Water Rights',
+                'val'   => ''
+            ),
+            array(
+                'key'   => 'Extras',
+                'val'   => ''
+            ),
+            array(
+                'key'   => 'Possession',
+                'val'   => ''
+            ),
+            array(
+                'key'   => 'Water',
+                'val'   => $listing->property->water
+            ),
+            array(
+                'key'   => 'Fireplace #',
+                'val'   => $listing->property->fireplaces
+            ),
+            array(
+                'key'   => 'Member Association',
+                'val'   => ''
             )
         );
 
@@ -842,10 +1063,10 @@ HTML;
                                   <span class="SingleProperty-metaLabel">Price/LvHtSqFt</span>
                               </div>
                           <?php endif; ?>
-                          <?php if( $garage ): ?>
-                              <div class="SingleProperty-priceSqft">
-                                  <span class="SingleProperty-metaValue"><?php echo $garage; ?></span>
-                                  <span class="SingleProperty-metaLabel">Garage</span>
+                          <?php if ( $lotSize ): ?>
+                              <div class="SingleProperty-acres">
+                                  <span class="SingleProperty-metaValue"><?php echo $lotSize; ?></span>
+                                  <span class="SingleProperty-metaLabel">Lot Size</span>
                               </div>
                           <?php endif; ?>
                           <?php if ( $acres ): ?>
@@ -854,10 +1075,10 @@ HTML;
                                   <span class="SingleProperty-metaLabel">Acres</span>
                               </div>
                           <?php endif; ?>
-                          <?php if ( $lotSize ): ?>
-                              <div class="SingleProperty-acres">
-                                  <span class="SingleProperty-metaValue"><?php echo $lotSize; ?></span>
-                                  <span class="SingleProperty-metaLabel">Lot Size</span>
+                          <?php if( $garage ): ?>
+                              <div class="SingleProperty-priceSqft">
+                                  <span class="SingleProperty-metaValue"><?php echo $garage; ?></span>
+                                  <span class="SingleProperty-metaLabel">Garage</span>
                               </div>
                           <?php endif; ?>
                       </div>
@@ -885,48 +1106,7 @@ HTML;
                               </div>
                           <?php endif; ?>
                       <?php endforeach; ?>
-                      <?php if ( $exteriorFeatures ): ?>
-                          <div class="SingleProperty-extras">
-                              <h5>Extras</h5>
-                              <div class="SingleProperty-features">
-                                  <?php foreach( $exteriorFeatures as $feature ): ?>
-                                      <div class="SingleProperty-feature">
-                                          <?php echo $feature; ?>
-                                      </div>
-                                  <?php endforeach; ?>
-                              </div>
-                          </div>
-                      <?php endif; ?>
                   </div>
-                  <!-- <div class="SingleProperty-features-wrap">
-                      <?php if ( $interiorFeatures ): ?>
-                          <div class="SingleProperty-interior">
-                              <h5>Interior Features</h5>
-                              <div class="SingleProperty-features">
-                                  <?php foreach( $interiorFeatures as $feature ): ?>
-                                      <div class="SingleProperty-feature">
-                                          <?php echo $feature; ?>
-                                      </div>
-                                  <?php endforeach; ?>
-                              </div>
-                          </div>
-                      <?php endif; ?>
-                  </div> -->
-                  <?php if( $financeFeatures ): ?>
-                      <div class="SingleProperty-finance">
-                          <h5>Financial Information</h5>
-                          <div class="SingleProperty-keyDetails no-border">
-                              <?php foreach( $financeFeatures as $detail ): ?>
-                                  <?php if ( $detail['val'] != null || $detail['val'] != '' ): ?>
-                                      <div class="SingleProperty-detail">
-                                          <div class="SingleProperty-detailKey"><?php echo $detail['key']; ?></div>
-                                          <div class="SingleProperty-detailVal"><?php echo $detail['val']; ?></div>
-                                      </div>
-                                  <?php endif; ?>
-                              <?php endforeach; ?>
-                          </div>
-                      </div>
-                  <?php endif; ?>
                   <?php if( $locationFeatures ): ?>
                       <div class="SingleProperty-location">
                           <h5>Location</h5>
@@ -949,6 +1129,36 @@ HTML;
                                   <div class="SingleProperty-detailKey">Directions</div>
                                   <p><?php echo $listing->geo->directions; ?></p>
                               </div>
+                          </div>
+                      </div>
+                  <?php endif; ?>
+                  <?php if( $financeFeatures ): ?>
+                      <div class="SingleProperty-finance">
+                          <h5>Financial Information</h5>
+                          <div class="SingleProperty-keyDetails no-border">
+                              <?php foreach( $financeFeatures as $detail ): ?>
+                                  <?php if ( $detail['val'] != null || $detail['val'] != '' ): ?>
+                                      <div class="SingleProperty-detail">
+                                          <div class="SingleProperty-detailKey"><?php echo $detail['key']; ?></div>
+                                          <div class="SingleProperty-detailVal"><?php echo $detail['val']; ?></div>
+                                      </div>
+                                  <?php endif; ?>
+                              <?php endforeach; ?>
+                          </div>
+                      </div>
+                  <?php endif; ?>
+                  <?php if( $details ): ?>
+                      <div class="SingleProperty-finance">
+                          <h5>Details</h5>
+                          <div class="SingleProperty-keyDetails in-thirds no-border">
+                              <?php foreach( $details as $detail ): ?>
+                                  <?php if ( $detail['val'] != null || $detail['val'] != '' ): ?>
+                                      <div class="SingleProperty-detail">
+                                          <div class="SingleProperty-detailKey"><?php echo $detail['key']; ?></div>
+                                          <div class="SingleProperty-detailVal"><?php echo $detail['val']; ?></div>
+                                      </div>
+                                  <?php endif; ?>
+                              <?php endforeach; ?>
                           </div>
                       </div>
                   <?php endif; ?>
