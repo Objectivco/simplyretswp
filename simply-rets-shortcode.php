@@ -13,32 +13,39 @@
 add_action('init', array('SrShortcodes', 'sr_residential_btn') );
 
 
-class SrShortcodes {
+class SrShortcodes
+{
 
 
     /**
      * Short code kitchen sink button registration
      */
-    public static function sr_residential_btn() {
-        if ( current_user_can('edit_posts') && current_user_can('edit_pages') ) {
+    public static function sr_residential_btn()
+    {
+        if (current_user_can('edit_posts') && current_user_can('edit_pages')) {
             add_filter('mce_external_plugins', array('SrShortcodes', 'sr_res_add_plugin') );
             add_filter('mce_buttons', array('SrShortcodes', 'sr_register_res_button') );
         }
     }
 
-    public static function sr_register_res_button($buttons) {
+    public static function sr_register_res_button($buttons)
+    {
         array_push($buttons, "simplyRets");
         return $buttons;
     }
 
-    public static function sr_res_add_plugin($plugin_array) {
+    public static function sr_res_add_plugin($plugin_array)
+    {
         $plugin_array['simplyRets'] = plugins_url( 'assets/js/simply-rets-shortcodes.js', __FILE__ );
         return $plugin_array;
     }
 
 
-    public static function sr_int_map_search($atts) {
-        if(!is_array($atts)) $atts = array();
+    public static function sr_int_map_search($atts)
+    {
+        if (!is_array($atts)) {
+            $atts = array();
+        }
 
         /** Private Parameters (shortcode attributes) */
         $vendor   = isset($atts['vendor'])  ? $atts['vendor']  : '';
@@ -61,19 +68,17 @@ class SrShortcodes {
                      ? "<div class=\"sr-map-search-list-view\"></div>"
                      : "";
 
-        if(!empty($atts['search_form'])) {
-
+        if (!empty($atts['search_form'])) {
             $single_vendor = SrUtils::isSingleVendor();
             $allVendors    = get_option('sr_adv_search_meta_vendors', array());
             $vendor        = (empty($vendor) && $single_vendor == true && !empty($allVendors[0]))
                            ? $allVendors[0]
                            : $vendor;
-            $prop_types    = get_option("sr_adv_search_meta_types_$vendor"
-                                        , array("Residential", "Condominium", "Rental"));
+            $prop_types    = get_option("sr_adv_search_meta_types_$vendor", array("Residential", "Condominium", "Rental"));
 
             $type_options = "";
-            foreach($prop_types as $key=>$type) {
-                if( $type == $type_att) {
+            foreach ($prop_types as $key => $type) {
+                if ($type == $type_att) {
                     $type_options .= "<option value='$type' selected />$type</option>";
                 } else {
                     $type_options .= "<option value='$type' />$type</option>";
@@ -155,7 +160,6 @@ class SrShortcodes {
                   </div>
                 </div>
 HTML;
-
         }
 
         $content .= $search_form;
@@ -163,7 +167,6 @@ HTML;
         $content .= $list_markup;
 
         return $content;
-
     }
 
 
@@ -174,22 +177,23 @@ HTML;
      * to show a single listing.
      * ie, [sr_residential mlsid="12345"]
      */
-    public function sr_residential_shortcode( $atts ) {
+    public function sr_residential_shortcode($atts)
+    {
         global $wp_query;
 
         /**
          * Check if `mlsId` was supplied. If so, just query that.
          */
-        if(!empty($atts['mlsid'])) {
+        if (!empty($atts['mlsid'])) {
             $qs = '/' . $atts['mlsid'];
-            if(array_key_exists('vendor', $atts) && !empty($atts['vendor'])) {
+            if (array_key_exists('vendor', $atts) && !empty($atts['vendor'])) {
                 $qs .= "?vendor={$atts['vendor']}";
             }
             $listings_content = SimplyRetsApiHelper::retrieveRetsListings($qs);
             return $listings_content;
         }
 
-        if(!is_array($atts)) {
+        if (!is_array($atts)) {
             $listing_params = array();
         } else {
             $listing_params = $atts;
@@ -202,70 +206,70 @@ HTML;
          * Before we send them, build a proper query string that the API
          * can understand. Eg, status=Active&status=Closed
          */
-        if( !isset($listing_params['neighborhoods'])
+        if (!isset($listing_params['neighborhoods'])
             && !isset($listing_params['postalcodes'])
             && !isset($listing_params['counties'])
             && !isset($listing_params['cities'])
             && !isset($listing_params['agent'])
             && !isset($listing_params['type'])
             && !isset($listing_params['status'])
-        )
-        {
+        ) {
             $listings_content = SimplyRetsApiHelper::retrieveRetsListings( $listing_params, $atts );
             return $listings_content;
-
         } else {
             /**
              * Neighborhoods filter is being used - check for multiple values and build query accordingly
              */
-            if( isset( $listing_params['neighborhoods'] ) && !empty( $listing_params['neighborhoods'] ) ) {
+            if (isset( $listing_params['neighborhoods'] ) && !empty( $listing_params['neighborhoods'] )) {
                 $neighborhoods = explode( ';', $listing_params['neighborhoods'] );
-                foreach( $neighborhoods as $key => $neighborhood ) {
+                foreach ($neighborhoods as $key => $neighborhood) {
                     $neighborhood = trim( $neighborhood );
                     $neighborhoods_string .= "neighborhoods=$neighborhood&";
                 }
                 $neighborhoods_string = str_replace(' ', '%20', $neighborhoods_string );
             }
 
-            if( isset( $listing_params['cities'] ) && !empty( $listing_params['cities'] ) ) {
+            if (isset( $listing_params['cities'] ) && !empty( $listing_params['cities'] )) {
                 $cities = explode( ';', $listing_params['cities'] );
-                foreach( $cities as $key => $city ) {
+                foreach ($cities as $key => $city) {
                     $city = trim( $city );
                     $cities_string .= "cities=$city&";
                 }
                 $cities_string = str_replace(' ', '%20', $cities_string );
             }
 
-            if( isset( $listing_params['agent'] ) && !empty( $listing_params['agent'] ) ) {
+            if (isset( $listing_params['agent'] ) && !empty( $listing_params['agent'] )) {
                 $agents = explode( ';', $listing_params['agent'] );
-                foreach( $agents as $key => $agent ) {
+                foreach ($agents as $key => $agent) {
                     $agent = trim( $agent );
                     $agents_string .= "agent=$agent&";
                 }
                 $agents_string = str_replace(' ', '%20', $agents_string );
             }
 
-            if( isset( $listing_params['type'] ) && !empty( $listing_params['type'] ) ) {
+            if (isset( $listing_params['type'] ) && !empty( $listing_params['type'] )) {
                 $ptypes = explode( ';', $listing_params['type'] );
-                foreach($ptypes as $key => $ptype) {
+                foreach ($ptypes as $key => $ptype) {
                     $ptype = trim($ptype);
                     $ptypes_string .= "type=$ptype&";
                 }
                 $ptypes_string = str_replace(' ', '%20', $ptypes_string );
+            } else {
+                $ptypes_string = "type=Residential;CondoOrTownhome;Multi-Family;Commercial;Land;Farm&";
             }
 
-            if( isset( $listing_params['postalcodes'] ) && !empty( $listing_params['postalcodes'] ) ) {
+            if (isset( $listing_params['postalcodes'] ) && !empty( $listing_params['postalcodes'] )) {
                 $postalcodes = explode( ';', $listing_params['postalcodes'] );
-                foreach( $postalcodes as $key => $postalcode  ) {
+                foreach ($postalcodes as $key => $postalcode) {
                     $postalcode = trim( $postalcode );
                     $postalcodes_string .= "postalCodes=$postalcode&";
                 }
                 $postalcodes_string = str_replace(' ', '%20', $postalcodes_string );
             }
 
-            if( isset( $listing_params['counties'] ) && !empty( $listing_params['counties'] ) ) {
+            if (isset( $listing_params['counties'] ) && !empty( $listing_params['counties'] )) {
                 $counties = explode( ';', $listing_params['counties'] );
-                foreach( $counties as $key => $county ) {
+                foreach ($counties as $key => $county) {
                     $county = trim( $county );
                     $counties_string .= "counties=$county&";
                 }
@@ -275,11 +279,10 @@ HTML;
             /**
              * Multiple statuses
              */
-            if( isset( $listing_params['status'] ) && !empty( $listing_params['status'] ) ) {
-
+            if (isset( $listing_params['status'] ) && !empty( $listing_params['status'] )) {
                 $statuses = explode( ';', $listing_params['status'] );
 
-                foreach( $statuses as $key => $stat) {
+                foreach ($statuses as $key => $stat) {
                     $stat = trim($stat);
                     $statuses_string .= "status=$stat&";
                 }
@@ -290,9 +293,9 @@ HTML;
             /**
              * Build a regular query string for everything else
              */
-            foreach( $listing_params as $key => $value ) {
+            foreach ($listing_params as $key => $value) {
                 // Skip params that support multiple
-                if( $key !== 'postalcodes'
+                if ($key !== 'postalcodes'
                     && $key !== 'counties'
                     && $key !== 'neighborhoods'
                     && $key !== 'cities'
@@ -319,7 +322,6 @@ HTML;
 
             $listings_content = SimplyRetsApiHelper::retrieveRetsListings( $qs, $atts );
             return $listings_content;
-
         }
 
 
@@ -333,7 +335,8 @@ HTML;
      *
      * this is pulling condos and obviously needs to be pulling open houses
      */
-    public static function sr_openhouses_shortcode() {
+    public static function sr_openhouses_shortcode()
+    {
         $listing_params = array(
             "type" => "cnd"
         );
@@ -350,12 +353,13 @@ HTML;
      * optional parameters to have default searches:
      * ie, [sr_search_form q="city"] or [sr_search_form minprice="500000"]
      */
-    public static function sr_search_form_shortcode( $atts ) {
+    public static function sr_search_form_shortcode($atts)
+    {
         ob_start();
         $home_url = get_home_url();
         $singleVendor = SrUtils::isSingleVendor();
 
-        if( !is_array($atts) ) {
+        if (!is_array($atts)) {
             $atts = array();
         }
 
@@ -368,27 +372,27 @@ HTML;
         $limit   = isset($atts['limit'])   ? $atts['limit']   : '';
         $config_type = isset($atts['type']) ? $atts['type']   : '';
 
-        if($config_type === '') {
+        if ($config_type === '') {
             $config_type = isset($_GET['sr_ptype']) ? $_GET['sr_ptype'] : '';
         }
-        if(empty($vendor) && $singleVendor === true) {
+        if (empty($vendor) && $singleVendor === true) {
             $vendor = $availableVendors[0];
         }
         $vendorOptions = "_$vendor";
 
         /** User Facing Parameters */
-        $minbeds    = array_key_exists('minbeds',  $atts) ? $atts['minbeds']  : '';
-        $maxbeds    = array_key_exists('maxbeds',  $atts) ? $atts['maxbeds']  : '';
+        $minbeds    = array_key_exists('minbeds', $atts) ? $atts['minbeds']  : '';
+        $maxbeds    = array_key_exists('maxbeds', $atts) ? $atts['maxbeds']  : '';
         $minbaths   = array_key_exists('minbaths', $atts) ? $atts['minbaths'] : '';
         $maxbaths   = array_key_exists('maxbaths', $atts) ? $atts['maxbaths'] : '';
         $minprice   = array_key_exists('minprice', $atts) ? $atts['minprice'] : '';
         $maxprice   = array_key_exists('maxprice', $atts) ? $atts['maxprice'] : '';
-        $keywords   = array_key_exists('q',        $atts) ? $atts['q']        : '';
-        $sort       = array_key_exists('sort',     $atts) ? $atts['sort']     : '';
+        $keywords   = array_key_exists('q', $atts) ? $atts['q']        : '';
+        $sort       = array_key_exists('sort', $atts) ? $atts['sort']     : '';
         /** Advanced Search Parameters */
-        $adv_status = array_key_exists('status',   $atts) ? $atts['status']   : '';
-        $lotsize    = array_key_exists('lotsize',  $atts) ? $atts['lotsize']  : '';
-        $area       = array_key_exists('area',     $atts) ? $atts['area']     : '';
+        $adv_status = array_key_exists('status', $atts) ? $atts['status']   : '';
+        $lotsize    = array_key_exists('lotsize', $atts) ? $atts['lotsize']  : '';
+        $area       = array_key_exists('area', $atts) ? $atts['area']     : '';
         $adv_features      = isset($_GET['sr_features']) ? $_GET['sr_features'] : array();
         $adv_neighborhoods = isset($_GET['sr_neighborhoods']) ? $_GET['sr_neighborhoods']     : array();
 
@@ -402,7 +406,7 @@ HTML;
             $adv_cities = $atts['cities'];
         }
 
-        if( !$sort  == "" ) {
+        if (!$sort  == "") {
             $sort_price_hl = ($sort == "-listprice") ? "selected" : '';
             $sort_price_lh = ($sort == "listprice")  ? "selected" : '';
             $sort_date_hl  = ($sort == "-listdate")  ? "selected" : '';
@@ -423,17 +427,17 @@ HTML;
         $new_property_types = array();
         $default_type_option      = '<option value="">Property Type</option>';
 
-        if( empty( $available_property_types ) ) {
+        if (empty( $available_property_types )) {
             $new_property_types = array("Single Family Home", "Condominium", "Rental" );
         }
 
-        if ( is_array( $available_property_types ) && ! empty( $available_property_types ) ) {
-            foreach( $available_property_types as $type ) {
-                if ( $type == 'Residential' ) {
+        if (is_array( $available_property_types ) && ! empty( $available_property_types )) {
+            foreach ($available_property_types as $type) {
+                if ($type == 'Residential') {
                     array_push( $new_property_types, 'Single Family Home' );
-                } else if ( $type == 'Farm' ) {
+                } elseif ($type == 'Farm') {
                     array_push( $new_property_types, 'Farm/Ranch' );
-                } else if ( $type == 'Rental' || $type == 'Multi-Family' ) {
+                } elseif ($type == 'Rental' || $type == 'Multi-Family') {
                     continue;
                 } else {
                     array_push( $new_property_types, $type );
@@ -441,20 +445,20 @@ HTML;
             }
         }
 
-        if((is_array($config_type) == TRUE) && isset($_GET['sr_ptype'])) {
+        if ((is_array($config_type) == true) && isset($_GET['sr_ptype'])) {
             $type_string = join(';', $config_type);
             $default_type_option = "<option value='$type_string' selected>Property Type</option>";
-            foreach($new_property_types as $key=>$value) {
+            foreach ($new_property_types as $key => $value) {
                 $type_options .= "<option value='$value' />$value</option>";
             }
-        } elseif(strpos($config_type, ";") !== FALSE) {
+        } elseif (strpos($config_type, ";") !== false) {
             $default_type_option = "<option value='$config_type' selected>Property Type</option>";
-            foreach($new_property_types as $key=>$value) {
+            foreach ($new_property_types as $key => $value) {
                 $type_options .= "<option value='$value' />$value</option>";
             }
         } else {
-            foreach($new_property_types as $key=>$value) {
-                if( $value == $config_type ) {
+            foreach ($new_property_types as $key => $value) {
+                if ($value == $config_type) {
                     $type_options .= "<option value='$value' selected />$value</option>";
                 } else {
                     $type_options .= "<option value='$value' />$value</option>";
@@ -464,14 +468,14 @@ HTML;
 
         $adv_search_cities = get_option("sr_adv_search_meta_city_$vendor", array());
         sort($adv_search_cities);
-        foreach( (array)$adv_search_cities as $key=>$city ) {
+        foreach ((array)$adv_search_cities as $key => $city) {
             $checked = in_array($city, (array)$adv_cities) ? 'selected="selected"' : '';
             $city_options .= "<option value='$city' $checked>$city</option>";
         }
 
         $adv_search_status = get_option("sr_adv_search_meta_status_$vendor", array());
-        foreach( (array)$adv_search_status as $key=>$status) {
-            if( $status == $adv_status ) {
+        foreach ((array)$adv_search_status as $key => $status) {
+            if ($status == $adv_status) {
                 $status_options .= "<option value='$status' selected />$status</option>";
             } else {
                 $status_options .= "<option value='$status' />$status</option>";
@@ -480,7 +484,7 @@ HTML;
 
         $adv_search_neighborhoods= get_option("sr_adv_search_meta_neighborhoods_$vendor", array());
         sort( $adv_search_neighborhoods );
-        foreach( (array)$adv_search_neighborhoods as $key=>$neighborhood) {
+        foreach ((array)$adv_search_neighborhoods as $key => $neighborhood) {
             $checked = in_array($neighborhood, (array)$adv_neighborhoods) ? 'selected="selected"' : '';
             $location_options .= "<option value='$neighborhood' $checked>$neighborhood</option>";
         }
@@ -488,7 +492,7 @@ HTML;
 
         $adv_search_features = get_option("sr_adv_search_meta_features_$vendor", array());
         sort( $adv_search_features );
-        foreach( (array)$adv_search_features as $key=>$feature) {
+        foreach ((array)$adv_search_features as $key => $feature) {
             $checked = in_array($feature, (array)$adv_features) ? 'checked="checked"' : '';
             $features_options .= "<li class='sr-adv-search-option'>"
                  ."<label><input name='sr_features[]' type='checkbox' value='$feature' $checked />$feature</label></li>";
@@ -508,7 +512,7 @@ HTML;
         //         ."<label><input name='sr_features[]' type='checkbox' value='$amenity' />$amenity</label></li>";
         // }
 
-        if( array_key_exists('advanced', $atts) && $atts['advanced'] == 'true' || $atts['advanced'] == 'True' ) {
+        if (array_key_exists('advanced', $atts) && $atts['advanced'] == 'true' || $atts['advanced'] == 'True') {
             ?>
 
             <div class="sr-adv-search-wrap SearchForm">
@@ -530,8 +534,8 @@ HTML;
 
                       <div class="sr-search-field" id="sr-search-ptype">
                         <select name="sr_ptype">
-                          <?php echo $default_type_option; ?>
-                          <?php echo $type_options; ?>
+                            <?php echo $default_type_option; ?>
+                            <?php echo $type_options; ?>
                         </select>
                       </div>
                     </div>
@@ -662,8 +666,8 @@ HTML;
 
               <div class="sr-search-field" id="sr-search-ptype">
                 <select name="sr_ptype">
-                  <?php echo $default_type_option; ?>
-                  <?php echo $type_options; ?>
+                    <?php echo $default_type_option; ?>
+                    <?php echo $type_options; ?>
                 </select>
               </div>
             </div>
@@ -712,7 +716,8 @@ HTML;
      * TODO: sr_listings_slider should support attributes that can
      * take multiple values (eg, postalCodes, counties). #32
      */
-    public static function sr_listing_slider_shortcode( $atts ) {
+    public static function sr_listing_slider_shortcode($atts)
+    {
         ob_start();
         $settings = array();
 
@@ -722,12 +727,11 @@ HTML;
             $settings['vendor'] = $atts['vendor'];
         }
 
-        $settings['random'] = empty($atts['random']) ? NULL : $atts['random'];
+        $settings['random'] = empty($atts['random']) ? null : $atts['random'];
         $slider = SimplyRetsApiHelper::retrieveListingsSlider($atts, $settings);
 
         echo $slider;
 
         return ob_get_clean();
     }
-
 }

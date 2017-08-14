@@ -9,17 +9,17 @@
 
 
 /* Code starts here */
-add_action('init',                  array('SimplyRetsCustomPostPages', 'srInitRewriteRules'));
-add_action('init',                  array('SimplyRetsCustomPostPages', 'srRegisterPostType'));
-add_filter('comments_template',     array('SimplyRetsCustomPostPages', 'srClearComments'));
-add_filter('single_template',       array('SimplyRetsCustomPostPages', 'srLoadPostTemplate'));
-add_filter('the_content',           array('SimplyRetsCustomPostPages', 'srPostDefaultContent'));
-add_filter('the_posts',             array('SimplyRetsCustomPostPages', 'srCreateDynamicPost'));
-add_action('add_meta_boxes',        array('SimplyRetsCustomPostPages', 'postFilterMetaBox'));
-add_action('add_meta_boxes',        array('SimplyRetsCustomPostPages', 'postTemplateMetaBox'));
-add_action('save_post',             array('SimplyRetsCustomPostPages', 'postFilterMetaBoxSave'));
-add_action('save_post',             array('SimplyRetsCustomPostPages', 'postTemplateMetaBoxSave'));
-add_action('admin_init',            array('SimplyRetsCustomPostPages', 'postFilterMetaBoxCss'));
+add_action('init', array('SimplyRetsCustomPostPages', 'srInitRewriteRules'));
+add_action('init', array('SimplyRetsCustomPostPages', 'srRegisterPostType'));
+add_filter('comments_template', array('SimplyRetsCustomPostPages', 'srClearComments'));
+add_filter('single_template', array('SimplyRetsCustomPostPages', 'srLoadPostTemplate'));
+add_filter('the_content', array('SimplyRetsCustomPostPages', 'srPostDefaultContent'));
+add_filter('the_posts', array('SimplyRetsCustomPostPages', 'srCreateDynamicPost'));
+add_action('add_meta_boxes', array('SimplyRetsCustomPostPages', 'postFilterMetaBox'));
+add_action('add_meta_boxes', array('SimplyRetsCustomPostPages', 'postTemplateMetaBox'));
+add_action('save_post', array('SimplyRetsCustomPostPages', 'postFilterMetaBoxSave'));
+add_action('save_post', array('SimplyRetsCustomPostPages', 'postTemplateMetaBoxSave'));
+add_action('admin_init', array('SimplyRetsCustomPostPages', 'postFilterMetaBoxCss'));
 add_action('admin_enqueue_scripts', array('SimplyRetsCustomPostPages', 'postFilterMetaBoxJs'));
 // ^TODO: load css/js only on sr-listings post type pages when admin
 //  and move these into a constructor
@@ -27,16 +27,16 @@ add_action('sr_update_adv_search_meta_action', array('SimplyRetsApiHelper', 'srU
 
 add_filter("rewrite_rules_array", array("SimplyRetsCustomPostPages", "srAddRewriteRules"));
 
-class SimplyRetsCustomPostPages {
+class SimplyRetsCustomPostPages
+{
 
-    public static function srActivate() {
+    public static function srActivate()
+    {
         SimplyRetsCustomPostPages::srRegisterPostType();
         SimplyRetsApiHelper::srUpdateAdvSearchOptions();
 
         wp_schedule_event(
-            get_option('sr_adv_search_meta_timestamp')
-            , 'daily'
-            , 'sr_update_adv_search_options_action'
+            get_option('sr_adv_search_meta_timestamp'), 'daily', 'sr_update_adv_search_options_action'
         );
 
         add_option( 'sr_api_name', 'simplyrets' );
@@ -56,13 +56,15 @@ class SimplyRetsCustomPostPages {
         flush_rewrite_rules();
     }
 
-    public static function srDeactivate() {
+    public static function srDeactivate()
+    {
         delete_option('sr_show_admin_message');
         delete_option('sr_demo_page_created');
         flush_rewrite_rules();
     }
 
-    public static function srInitRewriteRules() {
+    public static function srInitRewriteRules()
+    {
         $rules = get_option('rewrite_rules');
 
         add_rewrite_tag('%listings%', '([^&]+)');
@@ -81,24 +83,26 @@ class SimplyRetsCustomPostPages {
             'top'
         );
 
-        if(!isset($rules['%listings%'])) {
+        if (!isset($rules['%listings%'])) {
             flush_rewrite_rules();
         }
 
         return;
     }
 
-    public static function srAddRewriteRules($incoming) {
-		$rules = array(
+    public static function srAddRewriteRules($incoming)
+    {
+        $rules = array(
             'listings/([^&]+)/([^&]+)/([^&]+)/([^&]+)/([^&]+)/?$'
             => 'index.php?sr-listings=sr-single&sr_city=$matches[1]&sr_state=$matches[2]&sr_zip=$matches[3]&listing_title=$matches[4]&listing_id=$matches[5]',
-			"listings/(.*)/(.*)?$"
+            "listings/(.*)/(.*)?$"
                 => "index.php?sr-listings=sr-single&listing_id=$matches[1]&listing_title=$matches[2]"
-		);
+        );
         return $incoming + $rules;
     }
 
-    public static function onActivationNotice () {
+    public static function onActivationNotice()
+    {
         return (
             '<div id="setting-error-settings_updated" class="updated settings-error notice">'.
             '<p>' .
@@ -121,7 +125,8 @@ class SimplyRetsCustomPostPages {
         );
     }
 
-    public static function srPluginSettingsLink( $links ) {
+    public static function srPluginSettingsLink($links)
+    {
         $settings_link =
             '<a href="' . admin_url( 'options-general.php?page=simplyrets-admin.php' ) . '">'
             . __( 'Settings', 'SimplyRETS' )
@@ -131,7 +136,8 @@ class SimplyRetsCustomPostPages {
     }
 
     // Create our Custom Post Type
-    public static function srRegisterPostType() {
+    public static function srRegisterPostType()
+    {
         $labels = array(
             'name'          => __( 'SimplyRETS' ),
             'singular_name' => __( 'SimplyRETS Page' ),
@@ -159,7 +165,8 @@ class SimplyRetsCustomPostPages {
         register_post_type( 'sr-listings', $args );
     }
 
-    public static function srQueryVarsInit( $vars ) {
+    public static function srQueryVarsInit($vars)
+    {
         global $wp_query;
         $vars[] = "listing_id";
         $vars[] = "listing_title";
@@ -200,43 +207,35 @@ class SimplyRetsCustomPostPages {
         return $vars;
     }
 
-    public static function postFilterMetaBox() {
+    public static function postFilterMetaBox()
+    {
         add_meta_box(
-            'sr-meta-box-filter'
-            , __( 'Filter Results on This Page', 'sr-textdomain')
-            , array('SimplyRetsCustomPostPages', 'postFilterMetaBoxMarkup')
-            , 'sr-listings'
-            , 'normal'
-            , 'high'
+            'sr-meta-box-filter', __( 'Filter Results on This Page', 'sr-textdomain'), array('SimplyRetsCustomPostPages', 'postFilterMetaBoxMarkup'), 'sr-listings', 'normal', 'high'
         );
     }
 
-    public static function postTemplateMetaBox() {
+    public static function postTemplateMetaBox()
+    {
         add_meta_box(
-             'sr-template-meta-box'
-             , __('Page Template', 'sr-textdomain')
-             , array( 'SimplyRetsCustomPostPages', 'postTemplateMetaBoxMarkup' )
-             , 'sr-listings'
-             , 'side'
-             , 'core'
+             'sr-template-meta-box', __('Page Template', 'sr-textdomain'), array( 'SimplyRetsCustomPostPages', 'postTemplateMetaBoxMarkup' ), 'sr-listings', 'side', 'core'
         );
     }
 
-    public static function postFilterMetaBoxJs() {
-        wp_register_script( 'simply-rets-admin-js'
-                            , plugins_url( 'assets/js/simply-rets-admin.js', __FILE__ )
-                            , array( 'jquery' )
+    public static function postFilterMetaBoxJs()
+    {
+        wp_register_script( 'simply-rets-admin-js', plugins_url( 'assets/js/simply-rets-admin.js', __FILE__ ), array( 'jquery' )
         );
         wp_enqueue_script( 'simply-rets-admin-js' );
     }
 
-    public static function postFilterMetaBoxCss() {
+    public static function postFilterMetaBoxCss()
+    {
         wp_register_style( 'simply-rets-admin-css', plugins_url( 'assets/css/simply-rets-admin.css', __FILE__ ) );
         wp_enqueue_style( 'simply-rets-admin-css' );
-
     }
 
-    public static function postFilterMetaBoxMarkup( $post ) {
+    public static function postFilterMetaBoxMarkup($post)
+    {
         wp_nonce_field( basename(__FILE__), 'sr_meta_box_nonce' );
         $min_price_filter = "";
         $max_price_filter = "";
@@ -255,7 +254,7 @@ class SimplyRetsCustomPostPages {
         ?>
         <div class="current-filters">
             <span class="filter-add">
-              <?php _e( 'Add new Filter' ); ?>
+                <?php _e( 'Add new Filter' ); ?>
             </span>
             <select name="sr-filter-select" id="sr-filter-select">
                 <option> -- Select a Filter -- </option>
@@ -373,11 +372,11 @@ class SimplyRetsCustomPostPages {
 
         // on page load, if there are any filters already saved, load them,
         // show the input field, and remove the option from the dropdown
-        if( !is_array($sr_filters) ) {
+        if (!is_array($sr_filters)) {
             $sr_filters = array();
         }
-        foreach( $sr_filters as $key=>$val ) {
-            if ( $val != '' ) {
+        foreach ($sr_filters as $key => $val) {
+            if ($val != '') {
                 ?>
                 <script>
                     var filterArea = jQuery('.current-filters');
@@ -395,29 +394,31 @@ class SimplyRetsCustomPostPages {
         }
     }
 
-    public static function postFilterMetaBoxSave( $post_id ) {
-        if( isset($_POST['sr_meta_box_nonce']) ) {
+    public static function postFilterMetaBoxSave($post_id)
+    {
+        if (isset($_POST['sr_meta_box_nonce'])) {
             $current_nonce = $_POST['sr_meta_box_nonce'];
         } else {
-            $current_nonce = NULL;
+            $current_nonce = null;
         }
         $is_autosaving = wp_is_post_autosave( $post_id );
         $is_revision   = wp_is_post_revision( $post_id );
         $valid_nonce   = ( isset( $current_nonce ) && wp_verify_nonce( $current_nonce, basename( __FILE__ ) ) ) ? 'true' : 'false';
 
-        if ( $is_autosaving || $is_revision || !$valid_nonce ) {
+        if ($is_autosaving || $is_revision || !$valid_nonce) {
             return;
         }
 
-        if( isset($_POST['sr_filters']) ) {
+        if (isset($_POST['sr_filters'])) {
             $sr_filters = $_POST['sr_filters'];
         } else {
-            $sr_filters = NULL;
+            $sr_filters = null;
         }
         update_post_meta( $post_id, 'sr_filters', $sr_filters );
     }
 
-    public static function postTemplateMetaBoxMarkup( $post ) {
+    public static function postTemplateMetaBoxMarkup($post)
+    {
         wp_nonce_field( basename(__FILE__), 'sr_template_meta_nonce' );
 
         $current_template = get_post_meta( $post->ID, 'sr_page_template', true);
@@ -430,8 +431,8 @@ class SimplyRetsCustomPostPages {
 
         echo $box_label;
 
-        foreach (  $template_options as $name=>$file ) {
-            if ( $current_template == $file ) {
+        foreach ($template_options as $name => $file) {
+            if ($current_template == $file) {
                 $box_option .= '<option value="' . $file . '" selected="selected">' . $name . '</option>';
             } else {
                 $box_option .= '<option value="' . $file . '">' . $name . '</option>';
@@ -444,43 +445,46 @@ class SimplyRetsCustomPostPages {
         echo '</select>';
     }
 
-    public static function postTemplateMetaBoxSave( $post_id ) {
-        if( isset($_POST['sr_template_meta_nonce']) ) {
+    public static function postTemplateMetaBoxSave($post_id)
+    {
+        if (isset($_POST['sr_template_meta_nonce'])) {
             $current_nonce = $_POST['sr_template_meta_nonce'];
         } else {
-            $current_nonce = NULL;
+            $current_nonce = null;
         }
         $is_autosaving = wp_is_post_autosave( $post_id );
         $is_revision   = wp_is_post_revision( $post_id );
         $valid_nonce   = ( isset( $current_nonce ) && wp_verify_nonce( $current_nonce, basename( __FILE__ ) ) ) ? 'true' : 'false';
 
-        if ( $is_autosaving || $is_revision || !$valid_nonce ) {
+        if ($is_autosaving || $is_revision || !$valid_nonce) {
             return;
         }
 
-        if( isset($_POST['sr_page_template']) ) {
+        if (isset($_POST['sr_page_template'])) {
             $sr_page_template = $_POST['sr_page_template'];
         } else {
-            $sr_page_template = NULL;
+            $sr_page_template = null;
         }
         update_post_meta( $post_id, 'sr_page_template', $sr_page_template );
     }
 
 
     // TODO: not sure if this is entirely necessary...at one time it was
-    function srClearComments() {
+    function srClearComments()
+    {
         global $post;
-        if ( !( is_singular() && ( have_comments() || 'open' == $post->comment_status ) ) ) {
+        if (!( is_singular() && ( have_comments() || 'open' == $post->comment_status ) )) {
             return;
         }
-        if ( $post->post_type == 'sr-listings') {
+        if ($post->post_type == 'sr-listings') {
             return dirname(__FILE__) . '/simply-rets-comments-template.php';
         }
         return;
     }
 
 
-    public static function srLoadPostTemplate() {
+    public static function srLoadPostTemplate()
+    {
         $query_object = get_queried_object();
         $sr_post_type = 'sr-listings';
         $page_template = get_post_meta( $query_object->ID, 'sr_page_template', true );
@@ -493,8 +497,8 @@ class SimplyRetsCustomPostPages {
         $default_templates[]  = "page.php";
 
         // only apply our template to our CPT pages
-        if ( $query_object->post_type == $sr_post_type ) {
-            if ( !empty( $page_template ) ) {
+        if ($query_object->post_type == $sr_post_type) {
+            if (!empty( $page_template )) {
                 $default_templates = $page_template;
             }
         }
@@ -504,14 +508,14 @@ class SimplyRetsCustomPostPages {
     }
 
 
-    public static function srPostDefaultContent( $content ) {
+    public static function srPostDefaultContent($content)
+    {
         require_once( plugin_dir_path(__FILE__) . 'simply-rets-api-helper.php' );
         $post_type = get_post_type();
         $page_name = get_query_var('sr-listings');
         $sr_post_type = 'sr-listings';
 
-        if (get_query_var('listing_id') != NULL AND get_query_var('listing_title') != NULL) {
-
+        if (get_query_var('listing_id') != null and get_query_var('listing_title') != null) {
             $listing_id = get_query_var('listing_id');
             $vendor     = get_query_var('sr_vendor', '');
 
@@ -529,15 +533,15 @@ class SimplyRetsCustomPostPages {
             return $content;
         }
 
-        if ( $page_name == 'sr-search' ) {
-            $minbeds  = get_query_var( 'sr_minbeds',  '' );
-            $maxbeds  = get_query_var( 'sr_maxbeds',  '' );
+        if ($page_name == 'sr-search') {
+            $minbeds  = get_query_var( 'sr_minbeds', '' );
+            $maxbeds  = get_query_var( 'sr_maxbeds', '' );
             $minbaths = get_query_var( 'sr_minbaths', '' );
             $maxbaths = get_query_var( 'sr_maxbaths', '' );
             $minprice = get_query_var( 'sr_minprice', '' );
             $maxprice = get_query_var( 'sr_maxprice', '' );
             $keywords = get_query_var( 'sr_keywords', '' )
-                      . get_query_var( 'sr_q',        '' );
+                      . get_query_var( 'sr_q', '' );
             $brokers  = get_query_var( 'sr_brokers', '' );
             $water    = get_query_var( 'water', '' );
             /** Pagination */
@@ -566,20 +570,23 @@ class SimplyRetsCustomPostPages {
              */
             $p_types = isset($_GET['sr_ptype']) ? $_GET['sr_ptype'] : '';
             $ptypes_string = '';
-            if(!is_array($p_types) && !empty($p_types)) {
-                if(strpos($p_types, ";") !== FALSE) {
-                    $p_types = explode(';', $p_types);
-                } else {
-                    $ptypes_string = "&type=$p_types";
+            if ($p_types) {
+                if (!is_array($p_types) && !empty($p_types)) {
+                    if (strpos($p_types, ";") !== false) {
+                        $p_types = explode(';', $p_types);
+                    } else {
+                        $ptypes_string = "&type=$p_types";
+                    }
                 }
-            }
-            if(is_array($p_types) && !empty($p_types)) {
-                foreach((array)$p_types as $key => $ptype) {
-                    $final = trim($ptype);
-                    $ptypes_string .= "&type=$final";
+                if (is_array($p_types) && !empty($p_types)) {
+                    foreach ((array)$p_types as $key => $ptype) {
+                        $final = trim($ptype);
+                        $ptypes_string .= "&type=$final";
+                    }
                 }
+            } else {
+                $ptypes_string = "type=Residential&type=CondoOrTownhome&type=Multi-Family&type=Commercial&type=Land&type=Farm&";
             }
-
 
             /**
              * Format the 'status' parameter.
@@ -596,15 +603,15 @@ class SimplyRetsCustomPostPages {
             $statuses = isset($_GET['sr_status']) ? $_GET['sr_status'] : $status;
             $statuses_string = '';
 
-            if(!is_array($statuses) && !empty($statuses)) {
-                if(strpos($statuses, ";") !== FALSE) {
+            if (!is_array($statuses) && !empty($statuses)) {
+                if (strpos($statuses, ";") !== false) {
                     $statuses = explode(';', $statuses);
                 } else {
                     $statuses_string = "&status=$statuses";
                 }
             }
-            if(is_array($statuses) && !empty($statuses)) {
-                foreach((array)$statuses as $key => $stat) {
+            if (is_array($statuses) && !empty($statuses)) {
+                foreach ((array)$statuses as $key => $stat) {
                     $final = trim($stat);
                     $statuses_string .= "&status=$final";
                 }
@@ -627,42 +634,42 @@ class SimplyRetsCustomPostPages {
              */
 
             $features = isset($_GET['sr_features']) ? $_GET['sr_features'] : '';
-            if(!empty($features)) {
-                foreach((array)$features as $key => $feature) {
+            if (!empty($features)) {
+                foreach ((array)$features as $key => $feature) {
                     $features_string .= "&features=$feature";
                 }
             }
 
             $cities = isset($_GET['sr_cities']) ? $_GET['sr_cities'] : '';
-            if(!empty($cities)) {
-                foreach((array)$cities as $key => $city) {
+            if (!empty($cities)) {
+                foreach ((array)$cities as $key => $city) {
                     $cities_string .= "&cities=$city";
                 }
             }
 
             $counties = isset($_GET['sr_counties']) ? $_GET['sr_counties'] : '';
-            if(!empty($counties)) {
-                foreach((array)$counties as $key => $county) {
+            if (!empty($counties)) {
+                foreach ((array)$counties as $key => $county) {
                     $counties_string .= "&counties=$county";
                 }
             }
 
             $agents = isset($_GET['sr_agent']) ? $_GET['sr_agent'] : '';
-            if(!empty($agents)) {
-                foreach((array)$agents as $key => $agent) {
+            if (!empty($agents)) {
+                foreach ((array)$agents as $key => $agent) {
                     $agents_string .= "&agent=$agent";
                 }
             }
 
             $neighborhoods = isset($_GET['sr_neighborhoods']) ? $_GET['sr_neighborhoods'] : '';
-            if(!empty($neighborhoods)) {
-                foreach((array)$neighborhoods as $key => $neighborhood) {
+            if (!empty($neighborhoods)) {
+                foreach ((array)$neighborhoods as $key => $neighborhood) {
                     $neighborhoods_string .= "&neighborhoods=$neighborhood";
                 }
             }
             $amenities = isset($_GET['sr_amenities']) ? $_GET['sr_amenities'] : '';
-            if(!empty($amenities)) {
-                foreach((array)$amenities as $key => $amenity) {
+            if (!empty($amenities)) {
+                foreach ((array)$amenities as $key => $amenity) {
                     $amenities_string .= "&amenities=$amenity";
                 }
             }
@@ -710,8 +717,8 @@ class SimplyRetsCustomPostPages {
                 "map_position" => $map_position
             );
 
-            foreach( $listing_params as $param => $val ) {
-                if( !$val == '' ) {
+            foreach ($listing_params as $param => $val) {
+                if (!$val == '') {
                     $filters_string .= ' ' . $param . '=\'' . $val . '\'';
                 }
             }
@@ -719,8 +726,8 @@ class SimplyRetsCustomPostPages {
             /**
              * Make advanced search page with new query
              */
-            if( !$advanced || !$advanced == "true" ) {
-              $qs = '?'
+            if (!$advanced || !$advanced == "true") {
+                $qs = '?'
                   . http_build_query( array_filter( $listing_params ) )
                   . $features_string
                   . $cities_string
@@ -731,44 +738,43 @@ class SimplyRetsCustomPostPages {
                   . $statuses_string
                   . $amenities_string;
 
-              $qs = str_replace(' ', '%20', $qs);
-              $listings_content = SimplyRetsApiHelper::retrieveRetsListings($qs, $settings);
-              $content .= do_shortcode( "[sr_search_form  $filters_string]");
-              $content .= $listings_content;
-              return $content;
+                $qs = str_replace(' ', '%20', $qs);
+                $listings_content = SimplyRetsApiHelper::retrieveRetsListings($qs, $settings);
+                $content .= do_shortcode( "[sr_search_form  $filters_string]");
+                $content .= $listings_content;
+                return $content;
 
             /**
              * Make regular search page with new query
              */
             } else {
+                $qs = '?';
+                $qs .= http_build_query( array_filter( $listing_params ) );
+                $qs .= $features_string;
+                $qs .= $cities_string;
+                $qs .= $counties_string;
+                $qs .= $agents_string;
+                $qs .= $ptypes_string;
+                $qs .= $neighborhoods_string;
+                $qs .= $statuses_string;
+                $qs .= $amenities_string;
 
-              $qs = '?';
-              $qs .= http_build_query( array_filter( $listing_params ) );
-              $qs .= $features_string;
-              $qs .= $cities_string;
-              $qs .= $counties_string;
-              $qs .= $agents_string;
-              $qs .= $ptypes_string;
-              $qs .= $neighborhoods_string;
-              $qs .= $statuses_string;
-              $qs .= $amenities_string;
+                $qs = str_replace(' ', '%20', $qs);
+                $listings_content = SimplyRetsApiHelper::retrieveRetsListings( $qs );
 
-              $qs = str_replace(' ', '%20', $qs);
-              $listings_content = SimplyRetsApiHelper::retrieveRetsListings( $qs );
-
-              $content .= do_shortcode( "[sr_search_form  advanced='True' $filters_string]");
-              $content .= $listings_content;
-              return $content;
+                $content .= do_shortcode( "[sr_search_form  advanced='True' $filters_string]");
+                $content .= $listings_content;
+                return $content;
             }
 
             return $content;
         }
 
-        if( $post_type == $sr_post_type ) {
+        if ($post_type == $sr_post_type) {
             $query_object = get_queried_object();
             $listing_params = get_post_meta( $query_object->ID, 'sr_filters', true );
 
-            if ( empty($listing_params) ) {
+            if (empty($listing_params)) {
                 return $content;
             }
 
@@ -789,17 +795,17 @@ class SimplyRetsCustomPostPages {
 
 
 
-    public static function srCreateDynamicPost( $posts ) {
+    public static function srCreateDynamicPost($posts)
+    {
 
         // if we catch a singlelisting query, create a new post on the fly
         global $wp_query;
 
-        if( $wp_query->query['sr-listings'] == 'sr-search'
-            AND array_key_exists("listing_id", $wp_query->query_vars)
-            AND array_key_exists("listing_title", $wp_query->query_vars)
-            OR $wp_query->query['sr-listings'] == "sr-single"
+        if ($wp_query->query['sr-listings'] == 'sr-search'
+            and array_key_exists("listing_id", $wp_query->query_vars)
+            and array_key_exists("listing_title", $wp_query->query_vars)
+            or $wp_query->query['sr-listings'] == "sr-single"
         ) {
-
             $post_id    = urldecode(get_query_var( 'listing_id', '' ));
             $post_addr  = urldecode(get_query_var( 'listing_title', '' ));
             $post_price = urldecode(get_query_var( 'listing_price', '' ));
@@ -826,8 +832,7 @@ class SimplyRetsCustomPostPages {
             return $posts + array($post);
         }
         // if we catch a search results query, create a new post on the fly
-        if( $wp_query->query['sr-listings'] == "sr-search" ) {
-
+        if ($wp_query->query['sr-listings'] == "sr-search") {
             $post_id = get_query_var( 'sr_minprice', '9998' );
 
             $post = (object)array(
@@ -850,6 +855,5 @@ class SimplyRetsCustomPostPages {
 
         return $posts;
     }
-
 }
 ?>
