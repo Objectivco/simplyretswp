@@ -801,7 +801,7 @@ class SimplyRetsCustomPostPages {
         ) {
 
             $post_id    = urldecode(get_query_var( 'listing_id', '' ));
-            $post_addr  = str_replace( "/", "-", urldecode(get_query_var( 'listing_title', '' )) );
+            $post_addr  = urldecode(get_query_var( 'listing_title', '' ));
             $post_price = urldecode(get_query_var( 'listing_price', '' ));
 
             $listing_USD = $post_price == '' ? '' : '$' . number_format( $post_price );
