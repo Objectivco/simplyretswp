@@ -538,7 +538,7 @@ class SimplyRetsCustomPostPages
             $maxbeds  = get_query_var( 'sr_maxbeds', '' );
             $minbaths = get_query_var( 'sr_minbaths', '' );
             $maxbaths = get_query_var( 'sr_maxbaths', '' );
-            $minprice = get_query_var( 'sr_minprice', '' );
+            $minprice = get_query_var( 'sr_minprice', '' ) ? get_query_var( 'sr_minprice', '' ) : 500000;
             $maxprice = get_query_var( 'sr_maxprice', '' );
             $keywords = get_query_var( 'sr_keywords', '' )
                       . get_query_var( 'sr_q', '' );
@@ -558,7 +558,6 @@ class SimplyRetsCustomPostPages
 
             $map_position = get_query_var('sr_map_position',
                                           get_option('sr_search_map_position'));
-
 
             /**
              * Format the 'type' parameter.
@@ -743,7 +742,6 @@ class SimplyRetsCustomPostPages
                   . $amenities_string;
 
                 $qs = str_replace(' ', '%20', $qs);
-
                 $listings_content = SimplyRetsApiHelper::retrieveRetsListings($qs, $settings);
                 $content .= do_shortcode( "[sr_search_form  $filters_string]");
                 $content .= $listings_content;

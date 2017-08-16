@@ -329,8 +329,6 @@ HTML;
             $qs .= $stypes_string;
             $qs .= $statuses_string;
 
-            var_dump($qs);
-
             $listings_content = SimplyRetsApiHelper::retrieveRetsListings( $qs, $atts );
             return $listings_content;
         }
