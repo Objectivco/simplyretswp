@@ -9,21 +9,24 @@
 
 
 /* Code starts here */
-class SrUtils {
+class SrUtils
+{
 
 
-    public static function isSingleVendor() {
+    public static function isSingleVendor()
+    {
         $vendors = get_option('sr_adv_search_meta_vendors', array());
-        if(count($vendors) > 1) {
+        if (count($vendors) > 1) {
             return false;
         }
         return true;
     }
 
 
-    public static function srShowListingMeta() {
+    public static function srShowListingMeta()
+    {
 
-        if( get_option('sr_show_listingmeta') ) {
+        if (get_option('sr_show_listingmeta')) {
             $show_listing_meta = false;
         } else {
             $show_listing_meta = true;
@@ -36,9 +39,10 @@ class SrUtils {
      * The naming for the database option is backwards.
      * If it's 'checked', we _don't_ show data.
      */
-    public static function showAgentContact() {
+    public static function showAgentContact()
+    {
 
-        if( get_option('sr_show_agent_contact') ) {
+        if (get_option('sr_show_agent_contact')) {
             $show = false;
         } else {
             $show = true;
@@ -50,7 +54,8 @@ class SrUtils {
     /**
      * Builds a link to a listings' details page. Used in search results.
      */
-    public static function buildDetailsLink($listing, $params = array()) {
+    public static function buildDetailsLink($listing, $params = array())
+    {
 
         $permalink_struct = get_option('permalink_structure', '');
         $custom_permalink_struct = get_option('sr_permalink_structure', '');
@@ -71,10 +76,9 @@ class SrUtils {
 
         // Listing details
         $listing_id = $listing->mlsId;
-        $listing_address = $listing->address->full;
+        $listing_address = str_replace(array('#','/'), array('', '-'), $listing->address->full);
 
-        if($prettify && $custom_permalink_struct === "pretty_extra") {
-
+        if ($prettify && $custom_permalink_struct === "pretty_extra") {
             $listing_city = $listing->address->city;
             $listing_state = $listing->address->state;
             $listing_zip = $listing->address->postalCode;
@@ -82,28 +86,23 @@ class SrUtils {
 
             $url .= "/listings/$listing_city/$listing_state/$listing_zip/$listing_address/$listing_id";
 
-            if(!empty($query)) {
+            if (!empty($query)) {
                 $url .= "?" . $query;
             }
-
-        } elseif($prettify && $custom_permalink_struct === "pretty") {
-
+        } elseif ($prettify && $custom_permalink_struct === "pretty") {
             $url .= "/listings/$listing_id/$listing_address";
 
-            if(!empty($query)) {
+            if (!empty($query)) {
                 $url .= "?" . $query;
             }
-
         } else {
-
             $url .= "?sr-listings=sr-single"
                  .  "&listing_id=$listing_id"
                  .  "&listing_title=$listing_address";
 
-            if(!empty($query)) {
+            if (!empty($query)) {
                 $url .= "&" . $query;
             }
-
         }
 
         $url = str_replace(' ', '+', $url);
@@ -112,21 +111,22 @@ class SrUtils {
         return $url;
     }
 
-    public static function buildPaginationLinks( $pagination ) {
+    public static function buildPaginationLinks($pagination)
+    {
         $pag = array(
             'prev' => '',
             'next' => ''
         );
         $siteUrl = get_home_url() . '/?sr-listings=sr-search&';
 
-        if( $pagination['prev'] !== null && !empty($pagination['prev'] ) ) {
+        if ($pagination['prev'] !== null && !empty($pagination['prev'] )) {
             $previous = $pagination['prev'];
             $prev = str_replace( 'https://api.simplyrets.com/properties?', $siteUrl, $previous );
             $prev_link = "<a href='{$prev}'>Prev</a>";
             $pag['prev'] = $prev_link;
         }
 
-        if( $pagination['next'] !== null && !empty($pagination['next'] ) ) {
+        if ($pagination['next'] !== null && !empty($pagination['next'] )) {
             $nextLink = $pagination['next'];
             $next = str_replace( 'https://api.simplyrets.com/properties?', $siteUrl, $nextLink );
             $next_link = "<a href='{$next}'>Next</a>";
@@ -145,24 +145,21 @@ class SrUtils {
      * @param $str - a query string
      * @result $arr - the query string in array form
      */
-    public static function proper_parse_str($str) {
+    public static function proper_parse_str($str)
+    {
         $arr = array();
         # split on outer delimiter
         $pairs = explode('&', $str);
         foreach ($pairs as $i) {
-
             list($name,$value) = explode('=', $i, 2);
 
-            if( isset($arr[$name]) ) {
-
-                if( is_array($arr[$name]) ) {
+            if (isset($arr[$name])) {
+                if (is_array($arr[$name])) {
                     $arr[$name][] = $value;
-                }
-                else {
+                } else {
                     $arr[$name] = array($arr[$name], $value);
                 }
-            }
-            else {
+            } else {
                 $arr[$name] = $value;
             }
         }
@@ -170,7 +167,8 @@ class SrUtils {
     }
 
 
-    public static function ordinalSuffix($number) {
+    public static function ordinalSuffix($number)
+    {
         $ends = array('th','st','nd','rd','th','th','th','th','th','th');
         if ((($number % 100) >= 11) && (($number%100) <= 13)) {
             return $number. 'th';
@@ -180,7 +178,8 @@ class SrUtils {
     }
 
 
-    public static function mkListingSummaryCompliance($listing_office) {
+    public static function mkListingSummaryCompliance($listing_office)
+    {
 
         $office_on_thumbnails = get_option('sr_office_on_thumbnails', false);
         $idx_img_on_thumbnails = get_option('sr_thumbnail_idx_image', false);
@@ -199,15 +198,10 @@ class SrUtils {
 
         // Add a line break if both fields are enabled
         if (!empty($listing_office_markup) && !empty($listing_idx_img_markup)) {
-
             return "{$listing_office_markup}<br/>{$listing_idx_img_markup}";
-
         } else {
-
             return "{$listing_office_markup} {$listing_idx_img_markup}";
-
         }
-
     }
 
 
@@ -216,46 +210,46 @@ class SrUtils {
      * the user has provided a custom disclaimer in their settings
      * page use that, otherwise use the SimplyRETS default.
      */
-    public static function mkDisclaimerText($lastUpdate) {
+    public static function mkDisclaimerText($lastUpdate)
+    {
         $custom_disclaimer = get_option('sr_custom_disclaimer', false);
 
         if ($custom_disclaimer) {
-
             // Splice lastUpdate date into custom disclaimer
             $built_disclaimer = str_replace('{lastUpdate}', $lastUpdate, $custom_disclaimer);
 
             return html_entity_decode($built_disclaimer);
-
         } else {
-
             return "This information is believed to be accurate, but without any warranty.";
-
         }
     }
-
 }
 
 
-class SrListing {
+class SrListing
+{
 
     /**
      * Return a 'display-ready' status for a listing. Checks the
      * sr_show_mls_status_text option and returns either the
      * statusText or status for the listing.
      */
-    public static function listingStatus($listing) {
+    public static function listingStatus($listing)
+    {
         $useStatusText = get_option('sr_show_mls_status_text', false);
         return $useStatusText ? $listing->mls->statusText : $listing->mls->status;
     }
 }
 
 
-class SrMessages {
+class SrMessages
+{
 
-    public static function noResultsMsg($response) {
+    public static function noResultsMsg($response)
+    {
 
         $response = (array)$response;
-        if($response['message']) {
+        if ($response['message']) {
             return (
                 '<br><p><strong>'
                 . $response['message']
@@ -267,14 +261,15 @@ class SrMessages {
                          . "Please try to broaden your search criteria or feel free to try again later.</p></strong>";
         return $noResultsMsg;
     }
-
 }
 
 
 
-class SrViews {
+class SrViews
+{
 
-    public static function listDateResults( $date ) {
+    public static function listDateResults($date)
+    {
         $markup = <<<HTML
             <li>
                 <span>Listed on $date</span>
@@ -282,9 +277,7 @@ class SrViews {
 HTML;
 
         return $markup;
-
     }
-
 }
 
 
@@ -295,20 +288,21 @@ HTML;
  * http://php.net/manual/it/function.http-parse-headers.php
  */
 if (!function_exists('http_parse_headers')) {
-    function http_parse_headers ($raw_headers) {
+    function http_parse_headers($raw_headers)
+    {
         $headers = array(); // $headers = [];
 
         foreach (explode("\n", $raw_headers) as $i => $h) {
             $h = explode(':', $h, 2);
 
             if (isset($h[1])) {
-                if(!isset($headers[$h[0]])) {
+                if (!isset($headers[$h[0]])) {
                     $headers[$h[0]] = trim($h[1]);
-                } else if(is_array($headers[$h[0]])) {
-                    $tmp = array_merge($headers[$h[0]],array(trim($h[1])));
+                } elseif (is_array($headers[$h[0]])) {
+                    $tmp = array_merge($headers[$h[0]], array(trim($h[1])));
                     $headers[$h[0]] = $tmp;
                 } else {
-                    $tmp = array_merge(array($headers[$h[0]]),array(trim($h[1])));
+                    $tmp = array_merge(array($headers[$h[0]]), array(trim($h[1])));
                     $headers[$h[0]] = $tmp;
                 }
             }

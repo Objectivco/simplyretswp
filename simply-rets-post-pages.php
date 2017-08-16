@@ -570,24 +570,20 @@ class SimplyRetsCustomPostPages
              */
             $p_types = isset($_GET['sr_ptype']) ? $_GET['sr_ptype'] : '';
             $ptypes_string = '';
-            if ($p_types) {
-                if (!is_array($p_types) && !empty($p_types)) {
-                    if (strpos($p_types, ";") !== false) {
-                        $p_types = explode(';', $p_types);
-                    } else {
-                        $ptypes_string = "&type=$p_types";
-                    }
+            if (!is_array($p_types) && !empty($p_types)) {
+                if (strpos($p_types, ";") !== false) {
+                    $p_types = explode(';', $p_types);
+                } else {
+                    $ptypes_string = "&type=$p_types";
                 }
-                if (is_array($p_types) && !empty($p_types)) {
-                    foreach ((array)$p_types as $key => $ptype) {
-                        $final = trim($ptype);
-                        $ptypes_string .= "&type=$final";
-                    }
-                }
-            } else {
-                $ptypes_string = "type=Residential&type=CondoOrTownhome&type=Multi-Family&type=Commercial&type=Land&type=Farm&";
             }
-
+            if (is_array($p_types) && !empty($p_types)) {
+                foreach ((array)$p_types as $key => $ptype) {
+                    $final = trim($ptype);
+                    $ptypes_string .= "&type=$final";
+                }
+            }
+            
             /**
              * Format the 'status' parameter.
              * Note that the 'status' might come in as an Array or a
@@ -661,17 +657,23 @@ class SimplyRetsCustomPostPages
                 }
             }
 
-            $neighborhoods = isset($_GET['sr_neighborhoods']) ? $_GET['sr_neighborhoods'] : '';
+            $neighborhoods = isset($_GET['sr_neighborhood']) ? $_GET['sr_neighborhood'] : '';
             if (!empty($neighborhoods)) {
                 foreach ((array)$neighborhoods as $key => $neighborhood) {
                     $neighborhoods_string .= "&neighborhoods=$neighborhood";
                 }
             }
+            
             $amenities = isset($_GET['sr_amenities']) ? $_GET['sr_amenities'] : '';
             if (!empty($amenities)) {
                 foreach ((array)$amenities as $key => $amenity) {
                     $amenities_string .= "&amenities=$amenity";
                 }
+            }
+            $searchTitle = isset($_GET['sr_search_title']) ? $_GET['sr_search_title'] : '';
+            
+            if (! empty( $searchTitle )) {
+                $searchTitle_string .= "&sr_search_title=$searchTitle";
             }
 
             /**
@@ -710,11 +712,13 @@ class SimplyRetsCustomPostPages
                    SimplyRETS query parameters, but it's the easiest
                    way to get them back on the other side right now.
                 */
-                "map_position" => $map_position
+                "map_position" => $map_position,
+                "search_title"  => $searchTitle
             );
 
             $settings = array(
-                "map_position" => $map_position
+                "map_position" => $map_position,
+                "search_title"  => $searchTitle
             );
 
             foreach ($listing_params as $param => $val) {
@@ -739,6 +743,7 @@ class SimplyRetsCustomPostPages
                   . $amenities_string;
 
                 $qs = str_replace(' ', '%20', $qs);
+
                 $listings_content = SimplyRetsApiHelper::retrieveRetsListings($qs, $settings);
                 $content .= do_shortcode( "[sr_search_form  $filters_string]");
                 $content .= $listings_content;
@@ -835,6 +840,12 @@ class SimplyRetsCustomPostPages
         if ($wp_query->query['sr-listings'] == "sr-search") {
             $post_id = get_query_var( 'sr_minprice', '9998' );
 
+            if (isset( $_GET['sr_search_title'] )) {
+                $title = urldecode( $_GET['sr_search_title'] );
+            } else {
+                $title = "Search Results";
+            }
+
             $post = (object)array(
                 "ID"             => $post_id,
                 "comment_count"  => 0,
@@ -846,7 +857,7 @@ class SimplyRetsCustomPostPages
                 "post_date_gmt"  => gmdate("c"),
                 "post_parent"    => 0,
                 "post_status"    => "publish",
-                "post_title"     => "Search Results",
+                "post_title"     => $title,
                 "post_type"      => "sr-listings"
             );
 

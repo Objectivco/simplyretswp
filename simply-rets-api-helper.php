@@ -49,6 +49,11 @@ class SimplyRetsApiHelper {
     public static function makeApiRequest($params) {
         $request_url      = SimplyRetsApiHelper::srRequestUrlBuilder($params);
         $request_response = SimplyRetsApiHelper::srApiRequest($request_url);
+        foreach( $request_response['response'] as $key => $listing ) {
+            if ( $listing->property->type == "RNT" ) {
+                unset($request_response['response'][$key]);
+            }
+        }
 
         return $request_response;
     }
@@ -234,7 +239,7 @@ class SimplyRetsApiHelper {
             $header = substr( $request, 0, $header_size );
             $body   = substr( $request, $header_size );
 
-            $pag_links = SimplyRetsApiHelper::srPaginationParser($header);
+            $pag_links = SimplyRetsApiHelper::srPaginationParser($header, 'Red Mountain Properties');
             $last_update = SimplyRetsApiHelper::srLastUpdateHeaderParser($header);
 
             // decode the reponse body
@@ -263,7 +268,6 @@ class SimplyRetsApiHelper {
             $srResponse = array();
             $srResponse['pagination'] = $pag_links;
             $srResponse['response'] = $response_array;
-
             return $srResponse;
         }
 
@@ -309,7 +313,7 @@ class SimplyRetsApiHelper {
         $pag_links = array();
         preg_match('/^Link: ([^\r\n]*)[\r\n]*$/m', $linkHeader, $matches);
         unset($matches[0]);
-
+    
         foreach( $matches as $key => $val ) {
             $parts = explode( ",", $val );
             foreach( $parts as $key => $part ) {
@@ -1392,7 +1396,6 @@ HTML;
             } else {
                 $bathsMarkup = SimplyRetsApiHelper::resultDataColumnMarkup($bathsFull, 'full baths');
             }
-
 
             // append markup for this listing to the content
             $resultsMarkup .= <<<HTML

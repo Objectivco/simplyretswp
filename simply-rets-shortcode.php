@@ -212,6 +212,7 @@ HTML;
             && !isset($listing_params['cities'])
             && !isset($listing_params['agent'])
             && !isset($listing_params['type'])
+            && !isset($listing_params['stype'])
             && !isset($listing_params['status'])
         ) {
             $listings_content = SimplyRetsApiHelper::retrieveRetsListings( $listing_params, $atts );
@@ -254,8 +255,15 @@ HTML;
                     $ptypes_string .= "type=$ptype&";
                 }
                 $ptypes_string = str_replace(' ', '%20', $ptypes_string );
-            } else {
-                $ptypes_string = "type=Residential;CondoOrTownhome;Multi-Family;Commercial;Land;Farm&";
+            }
+
+            if (isset( $listing_params['subtype'] ) && ! empty( $listing_params['subtype'] )) {
+                $stypes = explode( ';', $listing_params['subtype'] );
+                foreach ($stypes as $key => $stype) {
+                    $stype = trim($stype);
+                    $stypes_string .= "type=$stype&";
+                }
+                $stypes_string = str_replace( ' ', '%20', $stypes_string );
             }
 
             if (isset( $listing_params['postalcodes'] ) && !empty( $listing_params['postalcodes'] )) {
@@ -318,7 +326,10 @@ HTML;
             $qs .= $params_string;
             $qs .= $agents_string;
             $qs .= $ptypes_string;
+            $qs .= $stypes_string;
             $qs .= $statuses_string;
+
+            var_dump($qs);
 
             $listings_content = SimplyRetsApiHelper::retrieveRetsListings( $qs, $atts );
             return $listings_content;
