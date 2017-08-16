@@ -565,6 +565,9 @@ HTML;
         $heatingArray = explode( ',', $listing->property->heating );
         $heating = implode( ', ', $heatingArray );
 
+        $typeArray = explode( '/', $listing->property->subTypeText );
+        $type = implode( ', ', $typeArray );
+
         $neighborhoodsArray = array('Red Mountain', 'West End');
 
         $neighborhoodLink = '';
@@ -599,7 +602,7 @@ HTML;
             ),
             array(
                 'key'   => 'Type',
-                'val'   => $typeArray[$listing->property->type]
+                'val'   => $type
             ),
             array(
                 'key'   => 'Bdrms',
