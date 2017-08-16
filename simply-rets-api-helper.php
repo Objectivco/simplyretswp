@@ -1307,15 +1307,10 @@ HTML;
             $main_photo = str_replace("\\", "", $main_photo);
 
             // listing link to details
-            if ( $listing->property->address !== null ) {
-                $link = SrUtils::buildDetailsLink(
-                    $listing,
-                    !empty($vendor) ? array("sr_vendor" => $vendor) : array()
-                );
-            } else {
-                $link = "javascript:void()";
-            }
-
+            $link = SrUtils::buildDetailsLink(
+                $listing,
+                !empty($vendor) ? array("sr_vendor" => $vendor) : array()
+            );
 
             /**
              * Show 'Listing Courtesy of ...' if setting is enabled
