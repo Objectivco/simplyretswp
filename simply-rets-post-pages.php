@@ -545,7 +545,7 @@ class SimplyRetsCustomPostPages
             $brokers  = get_query_var( 'sr_brokers', '' );
             $water    = get_query_var( 'water', '' );
             /** Pagination */
-            $limit    = get_query_var( 'limit', '' );
+            $limit    = 99;
             $offset   = get_query_var( 'offset', '' );
             /** Advanced Search */
             $advanced  = get_query_var( 'advanced', '' );
