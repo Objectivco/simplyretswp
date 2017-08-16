@@ -538,7 +538,7 @@ class SimplyRetsCustomPostPages
             $maxbeds  = get_query_var( 'sr_maxbeds', '' );
             $minbaths = get_query_var( 'sr_minbaths', '' );
             $maxbaths = get_query_var( 'sr_maxbaths', '' );
-            $minprice = get_query_var( 'sr_minprice', '' ) ? get_query_var( 'sr_minprice', '' ) : 500000;
+            $minprice = get_query_var( 'sr_minprice', '' ) ? get_query_var( 'sr_minprice', '' ) : '';
             $maxprice = get_query_var( 'sr_maxprice', '' );
             $keywords = get_query_var( 'sr_keywords', '' )
                       . get_query_var( 'sr_q', '' );
