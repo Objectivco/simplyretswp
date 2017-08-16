@@ -16,7 +16,8 @@
 
 
 /* Code starts here */
-function srRegisterWidgets() {
+function srRegisterWidgets()
+{
     register_widget('srFeaturedListingWidget');
     register_widget('srAgentListingWidget');
     register_widget('srRandomListingWidget');
@@ -24,15 +25,18 @@ function srRegisterWidgets() {
 }
 
 
-class srFeaturedListingWidget extends WP_Widget {
+class srFeaturedListingWidget extends WP_Widget
+{
 
     /** constructor */
-    function __construct() {
+    function __construct()
+    {
         parent::__construct(false, "SimplyRETS Featured Listing");
     }
 
     /** save widget --  @see WP_Widget::update */
-    function update( $new_instance, $old_instance ) {
+    function update($new_instance, $old_instance)
+    {
         $instance = $old_instance;
         $instance['title'] = strip_tags($new_instance['title']);
         $instance['mlsid'] = strip_tags($new_instance['mlsid']);
@@ -41,7 +45,8 @@ class srFeaturedListingWidget extends WP_Widget {
     }
 
     /** admin widget form --  @see WP_Widget::form */
-    function form( $instance ) {
+    function form($instance)
+    {
         $singleVendor = SrUtils::isSingleVendor();
         $title  = esc_attr($instance['title']);
         $mlsid  = esc_attr($instance['mlsid']);
@@ -70,7 +75,7 @@ class srFeaturedListingWidget extends WP_Widget {
                    value="<?php echo $mlsid; ?>"
             />
         </p>
-        <?php if(!$singleVendor) { ?>
+        <?php if (!$singleVendor) { ?>
             <p>
                 <label for="<?php echo $this->get_field_id('vendor'); ?>">
                     <?php _e('Vendor:'); ?>
@@ -85,7 +90,8 @@ class srFeaturedListingWidget extends WP_Widget {
     }
 
     /** front end widget render -- @see WP_Widget::widget */
-    function widget( $args, $instance ) {
+    function widget($args, $instance)
+    {
         extract( $args );
         $title = apply_filters('widget_title', $instance['title']);
         $mlsid = $instance['mlsid'];
@@ -93,7 +99,7 @@ class srFeaturedListingWidget extends WP_Widget {
 
         $cont .= $before_widget;
         // populate title
-        if( $title ) {
+        if ($title) {
             $cont .= $before_title . $title . $after_title;
         } else {
             $cont .= $before_title . $after_title;
@@ -104,7 +110,7 @@ class srFeaturedListingWidget extends WP_Widget {
         );
 
         // populate content
-        if( $mlsid ) {
+        if ($mlsid) {
             $qs = "?q=$mlsid&vendor=$vendor";
             $cont .= SimplyRetsApiHelper::retrieveWidgetListing( $qs, $settings );
         } else {
@@ -114,19 +120,21 @@ class srFeaturedListingWidget extends WP_Widget {
         $cont .= $after_widget;
         echo $cont;
     }
-
 }
 
-class srAgentListingWidget extends WP_Widget {
+class srAgentListingWidget extends WP_Widget
+{
 
     /** constructor */
-    function __construct() {
+    function __construct()
+    {
         parent::__construct(false, "SimplyRETS Agents Listings");
     }
 
 
     /** save widget --  @see WP_Widget::update */
-    function update( $new_instance, $old_instance ) {
+    function update($new_instance, $old_instance)
+    {
         $instance = $old_instance;
         $instance['title'] = strip_tags($new_instance['title']);
         $instance['agent'] = strip_tags($new_instance['agent']);
@@ -136,7 +144,8 @@ class srAgentListingWidget extends WP_Widget {
     }
 
     /** admin widget form --  @see WP_Widget::form */
-    function form( $instance ) {
+    function form($instance)
+    {
         $singleVendor = SrUtils::isSingleVendor();
         $title = esc_attr($instance['title']);
         $agent = esc_attr($instance['agent']);
@@ -175,7 +184,7 @@ class srAgentListingWidget extends WP_Widget {
                          type="text"
                          value="<?php echo $limit; ?>" />
         </p>
-        <?php if(!$singleVendor) { ?>
+        <?php if (!$singleVendor) { ?>
             <p>
                 <label for="<?php echo $this->get_field_id('vendor'); ?>">
                     <?php _e('Vendor:'); ?>
@@ -190,50 +199,53 @@ class srAgentListingWidget extends WP_Widget {
     }
 
     /** front end widget render -- @see WP_Widget::widget */
-    function widget( $args, $instance ) {
-       extract( $args );
-       $title  = apply_filters('widget_title', $instance['title']);
-       $agent  = $instance['agent'];
-       $limit  = $instance['limit'];
-       $vendor = $instance['vendor'];
+    function widget($args, $instance)
+    {
+        extract( $args );
+        $title  = apply_filters('widget_title', $instance['title']);
+        $agent  = $instance['agent'];
+        $limit  = $instance['limit'];
+        $vendor = $instance['vendor'];
 
-       $cont .= $before_widget;
+        $cont .= $before_widget;
        // populate title
-       if( $title ) {
-           $cont .= $before_title . $title . $after_title;
-       } else {
-           $cont .= $before_title . $after_title;
-       }
+        if ($title) {
+            $cont .= $before_title . $title . $after_title;
+        } else {
+            $cont .= $before_title . $after_title;
+        }
 
-       $settings = array(
+        $settings = array(
            'vendor' => $vendor
-       );
+        );
 
        // populate content
-       if( $agent && $limit ) {
-           $params['agent'] = $agent;
-           $params['limit'] = $limit;
-           $params['vendor'] = $vendor;
-           $cont .= SimplyRetsApiHelper::retrieveWidgetListing( $params, $settings );
-       } else {
-           $cont .= "No listing found";
-       }
+        if ($agent && $limit) {
+            $params['agent'] = $agent;
+            $params['limit'] = $limit;
+            $params['vendor'] = $vendor;
+            $cont .= SimplyRetsApiHelper::retrieveWidgetListing( $params, $settings );
+        } else {
+            $cont .= "No listing found";
+        }
 
-       $cont .= $after_widget;
-       echo $cont;
+        $cont .= $after_widget;
+        echo $cont;
     }
-
 }
 
-class srRandomListingWidget extends WP_Widget {
+class srRandomListingWidget extends WP_Widget
+{
 
     /** constructor */
-    function __construct() {
+    function __construct()
+    {
         parent::__construct(false, "SimplyRETS Random Listing");
     }
 
     /** save widget --  @see WP_Widget::update */
-    function update( $new_instance, $old_instance ) {
+    function update($new_instance, $old_instance)
+    {
         $instance = $old_instance;
         $instance['title']  = strip_tags($new_instance['title']);
         $instance['mlsids'] = strip_tags($new_instance['mlsids']);
@@ -242,7 +254,8 @@ class srRandomListingWidget extends WP_Widget {
     }
 
     /** admin widget form --  @see WP_Widget::form */
-    function form( $instance ) {
+    function form($instance)
+    {
         $singleVendor = SrUtils::isSingleVendor();
         $title  = esc_attr($instance['title']);
         $mlsids = esc_attr($instance['mlsids']);
@@ -271,7 +284,7 @@ class srRandomListingWidget extends WP_Widget {
                    value="<?php echo $mlsids; ?>"
             />
         </p>
-        <?php if(!$singleVendor) { ?>
+        <?php if (!$singleVendor) { ?>
             <p>
                 <label for="<?php echo $this->get_field_id('vendor'); ?>">
                     <?php _e('Vendor:'); ?>
@@ -286,7 +299,8 @@ class srRandomListingWidget extends WP_Widget {
     }
 
     /** front end widget render -- @see WP_Widget::widget */
-    function widget( $args, $instance ) {
+    function widget($args, $instance)
+    {
         extract( $args );
 
         $vendor = apply_filters('widget_title', $instance['vendor']);
@@ -299,7 +313,7 @@ class srRandomListingWidget extends WP_Widget {
         $cont .= $before_widget;
 
         // populate title
-        if( $title ) {
+        if ($title) {
             $cont .= $before_title . $title . $after_title;
         } else {
             $cont .= $before_title . $after_title;
@@ -310,7 +324,7 @@ class srRandomListingWidget extends WP_Widget {
         );
 
         // populate content
-        if( $mlsid ) {
+        if ($mlsid) {
             $qs = "?q=$mlsid&vendor=$vendor";
             $cont .= SimplyRetsApiHelper::retrieveWidgetListing( $qs, $settings );
         } else {
@@ -323,15 +337,18 @@ class srRandomListingWidget extends WP_Widget {
 }
 
 
-class srSearchFormWidget extends WP_Widget {
+class srSearchFormWidget extends WP_Widget
+{
 
     /** constructor */
-    function __construct() {
+    function __construct()
+    {
         parent::__construct(false, "SimplyRETS Search Widget");
     }
 
     /** save widget --  @see WP_Widget::update */
-    function update( $new_instance, $old_instance ) {
+    function update($new_instance, $old_instance)
+    {
         $instance = $old_instance;
         $instance['title']  = strip_tags($new_instance['title']);
         $instance['vendor'] = strip_tags($new_instance['vendor']);
@@ -339,7 +356,8 @@ class srSearchFormWidget extends WP_Widget {
     }
 
     /** admin widget form --  @see WP_Widget::form */
-    function form( $instance ) {
+    function form($instance)
+    {
         $singleVendor = SrUtils::isSingleVendor();
         $title  = esc_attr($instance['title']);
         $vendor = esc_attr($instance['vendor']);
@@ -354,7 +372,7 @@ class srSearchFormWidget extends WP_Widget {
                    type="text"
                    value="<?php echo $title; ?>" />
         </p>
-        <?php if(!$singleVendor) { ?>
+        <?php if (!$singleVendor) { ?>
             <p>
                 <label for="<?php echo $this->get_field_id('vendor'); ?>">
                     <?php _e('Vendor:'); ?>
@@ -369,7 +387,8 @@ class srSearchFormWidget extends WP_Widget {
     }
 
     /** front end widget render -- @see WP_Widget::widget */
-    function widget( $args, $instance ) {
+    function widget($args, $instance)
+    {
         extract( $args );
         $title  = apply_filters('widget_title', $instance['title']);
         $vendor = apply_filters('widget_vendor', $instance['vendor']);
@@ -377,7 +396,7 @@ class srSearchFormWidget extends WP_Widget {
         $cont .= $before_widget;
 
         // populate title
-        if( $title ) {
+        if ($title) {
             $cont .= $before_title . $title . $after_title;
         } else {
             $cont .= $before_title . $after_title;
@@ -387,7 +406,7 @@ class srSearchFormWidget extends WP_Widget {
         $singleVendor = SrUtils::isSingleVendor();
         $availableVendors = get_option('sr_adv_search_meta_vendors', array());
         $ven = isset($vendor) ? $vendor  : '';
-        if(empty($ven) && $singleVendor === true) {
+        if (empty($ven) && $singleVendor === true) {
             $ven = $availableVendors[0];
         }
 
@@ -397,8 +416,8 @@ class srSearchFormWidget extends WP_Widget {
                                        array("Residential", "Condominium", "Rental" ));
 
         $type_options = '';
-        foreach( (array)$adv_search_types as $key=>$type) {
-            if( $type == $current_type) {
+        foreach ((array)$adv_search_types as $key => $type) {
+            if ($type == $current_type) {
                 $type_options .= "<option value='$type' selected />$type</option>";
             } else {
                 $type_options .= "<option value='$type' />$type</option>";
@@ -413,7 +432,7 @@ class srSearchFormWidget extends WP_Widget {
               <input type="hidden" name="sr-listings" value="sr-search">
 
               <div class="sr-search-field" id="sr-search-keywords">
-                <input name="sr_keywords" type="text" placeholder="Address, Subdivision, Zipcode, or Keywords" />
+                <input name="sr_keywords" type="text" placeholder="Property Address, Subdivision, Zipcode, or Keywords" />
               </div>
 
               <div class="sr-search-field" id="sr-search-ptype">
@@ -459,7 +478,5 @@ HTML;
 
         $cont .= $after_widget;
         echo $cont;
-
     }
-
 }

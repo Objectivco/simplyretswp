@@ -568,21 +568,21 @@ class SimplyRetsCustomPostPages
              * parameters.
              */
             $p_types = isset($_GET['sr_ptype']) ? $_GET['sr_ptype'] : '';
-            $ptypes_string = '';
-            if (!is_array($p_types) && !empty($p_types)) {
-                if (strpos($p_types, ";") !== false) {
-                    $p_types = explode(';', $p_types);
-                } else {
-                    $ptypes_string = "&type=$p_types";
-                }
-            }
+            // $ptypes_string = '';
+            // if (!is_array($p_types) && !empty($p_types)) {
+            //     if (strpos($p_types, ";") !== false) {
+            //         $p_types = explode(';', $p_types);
+            //     } else {
+            //         $ptypes_string = "&type=$p_types";
+            //     }
+            // }
             if (is_array($p_types) && !empty($p_types)) {
                 foreach ((array)$p_types as $key => $ptype) {
                     $final = trim($ptype);
                     $ptypes_string .= "&type=$final";
                 }
             }
-            
+    
             /**
              * Format the 'status' parameter.
              * Note that the 'status' might come in as an Array or a
@@ -743,7 +743,7 @@ class SimplyRetsCustomPostPages
 
                 $qs = str_replace(' ', '%20', $qs);
                 $listings_content = SimplyRetsApiHelper::retrieveRetsListings($qs, $settings);
-                $content .= do_shortcode( "[sr_search_form  $filters_string]");
+                $content .= do_shortcode( "[sr_search_form $filters_string]");
                 $content .= $listings_content;
                 return $content;
 
