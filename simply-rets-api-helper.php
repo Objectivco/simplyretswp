@@ -1259,7 +1259,7 @@ HTML;
             $remarks            = $listing->remarks;
             $city               = $listing->address->city;
             $county             = $listing->geo->county;
-            $address            = $listing->address->full;
+            $address            = $listing->address->full ? $listing->address->full : "No Address Found";
             $zip                = $listing->address->postalCode;
             $listing_agent_id   = $listing->agent->id;
             $listing_agent_name = $listing->agent->firstName . ' ' . $listing->agent->lastName;
@@ -1307,10 +1307,14 @@ HTML;
             $main_photo = str_replace("\\", "", $main_photo);
 
             // listing link to details
-            $link = SrUtils::buildDetailsLink(
-                $listing,
-                !empty($vendor) ? array("sr_vendor" => $vendor) : array()
-            );
+            if ( $listing->property->address !== null ) {
+                $link = SrUtils::buildDetailsLink(
+                    $listing,
+                    !empty($vendor) ? array("sr_vendor" => $vendor) : array()
+                );
+            } else {
+                $link = "javascript:void()";
+            }
 
 
             /**
