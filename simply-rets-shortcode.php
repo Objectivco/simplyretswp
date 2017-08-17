@@ -436,42 +436,36 @@ HTML;
         $new_property_types = array();
         $default_type_option      = '<option value="">Property Type</option>';
 
-        if (empty( $available_property_types )) {
-            $new_property_types = array("Single Family Home", "Condominium", "Rental" );
-        }
+        $available_property_types = array(
+            'Residential'   => 'Single Family Home',
+            'Condominium'   => 'Condominium',
+            'Land'  => 'Farm/Ranch',
+            'Multi-Family' => 'Multi-Family',
+            'Commercial'    => 'Commercial'
+        );
 
-        if (is_array( $available_property_types ) && ! empty( $available_property_types )) {
-            foreach ($available_property_types as $type) {
-                if ($type == 'Residential') {
-                    array_push( $new_property_types, 'Single Family Home' );
-                } elseif ($type == 'Farm') {
-                    array_push( $new_property_types, 'Farm/Ranch' );
-                } elseif ($type == 'Rental' || $type == 'Multi-Family') {
-                    continue;
+        if (is_array( $available_property_types )) {
+            // if (isset( $_GET['sr_ptype'] )) {
+            //     $ptype = $_GET['sr_ptype'];
+            //     var_dump($available_property_types[$ptype]);
+            //     $default_type_option = "<option value='$available_property_types[$ptype]' selected>$available_property_types[$ptype]</option>";
+            // } else {
+                
+            // }
+            $default_type_options = "<option value='' selected>Property Type</option>";
+            foreach ($available_property_types as $key => $value) {
+                if (is_array( $_GET['sr_ptype'] )) {
+                    $ptype = $_GET['sr_ptype'][0];
                 } else {
-                    array_push( $new_property_types, $type );
+                    $ptype = $_GET['sr_ptype'];
                 }
-            }
-        }
-
-        if ((is_array($config_type) == true) && isset($_GET['sr_ptype'])) {
-            $type_string = join(';', $config_type);
-            $default_type_option = "<option value='$type_string' selected>Property Type</option>";
-            foreach ($new_property_types as $key => $value) {
-                $type_options .= "<option value='$value' />$value</option>";
-            }
-        } elseif (strpos($config_type, ";") !== false) {
-            $default_type_option = "<option value='$config_type' selected>Property Type</option>";
-            foreach ($new_property_types as $key => $value) {
-                $type_options .= "<option value='$value' />$value</option>";
-            }
-        } else {
-            foreach ($new_property_types as $key => $value) {
-                if ($value == $config_type) {
-                    $type_options .= "<option value='$value' selected />$value</option>";
+                
+                if ($ptype == $key) {
+                    $selected = 'selected';
                 } else {
-                    $type_options .= "<option value='$value' />$value</option>";
+                    $selected = '';
                 }
+                $type_options .= "<option value='$key' $selected/>$value</option>";
             }
         }
 

@@ -581,6 +581,9 @@ class SimplyRetsCustomPostPages
                     $final = trim($ptype);
                     $ptypes_string .= "&type=$final";
                 }
+            } else {
+                $final = trim($p_types);
+                $ptypes_string .= "&type=$final";
             }
     
             /**
