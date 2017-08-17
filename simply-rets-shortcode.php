@@ -445,13 +445,6 @@ HTML;
         );
 
         if (is_array( $available_property_types )) {
-            // if (isset( $_GET['sr_ptype'] )) {
-            //     $ptype = $_GET['sr_ptype'];
-            //     var_dump($available_property_types[$ptype]);
-            //     $default_type_option = "<option value='$available_property_types[$ptype]' selected>$available_property_types[$ptype]</option>";
-            // } else {
-                
-            // }
             $default_type_options = "<option value='' selected>Property Type</option>";
             foreach ($available_property_types as $key => $value) {
                 if (is_array( $_GET['sr_ptype'] )) {
@@ -466,6 +459,20 @@ HTML;
                     $selected = '';
                 }
                 $type_options .= "<option value='$key' $selected/>$value</option>";
+            }
+        }
+
+        if (isset( $_GET['sr_cities'] ) && is_array( $_GET['sr_cities'] )) {
+            $cities = $_GET['sr_cities'];
+            foreach ($cities as $city) {
+                $citiesFields .= '<input type="hidden" name="sr_cities[]" value="' . $city . '" />';
+            }
+        }
+
+        if (isset( $_GET['sr_neighborhood'] ) && is_array( $_GET['sr_neighborhood'] )) {
+            $neighborhoods = $_GET['sr_neighborhood'];
+            foreach ($neighborhoods as $neighborhood) {
+                $neighborhoodFields .= '<input type="hidden" name="sr_neighborhood[]" value="' . $neighborhood . '" />';
             }
         }
 
@@ -692,6 +699,8 @@ HTML;
             <input type="hidden" name="sr_brokers" value="<?php echo $brokers; ?>" />
             <input type="hidden" name="sr_agent"   value="<?php echo $agent; ?>" />
             <input type="hidden" name="limit"      value="<?php echo $limit; ?>" />
+            <?php echo $citiesFields; ?>
+            <?php echo $neighborhoodFields; ?>
 
             <div>
                 <input class="submit button btn" type="submit" value="Search Properties">
