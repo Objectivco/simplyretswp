@@ -581,6 +581,17 @@ class SimplyRetsCustomPostPages
                     $final = trim($ptype);
                     $ptypes_string .= "&type=$final";
                 }
+            } elseif (empty($p_types)) {
+                $available_property_types = array(
+                    'Residential'   => 'Single Family Home',
+                    'Condominium'   => 'Condominium',
+                    'Land'  => 'Farm/Ranch',
+                    'Multi-Family' => 'Multi-Family',
+                    'Commercial'    => 'Commercial'
+                );
+                foreach ($available_property_types as $key => $value) {
+                    $ptypes_string .= "&type=$key";
+                }
             } else {
                 $final = trim($p_types);
                 $ptypes_string .= "&type=$final";
