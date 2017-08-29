@@ -402,6 +402,7 @@ HTML;
         $area       = array_key_exists('area', $atts) ? $atts['area']     : '';
         $adv_features      = isset($_GET['sr_features']) ? $_GET['sr_features'] : array();
         $adv_neighborhoods = isset($_GET['sr_neighborhoods']) ? $_GET['sr_neighborhoods']     : array();
+        $adv_areas = isset($_GET['sr_areas']) ? $_GET['sr_areas'] : array();
 
         /*
          * Get the initial values for `cities`. If a query parameter
@@ -500,9 +501,13 @@ HTML;
         }
 
         $adv_search_minor = SrShortcodes::obj_get_minor_areas();
-        var_dump($adv_search_minor);
+        foreach ((array)$adv_search_minor as $key => $area) {
+            $checked = in_array($area, (array)$adv_areas) ? 'selected="selected"' : '';
+            $area_options .= "<option value='$area' $checked>$area</option>";
+        }
 
-        $adv_search_neighborhoods= get_option("sr_adv_search_meta_neighborhoods_$vendor", array());
+        // $adv_search_neighborhoods= get_option("sr_adv_search_meta_neighborhoods_$vendor", array());
+        $adv_search_neighborhoods = SrShortcodes::obj_get_assigned_subdivisions();
         sort( $adv_search_neighborhoods );
         foreach ((array)$adv_search_neighborhoods as $key => $neighborhood) {
             $checked = in_array($neighborhood, (array)$adv_neighborhoods) ? 'selected="selected"' : '';
@@ -628,9 +633,16 @@ HTML;
                     </div>
 
                     <div class="sr-adv-search-col2">
-                      <label><strong>Locations</strong></label>
+                      <label>Neighborhoods</label>
+                      <select name="sr_areas[]" multiple>
+                            <?php echo $area_options; ?>
+                      </select>
+                    </div>
+
+                    <div class="sr-adv-search-col2">
+                      <label><strong>Subdivisions</strong></label>
                       <select name="sr_neighborhoods[]" multiple>
-                        <?php echo $location_options ?>
+                        <?php echo $location_options; ?>
                       </select>
                     </div>
                   </div>
@@ -789,5 +801,54 @@ HTML;
         if (! empty( $minorAreas )) {
             return $minorAreas;
         }
+    }
+
+    public static function array_flatten($array, $return)
+    {
+        for ($x = 0; $x <= count($array); $x++) {
+            if (is_array($array[$x])) {
+                $return = Self::array_flatten($array[$x], $return);
+            } else {
+                if (isset($array[$x])) {
+                    $return[] = $array[$x];
+                }
+            }
+        }
+        return $return;
+    }
+
+    public static function obj_get_assigned_subdivisions()
+    {
+        $aspen_minorAreas = get_option( 'options_aspen_neighborhood_groups' );
+        $snowmass_minorAreas = get_option( 'options_snowmass_neighborhood_groups' );
+        $subdivisions = array();
+
+        if ($aspen_minorAreas) {
+            for ($i=0; $i < $snowmass_minorAreas; $i++) {
+                $assignedSubs = get_option( 'options_aspen_neighborhood_groups_' . $i . '_subdivisions' );
+                array_push($subdivisions, $assignedSubs);
+            }
+        }
+
+        if ($snowmass_minorAreas) {
+            for ($i=0; $i < $snowmass_minorAreas; $i++) {
+                $assignedSubs = get_option( 'options_aspen_neighborhood_groups_' . $i . '_subdivisions' );
+                array_push($subdivisions, $assignedSubs);
+            }
+        }
+        
+        $flattendArray = array();
+        foreach ($subdivisions as $sub) {
+            if (is_array($sub)) {
+                foreach ($sub as $division) {
+                    $flattendArray[] = $division;
+                }
+            } else {
+                $flattenedArray[] = $sub;
+            }
+        }
+
+        $uniqueArray = array_unique( $flattendArray );
+        return $uniqueArray;
     }
 }

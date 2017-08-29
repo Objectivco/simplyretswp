@@ -659,7 +659,17 @@ class SimplyRetsCustomPostPages
                 }
             }
 
-            $neighborhoods = isset($_GET['sr_neighborhood']) ? $_GET['sr_neighborhood'] : '';
+            $areas = isset($_GET['sr_areas']) ? $_GET['sr_areas'] : '';
+            if (!empty($areas)) {
+                foreach ((array)$areas as $key => $area) {
+                    $subdivisions = SimplyRetsCustomPostPages::obj_get_subidivions_by_area( $area );
+                    foreach ((array)$subdivisions as $key => $sub) {
+                        $neighborhoods_string .= "&neighborhoods=$sub";
+                    }
+                }
+            }
+
+            $neighborhoods = isset($_GET['sr_neighborhoods']) ? $_GET['sr_neighborhoods'] : '';
             if (!empty($neighborhoods)) {
                 foreach ((array)$neighborhoods as $key => $neighborhood) {
                     $neighborhoods_string .= "&neighborhoods=$neighborhood";
@@ -764,7 +774,7 @@ class SimplyRetsCustomPostPages
                 $qs .= $neighborhoods_string;
                 $qs .= $statuses_string;
                 $qs .= $amenities_string;
-
+                
                 $qs = str_replace(' ', '%20', $qs);
                 $listings_content = SimplyRetsApiHelper::retrieveRetsListings( $qs );
 
@@ -866,6 +876,18 @@ class SimplyRetsCustomPostPages
         }
 
         return $posts;
+    }
+
+    public static function obj_get_subidivions_by_area($area)
+    {
+        if ($area && function_exists( 'have_rows' )) {
+            while (have_rows( 'aspen_neighborhood_groups', 'option' )) {
+                the_row();
+                if ($area == get_sub_field('name')) {
+                    return get_sub_field('subdivisions');
+                }
+            }
+        }
     }
 }
 ?>
