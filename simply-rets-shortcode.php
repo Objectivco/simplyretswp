@@ -478,12 +478,14 @@ HTML;
         // $adv_search_cities = get_option("sr_adv_search_meta_city_$vendor", array());
         // sort($adv_search_cities);
         $adv_search_cities = array(
-            'Aspen',
-            'Snowmass Village',
-            'Woody Creek',
-            'Snowmass',
-            'Basalt',
-            'Carbondale'
+            "Aspen",
+            "Basalt",
+            "Brushcreek Village",
+            "Carbondale",
+            "Missouri Heights",
+            "Old Snowmass",
+            "Snowmass Village",
+            "Woody Creek"
         );
 
         foreach ((array)$adv_search_cities as $key => $city) {
