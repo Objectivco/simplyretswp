@@ -688,6 +688,8 @@ class SimplyRetsCustomPostPages
                 $searchTitle_string .= "&sr_search_title=$searchTitle";
             }
 
+            $postId = isset($_GET['sr_post_id']) ? $_GET['sr_post_id'] : '';
+
             /**
              * Make a new array with all query parameters.
              *
@@ -756,6 +758,7 @@ class SimplyRetsCustomPostPages
 
                 $qs = str_replace(' ', '%20', $qs);
                 $listings_content = SimplyRetsApiHelper::retrieveRetsListings($qs, $settings);
+                $content .= SimplyRetsCustomPostPages::getSearchDescription( $postId );
                 $content .= do_shortcode( "[sr_search_form $filters_string]");
                 $content .= $listings_content;
                 return $content;
@@ -778,6 +781,7 @@ class SimplyRetsCustomPostPages
                 $qs = str_replace(' ', '%20', $qs);
                 $listings_content = SimplyRetsApiHelper::retrieveRetsListings( $qs );
 
+                $content .= SimplyRetsCustomPostPages::getSearchDescription( $postId );
                 $content .= do_shortcode( "[sr_search_form  advanced='True' $filters_string]");
                 $content .= $listings_content;
                 return $content;
@@ -888,6 +892,14 @@ class SimplyRetsCustomPostPages
                 }
             }
         }
+    }
+
+    public static function getSearchDescription($id)
+    {
+        $post = get_post( $id );
+        $content = $post->post_content;
+        $content = wpautop( $content );
+        return $content;
     }
 }
 ?>
