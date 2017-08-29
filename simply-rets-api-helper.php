@@ -1441,7 +1441,7 @@ HTML;
             $mapMarkup = '';
         }
 
-        $countMarkup = '<div class="PropertiesCount">' . $count . ' Properties</div>';
+        $countMarkup = '<div class="PropertiesCount">' . $count . ' Properties Returned</div>';
 
         if( $map_position == 'list_only' )
         {
