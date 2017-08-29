@@ -19,8 +19,8 @@ class SimplyRetsApiHelper {
             if ( $listing->property->type == "RNT" ) {
                 unset($request_response['response'][$key]);
             }
-        }   
-        $response_markup  = SimplyRetsApiHelper::srResidentialResultsGenerator( $request_response, $settings );
+        }
+        $response_markup  = SimplyRetsApiHelper::srResidentialResultsGenerator( $request_response, $settings, $request_count );
 
         return $response_markup;
     }
@@ -246,11 +246,13 @@ class SimplyRetsApiHelper {
 
             $pag_links = SimplyRetsApiHelper::srPaginationParser($header, 'Red Mountain Properties');
             $last_update = SimplyRetsApiHelper::srLastUpdateHeaderParser($header);
-
+            $count = SimplyRetsApiHelper::objGetResultsCount($header);
+            
             // decode the reponse body
             $response_array = json_decode( $body );
 
             $srResponse = array();
+            $srResponse['count'] = $count;
             $srResponse['pagination'] = $pag_links;
             $srResponse['lastUpdate'] = $last_update;
             $srResponse['response'] = $response_array;
@@ -313,12 +315,10 @@ class SimplyRetsApiHelper {
 
 
     public static function srPaginationParser( $linkHeader ) {
-
         // get link val from header
         $pag_links = array();
         preg_match('/^Link: ([^\r\n]*)[\r\n]*$/m', $linkHeader, $matches);
         unset($matches[0]);
-    
         foreach( $matches as $key => $val ) {
             $parts = explode( ",", $val );
             foreach( $parts as $key => $part ) {
@@ -379,6 +379,10 @@ class SimplyRetsApiHelper {
         return $pag_links;
     }
 
+    public static function objGetResultsCount( $headers ) {
+        preg_match('/^X-Total-Count: ([^\r\n]*)[\r\n]*$/m', $headers, $matches);
+        return $matches[1];
+    }
 
     public static function simplyRetsClientCss() {
         // client side css
@@ -1214,11 +1218,12 @@ HTML;
     }
 
 
-    public static function srResidentialResultsGenerator( $response, $settings ) {
+    public static function srResidentialResultsGenerator( $response, $settings, $count ) {
         $br                = "<br>";
         $cont              = "";
         $pagination        = $response['pagination'];   // get pagination links out of response
         $lastUpdate        = $response['lastUpdate'];   // get lastUpdate time out of response
+        $count             = $response['count'];
         $response          = $response['response'];     // get listing data out of response
         $map_position      = get_option('sr_search_map_position', 'list_only');
         $show_listing_meta = SrUtils::srShowListingMeta();
@@ -1436,8 +1441,11 @@ HTML;
             $mapMarkup = '';
         }
 
+        $countMarkup = '<div class="PropertiesCount">' . $count . ' Properties</div>';
+
         if( $map_position == 'list_only' )
         {
+            $cont .= $countMarkup;
             $cont .= '<div class="Properties">';
             $cont .= $resultsMarkup;
             $cont .= '</div>';

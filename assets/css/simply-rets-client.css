@@ -37,8 +37,8 @@ sizes with this class.
 
 */
 .sr-listing {
-    position: relative;
-    display: block;
+	position: relative;
+	display: block;
 }
 
 /*
@@ -60,15 +60,15 @@ of the image, use this class.
 
 */
 .sr-photo {
-    position: relative;
-    display: inline-block;
-    float: left;
-    height: 155px;
-    width: 30%;
-    overflow: hidden;
-    background-size: contain;
-    background-position: center center;
-    background-repeat: no-repeat;
+	position: relative;
+	display: inline-block;
+	float: left;
+	height: 155px;
+	width: 30%;
+	overflow: hidden;
+	background-size: contain;
+	background-position: center center;
+	background-repeat: no-repeat;
 }
 
 /*
@@ -101,15 +101,15 @@ color is a light grey. This is very simply to change by setting:
 
 */
 .sr-primary-data {
-    width: 70%;
-    display: inline-block;
-    vertical-align: top;
-    background-color: #eee;
+	width: 70%;
+	display: inline-block;
+	vertical-align: top;
+	background-color: #eee;
 }
 .sr-primary-data h4 {
-    padding-left: 15px;
-    margin-top: 10px !important;
-    margin-bottom: 10px !important;
+	padding-left: 15px;
+	margin-top: 10px !important;
+	margin-bottom: 10px !important;
 }
 
 /*
@@ -170,10 +170,10 @@ is to change the `margin-left` property to align better in some themes.
 
 */
 .sr-secondary-data {
-    display: inline-block;
-    vertical-align: top;
-    padding-top: 10px;
-    width: 70%;
+	display: inline-block;
+	vertical-align: top;
+	padding-top: 10px;
+	width: 70%;
 }
 
 /*
@@ -183,10 +183,10 @@ secondary data. For example, set the `.sr-data-column` to
 `display: block` to make the two columns into one.
 */
 .sr-data-column {
-    display: inline-block;
-    margin: 0px 0px 10px 15px !important;
-    vertical-align: top;
-    min-width: 15%;
+	display: inline-block;
+	margin: 0px 0px 10px 15px !important;
+	vertical-align: top;
+	min-width: 15%;
 }
 
 /*
@@ -208,11 +208,11 @@ for the whole page with this class.
 */
 
 .sr-details {
-    margin-top: 15px;
+	margin-top: 15px;
 }
 
 .sr-details th {
-    background-color: #eee;
+	background-color: #eee;
 }
 
 /*
@@ -244,10 +244,10 @@ without affecting the overall look of the section.
 ```
 */
 .sr-primary-details {
-    display: flex;
-    justify-content: space-between;
-    clear: both;
-    padding-top: 15px;
+	display: flex;
+	justify-content: space-between;
+	clear: both;
+	padding-top: 15px;
 }
 
 /*
@@ -277,25 +277,25 @@ the class or the id, depending on what you need.
 ```
 */
 .sr-primary-details .sr-detail {
-    text-align: center;
-    width: 100%;
-    padding-left: 5px;
-    padding-right: 5px;
-    border-left: solid 1px #eee;
-    border-right: solid 1px #eee;
-    border-bottom: solid 1px #eee;
+	text-align: center;
+	width: 100%;
+	padding-left: 5px;
+	padding-right: 5px;
+	border-left: solid 1px #eee;
+	border-right: solid 1px #eee;
+	border-bottom: solid 1px #eee;
 }
 
 .sr-remarks-details {
-    border-left: solid 1px #eee;
-    border-right: solid 1px #eee;
-    padding-left: 15px;
-    padding-right: 15px;
-    padding-top: 15px;
+	border-left: solid 1px #eee;
+	border-right: solid 1px #eee;
+	padding-left: 15px;
+	padding-right: 15px;
+	padding-top: 15px;
 }
 
 .sr-remarks-details p {
-    line-height: 20px !important;
+	line-height: 20px !important;
 }
 
 /*
@@ -338,68 +338,68 @@ standard class names like `button` and `btn`.
 ```
 */
 .sr-listing-wdgt {
-    padding-left: 10px;
-    padding-right: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
 }
 
 .sr-listing-wdgt hr {
-    border: solid 1px #dedede;
-    margin-top: 10px;
-    margin-bottom: 10px;
+	border: solid 1px #dedede;
+	margin-top: 10px;
+	margin-bottom: 10px;
 }
 
 #sr-listing-wdgt-details {
-    text-align: center;
-    color: #333;
-    margin-top: 5px;
-    margin-bottom: -5px;
+	text-align: center;
+	color: #333;
+	margin-top: 5px;
+	margin-bottom: -5px;
 }
 #sr-listing-wdgt-remarks {
-    line-height: 1.5em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    height: 4.6em;
+	line-height: 1.5em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	height: 4.6em;
 }
 
 #sr-listing-wdgt-btn {
-    text-align: center;
-    margin-top: 5px;
-    margin-bottom: 10px !important;
+	text-align: center;
+	margin-top: 5px;
+	margin-bottom: 10px !important;
 }
 
 /**
  * SimplyRETS Search Form Widget
  */
 .sr-search-widget {
-    text-align: center;
+	text-align: center;
 }
 
 .sr-search-widget #sr-search-ptype {
-    width: 100%;
-    display: block;
+	width: 100%;
+	display: block;
 }
 
 .sr-search-widget #sr-search-keywords {
-    float: left;
-    width: 90%;
-    margin-bottom: 10px;
+	float: left;
+	width: 90%;
+	margin-bottom: 10px;
 }
 
 .sr-search-widget #sr-search-ptype select {
-    width: 90%;
+	width: 90%;
 }
 
 .sr-search-widget-field {
-    display: inline-block;
-    margin-top: 10px;
+	display: inline-block;
+	margin-top: 10px;
 }
 
 .sr-search-widget-filters .sr-search-widget-field {
-    width: 49% !important;
+	width: 49% !important;
 }
 
 .sr-search-widget .btn {
-    margin-top: 10px;
+	margin-top: 10px;
 }
 
 /*
@@ -470,41 +470,41 @@ Most of these elements also have id's for you to use specifically.
 */
 
 #sr-search-wrapper {
-    padding: 0px;
-    padding-top: 0px;
-    padding-bottom: 15px;
+	padding: 0px;
+	padding-top: 0px;
+	padding-bottom: 15px;
 }
 
 #sr-search-wrapper form {
-    margin-bottom: 0px;
-    clear: both;
+	margin-bottom: 0px;
+	clear: both;
 }
 
 #sr-search-wrapper h3 {
-    margin-top: 0px;
+	margin-top: 0px;
 }
 
 .sr-minmax-filters {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    margin-bottom: 10px;
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-bottom: 10px;
 }
 
 #sr-search-keywords {
-    width: 70%;
+	width: 70%;
 }
 #sr-search-keywords input {
-    width: 100%;
+	width: 100%;
 }
 
 #sr-search-ptype {
-    width: 25%;
-    text-align: left;
+	width: 25%;
+	text-align: left;
 }
 #sr-search-ptype select {
-    width: 90%;
-    vertical-align: middle;
+	width: 90%;
+	vertical-align: middle;
 }
 
 #sr-search-minprice,
@@ -513,7 +513,7 @@ Most of these elements also have id's for you to use specifically.
 #sr-search-maxbaths,
 #sr-search-minbeds,
 #sr-search-maxbeds {
-    text-align: left;
+	text-align: left;
 }
 
 #sr-search-minprice input,
@@ -522,14 +522,14 @@ Most of these elements also have id's for you to use specifically.
 #sr-search-maxbaths input,
 #sr-search-minbeds input,
 #sr-search-maxbeds input {
-    width: 85%;
+	width: 85%;
 }
 .sr-search-field {
-    display: inline-block;
+	display: inline-block;
 }
 
 #sr-search-wrapper .submit {
-    margin-top: 10px;
+	margin-top: 10px;
 }
 
 /*
@@ -560,440 +560,450 @@ elsewhere, this should be a breeze.
 
 */
 .sr-slider {
-    max-width: 650px;
-    width: 100%;
-    position: relative;
-    padding-top: 485px;
-    margin: 10px auto;
-    background-color: transparent;
-    transition: all 0.5s;
+	max-width: 650px;
+	width: 100%;
+	position: relative;
+	padding-top: 485px;
+	margin: 10px auto;
+	background-color: transparent;
+	transition: all 0.5s;
 }
 
 .sr-slider > img {
-    position: absolute;
-    left: 0;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    margin: auto;
-    width: 100%;
-    height: auto;
-    max-height: 485px;
-    box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.75);
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	margin: auto;
+	width: 100%;
+	height: auto;
+	max-height: 485px;
+	box-shadow: 0 5px 15px -5px rgba(0, 0, 0, 0.75);
 }
 
-.sr-slider input[name='slide_switch'] {
-    display: none;
+.sr-slider input[name="slide_switch"] {
+	display: none;
 }
 
 .sr-slider label {
-    margin: 18px 0 0 18px;
-    border: 3px solid #999;
-    float: left;
-    cursor: pointer;
-    transition: all 0.5s;
-    opacity: 0.6;
-    height: 65px;
-    overflow: hidden;
-    clear: right;
-    display: none;
+	margin: 18px 0 0 18px;
+	border: 3px solid #999;
+	float: left;
+	cursor: pointer;
+	transition: all 0.5s;
+	opacity: 0.6;
+	height: 65px;
+	overflow: hidden;
+	clear: right;
+	display: none;
 }
 
-.sr-slider input[name='slide_switch']:checked + label {
-    border-color: #666;
-    opacity: 1;
+.sr-slider input[name="slide_switch"]:checked + label {
+	border-color: #666;
+	opacity: 1;
 }
-.sr-slider input[name='slide_switch'] ~ img {
-    opacity: 0;
-    transform: scale(1.1);
+.sr-slider input[name="slide_switch"] ~ img {
+	opacity: 0;
+	transform: scale(1.1);
 }
-.sr-slider input[name='slide_switch']:checked + label + img {
-    opacity: 1;
-    transform: scale(1);
+.sr-slider input[name="slide_switch"]:checked + label + img {
+	opacity: 1;
+	transform: scale(1);
 }
 
 .sr-details-links {
-    text-align: right;
-    margin-top: -15px !important;
-    margin-bottom: 0px !important;
+	text-align: right;
+	margin-top: -15px !important;
+	margin-bottom: 0px !important;
 }
 #sr-toggle-gallery {
-    clear: both;
-    cursor: pointer;
+	clear: both;
+	cursor: pointer;
 }
 .sr-gallery {
-    margin-top: 20px;
-    margin-bottom: 20px;
+	margin-top: 20px;
+	margin-bottom: 20px;
 }
 
 .galleria-errors {
-    display: none !important;
+	display: none !important;
 }
 
 /**
   * Advanced Search Form
   */
 .sr-adv-search-wrap {
-    background-color: #f8f8f8;
-    border: solid 1px #e7e7e7;
-    border-radius: 2px;
-    padding: 10px;
+	background-color: #f8f8f8;
+	border: solid 1px #e7e7e7;
+	border-radius: 2px;
+	padding: 10px;
 }
 
 .sr-adv-search-part {
-    margin-bottom: 10px;
+	margin-bottom: 10px;
 }
 
 .sr-adv-search-part label {
-    display: block;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
+	display: block;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
 
 .sr-adv-search-wrap .sr-minmax-filters {
-    margin-bottom: 0px;
+	margin-bottom: 0px;
 }
 
 /** Single Column */
 .sr-adv-search-part .sr-adv-search-col1 {
-    padding: 5px 10px;
+	padding: 5px 10px;
 }
 
 /** Half Column */
 .sr-adv-search-part .sr-adv-search-col2 {
-    display: inline-block;
-    width: 50%;
-    padding: 5px 10px;
+	display: inline-block;
+	width: 50%;
+	padding: 5px 10px;
 }
 
 .sr-adv-search-part .sr-adv-search-col2 input {
-    display: inline-block;
-    width: 45%;
+	display: inline-block;
+	width: 45%;
 }
 
 .sr-adv-search-part .sr-adv-search-col2 select {
-    width: 100%;
+	width: 100%;
 }
 
 /** Quarter Column */
 .sr-adv-search-part .sr-adv-search-col4 {
-    display: inline-block;
-    width: 25%;
-    padding: 5px 10px;
+	display: inline-block;
+	width: 25%;
+	padding: 5px 10px;
 }
 .sr-adv-search-part .sr-adv-search-col4 select {
-    width: 100%;
+	width: 100%;
 }
 .sr-adv-search-part .sr-adv-search-col4 input {
-    width: 95%;
+	width: 95%;
 }
 
 .sr-adv-search-amenities-wrapper {
-    padding: 5px 10px;
+	padding: 5px 10px;
 }
 
 .sr-adv-search-amenities-wrapper-inner {
-    padding: 10px;
-    padding-top: 0px;
-    max-height: 125px;
-    overflow-y: scroll;
-    border: solid 1px #ccc;
-    border-radius: 4px;
-    background-color: white;
+	padding: 10px;
+	padding-top: 0px;
+	max-height: 125px;
+	overflow-y: scroll;
+	border: solid 1px #ccc;
+	border-radius: 4px;
+	background-color: white;
 }
 
 .sr-adv-search-amenities-wrapper-inner .sr-adv-search-option input {
-    margin-right: 5px;
+	margin-right: 5px;
 }
 
 .sr-adv-search-part li {
-    display: inline-block;
-    width: 25%;
+	display: inline-block;
+	width: 25%;
 }
 
 .sr-sort-wrapper {
-    display: inline-block;
-    float: right;
-    margin: 10px 25px 0px 0px;
+	display: inline-block;
+	float: right;
+	margin: 10px 25px 0px 0px;
 }
 
 @media screen and (max-width: 360px) {
-    .sr-adv-search-part li {
-        width: 50%;
-    }
-    .sr-adv-search-part #sr-search-keywords {
-        width: 100%;
-    }
-    .sr-adv-search-part #sr-search-ptype {
-        width: 100%;
-        margin-top: 10px;
-    }
-    .sr-adv-search-part #sr-search-ptype select {
-        width: 100%;
-    }
-    /* 1/2 Columns Responsiveness */
-    .sr-adv-search-part .sr-adv-search-col2 {
-        width: 100%;
-    }
-    .sr-adv-search-part .sr-adv-search-col2 input {
-        width: 49%;
-    }
-    /* 1/4 Columns Responsiveness */
-    .sr-adv-search-part .sr-adv-search-col4 {
-        width: 49%;
-    }
-    /* Features checkboxes Responsiveness */
-    .sr-adv-search-part .sr-adv-search-option {
-        width: 50%;
-    }
+	.sr-adv-search-part li {
+		width: 50%;
+	}
+	.sr-adv-search-part #sr-search-keywords {
+		width: 100%;
+	}
+	.sr-adv-search-part #sr-search-ptype {
+		width: 100%;
+		margin-top: 10px;
+	}
+	.sr-adv-search-part #sr-search-ptype select {
+		width: 100%;
+	}
+	/* 1/2 Columns Responsiveness */
+	.sr-adv-search-part .sr-adv-search-col2 {
+		width: 100%;
+	}
+	.sr-adv-search-part .sr-adv-search-col2 input {
+		width: 49%;
+	}
+	/* 1/4 Columns Responsiveness */
+	.sr-adv-search-part .sr-adv-search-col4 {
+		width: 49%;
+	}
+	/* Features checkboxes Responsiveness */
+	.sr-adv-search-part .sr-adv-search-option {
+		width: 50%;
+	}
 }
 
 /*
  * Responsive CSS
 */
 @media screen and (max-width: 360px) {
-    /*
+	/*
      * Search results
      */
-    .sr-photo {
-        display: block;
-        width: 100%;
-    }
-    .sr-primary-data {
-        display: block;
-        width: 100%;
-        padding-top: 5px;
-        padding-bottom: 5px;
-        clear: both;
-    }
-    .sr-primary-data h4 {
-        padding-right: 15px;
-    }
-    .sr-secondary-data {
-        display: block;
-        width: 100%;
-    }
-    /*
+	.sr-photo {
+		display: block;
+		width: 100%;
+	}
+	.sr-primary-data {
+		display: block;
+		width: 100%;
+		padding-top: 5px;
+		padding-bottom: 5px;
+		clear: both;
+	}
+	.sr-primary-data h4 {
+		padding-right: 15px;
+	}
+	.sr-secondary-data {
+		display: block;
+		width: 100%;
+	}
+	/*
      * Search form
      */
-    .sr-minmax-filters {
-        display: block;
-    }
-    #sr-search-ptype {
-        width: 85%;
-    }
+	.sr-minmax-filters {
+		display: block;
+	}
+	#sr-search-ptype {
+		width: 85%;
+	}
 }
 
 /**
  * Map styling
  */
 #sr_map_canvas img {
-    max-width: none !important;
+	max-width: none !important;
 }
 
 .sr-iw-inner {
-    max-width: 325px;
-    min-width: 250px;
+	max-width: 325px;
+	min-width: 250px;
 }
 
 .sr-iw-inner__img {
-    text-align: center !important;
-    max-width: 95%;
-    margin: auto;
+	text-align: center !important;
+	max-width: 95%;
+	margin: auto;
 }
 
 .sr-iw-inner__img #sr-iw-inner__img-img {
-    max-width: 100% !important;
-    max-height: 170px !important;
-    box-shadow: 0px 0px 3px #8b9293;
+	max-width: 100% !important;
+	max-height: 170px !important;
+	box-shadow: 0px 0px 3px #8b9293;
 }
 
 #sr-iw-inner__img-img {
-    max-width: 100% !important;
-    max-height: 170px !important;
-    box-shadow: 0px 0px 3px #8b9293;
+	max-width: 100% !important;
+	max-height: 170px !important;
+	box-shadow: 0px 0px 3px #8b9293;
 }
 
 .leaflet-popup-content {
-    margin: 10px;
+	margin: 10px;
 }
 
 .leaflet-popup-content #sr-iw-inner__img-img {
-    max-width: 100% !important;
+	max-width: 100% !important;
 }
 
 .sr-iw-inner__primary {
-    text-align: center;
-    font-size: 18px;
+	text-align: center;
+	font-size: 18px;
 }
 .sr-iw-inner__primary p {
-    margin-bottom: 5px !important;
+	margin-bottom: 5px !important;
 }
 
 .sr-iw-inner hr {
-    margin-top: 3px;
-    margin-bottom: 3px;
+	margin-top: 3px;
+	margin-bottom: 3px;
 }
 
 .sr-iw-inner__secondary p {
-    margin-bottom: 3px !important;
+	margin-bottom: 3px !important;
 }
 
 .sr-iw-addr {
-    margin-top: 5px !important;
-    margin-bottom: 5px !important;
-    line-height: 1em !important;
-    font-size: 23px !important;
+	margin-top: 5px !important;
+	margin-bottom: 5px !important;
+	line-height: 1em !important;
+	font-size: 23px !important;
 }
 
 /** Listing Slider */
 .sr-listing-slider-item {
-    padding: 10px;
-    text-align: center;
+	padding: 10px;
+	text-align: center;
 }
 
 .sr-listing-slider-item-img {
-    height: 170px;
-    background-size: contain;
-    background-position: center;
-    background-repeat: no-repeat;
+	height: 170px;
+	background-size: contain;
+	background-position: center;
+	background-repeat: no-repeat;
 }
 
 .sr-listing-slider-item-address {
-    margin-top: 10px;
+	margin-top: 10px;
 }
 
 .sr-listing-slider-item-price,
 .sr-listing-slider-item-specs {
-    margin-bottom: 5px !important;
-    text-align: center;
+	margin-bottom: 5px !important;
+	text-align: center;
 }
 
 /**
  * Interactive Map Search
  */
 #sr-map-search {
-    width: 100%;
-    height: 550px;
-    margin-bottom: 25px;
+	width: 100%;
+	height: 550px;
+	margin-bottom: 25px;
 }
 
 #sr-map-search img {
-    margin: auto;
+	margin: auto;
 }
 
 /**
  * New Owl Carousel
  */
 .SingleProperty-gallery {
-    margin-bottom: 20px;
+	margin-bottom: 20px;
 }
 .SingleProperty-gallery.owl-carousel .owl-item {
-    overflow: hidden;
+	overflow: hidden;
 }
 
 .SingleProperty-gallery.owl-carousel .owl-item img {
-    width: auto !important;
+	width: auto !important;
 }
 
 .SingleProperty-galleryItem {
-    position: relative;
-    height: 500px;
-    overflow: hidden;
+	position: relative;
+	height: 500px;
+	overflow: hidden;
 }
 
 .SingleProperty-galleryItem > img {
-    position: absolute;
-    vertical-align: middle;
-    max-width: 100%;
-    min-width: 50%;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+	position: absolute;
+	vertical-align: middle;
+	max-width: 100%;
+	min-width: 50%;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 .SingleProperty-galleryItem-bg {
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    -webkit-background-size: contain;
-    background-size: contain;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	-webkit-background-size: contain;
+	background-size: contain;
 }
 
 .SingleProperty-galleryItem-bg > img {
-    min-width: 105%;
-    min-height: 105%;
-    opacity: 0.8;
-    filter: blur(10px);
+	min-width: 105%;
+	min-height: 105%;
+	opacity: 0.8;
+	filter: blur(10px);
 }
 
 .SingleProperty-gallery.owl-carousel .owl-nav {
-    display: flex;
-    opacity: 0.6;
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    transition: opacity 0.5s ease-in-out;
-    width: 100%;
+	display: flex;
+	opacity: 0.6;
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	transition: opacity 0.5s ease-in-out;
+	width: 100%;
 }
 
 .SingleProperty-gallery.owl-carousel:hover .owl-nav {
-    opacity: 1;
+	opacity: 1;
 }
 
 .SingleProperty-galleryNav {
-    background: rgba(0, 0, 0, 0.7);
-    display: block;
-    height: 60px;
-    width: 60px;
-    position: relative;
+	background: rgba(0, 0, 0, 0.7);
+	display: block;
+	height: 60px;
+	width: 60px;
+	position: relative;
 }
 
 .SingleProperty-galleryNav:after {
-    background-size: contain;
-    content: "";
-    display: block;
-    height: 20px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 20px;
+	background-size: contain;
+	content: "";
+	display: block;
+	height: 20px;
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	width: 20px;
 }
 
-.SingleProperty-gallery.owl-carousel .owl-nav .owl-next .SingleProperty-galleryNav:after {
-    background-image: url('../img/arrow-right.svg');
+.SingleProperty-gallery.owl-carousel
+	.owl-nav
+	.owl-next
+	.SingleProperty-galleryNav:after {
+	background-image: url("../img/arrow-right.svg");
 }
 
-.SingleProperty-gallery.owl-carousel .owl-nav .owl-prev .SingleProperty-galleryNav:after {
-    background-image: url('../img/arrow-left.svg');
+.SingleProperty-gallery.owl-carousel
+	.owl-nav
+	.owl-prev
+	.SingleProperty-galleryNav:after {
+	background-image: url("../img/arrow-left.svg");
 }
 
 .SingleProperty-gallery.owl-carousel .owl-nav .owl-next {
-    margin-left: auto;
+	margin-left: auto;
 }
 
 .owl-dots {
-    background: rgba(0, 0, 0, 0.7);
-    color: #fff;
-    counter-reset: dots;
-    font-size: 13px;
-    padding: 5px 10px;
-    position: absolute;
-    top: 30px;
-    right: 30px;
+	background: rgba(0, 0, 0, 0.7);
+	color: #fff;
+	counter-reset: dots;
+	font-size: 13px;
+	padding: 5px 10px;
+	position: absolute;
+	top: 30px;
+	right: 30px;
 }
 
 .owl-dots:after {
-    content: counter(dots) " Photos";
+	content: counter(dots) " Photos";
 }
 
 .owl-dot {
-    counter-increment: dots;
-    display: inline;
+	counter-increment: dots;
+	display: inline;
 }
 
 .owl-dot.active:before {
-    content: counter(dots) "/";
+	content: counter(dots) "/";
+}
+
+.PropertiesCount {
+	float: right;
 }
