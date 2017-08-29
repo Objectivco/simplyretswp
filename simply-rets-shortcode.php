@@ -376,8 +376,6 @@ HTML;
 
         /** Configuration Parameters (shortcode attributes) */
         $vendor  = isset($atts['vendor'])  ? $atts['vendor']  : '';
-        $brokers = isset($atts['brokers']) ? $atts['brokers'] : '';
-        $agent   = isset($atts['agent'])   ? $atts['agent']   : '';
         $limit   = isset($atts['limit'])   ? $atts['limit']   : '';
         $config_type = isset($atts['type']) ? $atts['type']   : '';
 
@@ -536,6 +534,7 @@ HTML;
                     <!-- Keyword / Property Type -->
                     <div class="sr-minmax-filters">
                       <div class="sr-search-field" id="sr-search-keywords">
+                        <label>Keyword Search</label>
                         <input name="sr_keywords"
                                type="text"
                                placeholder="Property Address, Subdivision, Zipcode, MLS Area, MLS Number, or Market Area"
@@ -543,6 +542,7 @@ HTML;
                       </div>
 
                       <div class="sr-search-field" id="sr-search-ptype">
+                        <label>Property Type</label>
                         <select name="sr_ptype">
                             <?php echo $default_type_option; ?>
                             <?php echo $type_options; ?>
@@ -668,6 +668,7 @@ HTML;
 
             <div class="sr-minmax-filters">
               <div class="sr-search-field" id="sr-search-keywords">
+                <label>Keyword Search</label>
                 <input name="sr_keywords"
                        type="text"
                        placeholder="Property Address, Subdivision, Zipcode, MLS Area, MLS Number, or Market Area"
@@ -675,6 +676,7 @@ HTML;
               </div>
 
               <div class="sr-search-field" id="sr-search-ptype">
+                <label>Property Search</label>
                 <select name="sr_ptype">
                     <?php echo $default_type_option; ?>
                     <?php echo $type_options; ?>
@@ -684,13 +686,16 @@ HTML;
 
             <div class="sr-minmax-filters">
               <div class="sr-search-field" id="sr-search-minprice">
+                <label>Min. Price</label>
                 <input name="sr_minprice" step="500000" min="0" type="number" value="<?php echo $minprice; ?>" placeholder="Min Price.." />
               </div>
               <div class="sr-search-field" id="sr-search-maxprice">
+                <label>Max Price</label>
                 <input name="sr_maxprice" step="500000" min="0" type="number" value="<?php echo $maxprice; ?>" placeholder="Max Price.." />
               </div>
 
               <div class="sr-search-field" id="sr-search-minbeds">
+                <label>Min. Beds</label>
                 <input name="sr_minbeds" min="0" type="number" value="<?php echo $minbeds; ?>" placeholder="Min Beds.." />
               </div>
             </div>
