@@ -474,8 +474,17 @@ HTML;
             }
         }
 
-        $adv_search_cities = get_option("sr_adv_search_meta_city_$vendor", array());
-        sort($adv_search_cities);
+        // $adv_search_cities = get_option("sr_adv_search_meta_city_$vendor", array());
+        // sort($adv_search_cities);
+        $adv_search_cities = array(
+            'Aspen',
+            'Snowmass Village',
+            'Woody Creek',
+            'Snowmass',
+            'Basalt',
+            'Carbondale'
+        );
+
         foreach ((array)$adv_search_cities as $key => $city) {
             $checked = in_array($city, (array)$adv_cities) ? 'selected="selected"' : '';
             $city_options .= "<option value='$city' $checked>$city</option>";
