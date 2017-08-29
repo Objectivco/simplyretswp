@@ -499,6 +499,9 @@ HTML;
             }
         }
 
+        $adv_search_minor = SrShortcodes::obj_get_minor_areas();
+        var_dump($adv_search_minor);
+
         $adv_search_neighborhoods= get_option("sr_adv_search_meta_neighborhoods_$vendor", array());
         sort( $adv_search_neighborhoods );
         foreach ((array)$adv_search_neighborhoods as $key => $neighborhood) {
@@ -759,5 +762,32 @@ HTML;
         echo $slider;
 
         return ob_get_clean();
+    }
+
+    public static function obj_get_minor_areas()
+    {
+        $aspen_minorAreas = get_option( 'options_aspen_neighborhood_groups' );
+        $snowmass_minorAreas = get_option( 'options_snowmass_neighborhood_groups' );
+        $minorAreas = array();
+
+        if ($aspen_minorAreas) {
+            for ($i=0; $i < $aspen_minorAreas; $i++) {
+                $area = get_option( 'options_aspen_neighborhood_groups_' . $i . '_name' );
+                array_push( $minorAreas, $area );
+            }
+        }
+
+        if ($snowmass_minorAreas) {
+            for ($i=0; $i < $snowmass_minorAreas; $i++) {
+                $area = get_option( 'options_snowmass_neighborhood_groups_' . $i . '_name' );
+                array_push( $minorAreas, $area);
+            }
+        }
+
+        sort($minorAreas);
+
+        if (! empty( $minorAreas )) {
+            return $minorAreas;
+        }
     }
 }
