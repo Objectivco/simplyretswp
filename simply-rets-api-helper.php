@@ -786,10 +786,6 @@ HTML;
                 'val'    => $listing->property->heating
             ),
             array(
-                'key'    => 'Showing Instructions',
-                'val'    => $listing->showingInstructions
-            ),
-            array(
                 'key'    => 'Carport',
                 'val'    => ''
             ),
