@@ -596,7 +596,7 @@ class SimplyRetsCustomPostPages
                 $final = trim($p_types);
                 $ptypes_string .= "&type=$final";
             }
-    
+
             /**
              * Format the 'status' parameter.
              * Note that the 'status' might come in as an Array or a
@@ -686,7 +686,7 @@ class SimplyRetsCustomPostPages
                     $neighborhoods_string .= "&neighborhoods=$neighborhood";
                 }
             }
-            
+
             $amenities = isset($_GET['sr_amenities']) ? $_GET['sr_amenities'] : '';
             if (!empty($amenities)) {
                 foreach ((array)$amenities as $key => $amenity) {
@@ -694,7 +694,7 @@ class SimplyRetsCustomPostPages
                 }
             }
             $searchTitle = isset($_GET['sr_search_title']) ? $_GET['sr_search_title'] : '';
-            
+
             if (! empty( $searchTitle )) {
                 $searchTitle_string .= "&sr_search_title=$searchTitle";
             }
@@ -788,7 +788,7 @@ class SimplyRetsCustomPostPages
                 $qs .= $neighborhoods_string;
                 $qs .= $statuses_string;
                 $qs .= $amenities_string;
-                
+
                 $qs = str_replace(' ', '%20', $qs);
                 $listings_content = SimplyRetsApiHelper::retrieveRetsListings( $qs );
 

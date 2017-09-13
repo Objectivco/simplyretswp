@@ -451,7 +451,7 @@ HTML;
                 } else {
                     $ptype = $_GET['sr_ptype'];
                 }
-                
+
                 if ($ptype == $key) {
                     $selected = 'selected';
                 } else {
@@ -697,6 +697,12 @@ HTML;
             </div>
 
             <div class="sr-minmax-filters">
+              <div class="sr-adv-search-col2">
+                <label><strong>Cities</strong></label>
+                <select name='sr_cities[]' multiple>
+                    <?php echo $city_options ?>
+                </select>
+              </div>
               <div class="sr-search-field" id="sr-search-minprice">
                 <label>Min. Price</label>
                 <input name="sr_minprice" step="500000" min="0" type="number" value="<?php echo $minprice; ?>" placeholder="Min Price.." />
@@ -824,7 +830,7 @@ HTML;
                 array_push($subdivisions, $assignedSubs);
             }
         }
-        
+
         $flattendArray = array();
         foreach ($subdivisions as $sub) {
             if (is_array($sub)) {
