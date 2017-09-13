@@ -391,8 +391,11 @@ class SimplyRetsApiHelper {
         wp_enqueue_style('simply-rets-client-css');
 
         // listings slider css
-        wp_register_style('simply-rets-carousel',
-                          plugins_url('assets/owl/dist/assets/owl.carousel.min.css', __FILE__));
+        wp_register_style('simply-rets-carousel', plugins_url('assets/owl/dist/assets/owl.carousel.min.css', __FILE__));
+        wp_enqueue_style('simply-rets-carousel');
+
+        // listings slider css
+        wp_register_style('simply-rets-slick', plugins_url('assets/slick/slick/slick.min.css', __FILE__));
         wp_enqueue_style('simply-rets-carousel');
 
         // listings slider css
@@ -412,6 +415,11 @@ class SimplyRetsApiHelper {
         // listings slider js
         wp_register_script('simply-rets-carousel',
                            plugins_url('assets/owl/dist/owl.carousel.min.js', __FILE__),
+                           array('jquery'));
+        wp_enqueue_script('simply-rets-carousel');
+
+        wp_register_script('simply-rets-slick-js',
+                           plugins_url('assets/slick/slick/slick.min.js', __FILE__),
                            array('jquery'));
         wp_enqueue_script('simply-rets-carousel');
 
@@ -944,81 +952,87 @@ HTML;
         ?>
         <div class="PropertyDetails">
             <div class="SingleProperty" itemscope itemtype="http://schema.org/Product">
-              <link itemprop="additionalType" href="http://www.productontology.org/id/Real_estate">
-              <div class="SingleProperty-gallery owl-carousel owl-theme">
-                  <?php foreach ( $listing->photos as $photo ): ?>
-                      <div class="SingleProperty-galleryItem item">
-                          <div class="SingleProperty-galleryItem-bg">
-                              <img src="<?php echo $photo; ?>" />
-                          </div>
-                          <img src="<?php echo $photo; ?>" />
-                      </div>
-                  <?php endforeach; ?>
-              </div>
-              <script type="text/javascript">
-                jQuery(document).ready(function() {
-                    jQuery('.SingleProperty-gallery').owlCarousel({
-                        items: 1,
-                        nav: true,
-                        dots: true,
-                        loop: true,
-                        navText: ["<span class='SingleProperty-galleryNav'></span>","<span class='SingleProperty-galleryNav'></span>"]
+                <link itemprop="additionalType" href="http://www.productontology.org/id/Real_estate">
+                <div class="SingleProperty-gallery">
+                    <?php foreach ( $listing->photos as $photo ): ?>
+                    <div class="SingleProperty-galleryItem">
+                        <div class="SingleProperty-galleryItem-bg">
+                            <img src="<?php echo $photo; ?>" />
+                        </div>
+                        <img src="<?php echo $photo; ?>" />
+                    </div>
+                    <?php endforeach; ?>
+                </div>
+                <script type="text/javascript">
+                    jQuery(document).ready(function () {
+                        jQuery('.SingleProperty-gallery').slick({
+                            arrows: true,
+                            dots: false,
+                            slidesToShow: 1,
+                            slidesToScroll: 1,
+                            prevArrow: '<span class="SingleProperty-galleryNav SingleProperty-galleryNav--prev"></span>',
+                            nextArrow: '<span class="SingleProperty-galleryNav SingleProperty-galleryNav--next"></span>'
+                        });
                     });
-                });
-              </script>
-              <div class="SingleProperty-wrap">
-              <div class="SingleProperty-social">
-                  <div class="social-links">
-                	<ul class="social-links__list">
-                		<li class="social-links__item">
-                			<a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $link; ?>&t=<?php echo urlencode( $address ); ?>" target="_blank" rel="noopener noreferrer" class="social-links__link">
-                				<span class="social-links__text">
+                </script>
+                <div class="SingleProperty-wrap">
+                    <div class="SingleProperty-social">
+                        <div class="social-links">
+                            <ul class="social-links__list">
+                                <li class="social-links__item">
+                                    <a href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $link; ?>&t=<?php echo urlencode( $address ); ?>" target="_blank"
+                                        rel="noopener noreferrer" class="social-links__link">
+                                <span class="social-links__text">
                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="28" viewBox="0 0 24 28">
                                     <path fill="#fff" d="M19.5 2q1.859 0 3.18 1.32t1.32 3.18v15q0 1.859-1.32 3.18t-3.18 1.32h-2.938v-9.297h3.109l0.469-3.625h-3.578v-2.312q0-0.875 0.367-1.313t1.43-0.438l1.906-0.016v-3.234q-0.984-0.141-2.781-0.141-2.125 0-3.398 1.25t-1.273 3.531v2.672h-3.125v3.625h3.125v9.297h-8.313q-1.859 0-3.18-1.32t-1.32-3.18v-15q0-1.859 1.32-3.18t3.18-1.32h15z"></path>
                                     </svg>
-                					Facebook <span class="screen-reader-text">(opens new window)</span>
-                				</span>
-                			</a>
-                		</li>
-                		<li class="social-links__item">
-                			<a href="https://twitter.com/share?text=<?php echo urlencode( 'Check out this property! ' . $address ); ?>&url=<?php echo $link; ?>" target="_blank" rel="noopener noreferrer" class="social-links__link">
-                				<span class="social-links__text">
+                                    Facebook <span class="screen-reader-text">(opens new window)</span>
+                                </span>
+                            </a>
+                                </li>
+                                <li class="social-links__item">
+                                    <a href="https://twitter.com/share?text=<?php echo urlencode( 'Check out this property! ' . $address ); ?>&url=<?php echo $link; ?>"
+                                        target="_blank" rel="noopener noreferrer" class="social-links__link">
+                                <span class="social-links__text">
                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="28" viewBox="0 0 24 28">
                                     <path fill="#fff" d="M20 9.531q-0.875 0.391-1.891 0.531 1.062-0.625 1.453-1.828-1.016 0.594-2.094 0.797-0.953-1.031-2.391-1.031-1.359 0-2.32 0.961t-0.961 2.32q0 0.453 0.078 0.75-2.016-0.109-3.781-1.016t-3-2.422q-0.453 0.781-0.453 1.656 0 1.781 1.422 2.734-0.734-0.016-1.563-0.406v0.031q0 1.172 0.781 2.086t1.922 1.133q-0.453 0.125-0.797 0.125-0.203 0-0.609-0.063 0.328 0.984 1.164 1.625t1.898 0.656q-1.813 1.406-4.078 1.406-0.406 0-0.781-0.047 2.312 1.469 5.031 1.469 1.75 0 3.281-0.555t2.625-1.484 1.883-2.141 1.172-2.531 0.383-2.633q0-0.281-0.016-0.422 0.984-0.703 1.641-1.703zM24 6.5v15q0 1.859-1.32 3.18t-3.18 1.32h-15q-1.859 0-3.18-1.32t-1.32-3.18v-15q0-1.859 1.32-3.18t3.18-1.32h15q1.859 0 3.18 1.32t1.32 3.18z"></path>
                                     </svg>
-                					Twitter  <span class="screen-reader-text">(opens new window)</span>
-                				</span>
+                                    Twitter  <span class="screen-reader-text">(opens new window)</span>
+                                </span>
 
-                			</a>
-                		</li>
-                		<li class="social-links__item">
-                			<a href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $link; ?>&title=<?php echo urlencode( $address ); ?>" target="_blank" rel="noopener noreferrer" class="social-links__link">
-                				<span class="social-links__text">
+                            </a>
+                                </li>
+                                <li class="social-links__item">
+                                    <a href="https://www.linkedin.com/shareArticle?mini=true&url=<?php echo $link; ?>&title=<?php echo urlencode( $address ); ?>"
+                                        target="_blank" rel="noopener noreferrer" class="social-links__link">
+                                <span class="social-links__text">
                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="24" height="28" viewBox="0 0 24 28">
                                     <path fill="#fff" d="M3.703 22.094h3.609v-10.844h-3.609v10.844zM7.547 7.906q-0.016-0.812-0.562-1.344t-1.453-0.531-1.477 0.531-0.57 1.344q0 0.797 0.555 1.336t1.445 0.539h0.016q0.922 0 1.484-0.539t0.562-1.336zM16.688 22.094h3.609v-6.219q0-2.406-1.141-3.641t-3.016-1.234q-2.125 0-3.266 1.828h0.031v-1.578h-3.609q0.047 1.031 0 10.844h3.609v-6.062q0-0.594 0.109-0.875 0.234-0.547 0.703-0.93t1.156-0.383q1.813 0 1.813 2.453v5.797zM24 6.5v15q0 1.859-1.32 3.18t-3.18 1.32h-15q-1.859 0-3.18-1.32t-1.32-3.18v-15q0-1.859 1.32-3.18t3.18-1.32h15q1.859 0 3.18 1.32t1.32 3.18z"></path>
                                     </svg>
-                					LinkedIn  <span class="screen-reader-text">(opens new window)</span>
-                				</span>
-                			</a>
-                		</li>
-                		<li class="social-links__item">
-                			<a href="http://www.pinterest.com/pin/create/bookmarklet/?url=<?php echo $link; ?>&media=<?php echo $listing->photos[0]; ?>" target="_blank" rel="noopener noreferrer" class="social-links__link">
-                				<span class="social-links__text">
+                                    LinkedIn  <span class="screen-reader-text">(opens new window)</span>
+                                </span>
+                            </a>
+                                </li>
+                                <li class="social-links__item">
+                                    <a href="http://www.pinterest.com/pin/create/bookmarklet/?url=<?php echo $link; ?>&media=<?php echo $listing->photos[0]; ?>"
+                                        target="_blank" rel="noopener noreferrer" class="social-links__link">
+                                <span class="social-links__text">
                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="384" height="448" viewBox="0 0 384 448">
                                     <title></title>
                                     <g id="icomoon-ignore">
                                     </g>
                                     <path fill="#fff" d="M312 32c39.75 0 72 32.25 72 72v240c0 39.75-32.25 72-72 72h-181.25c8.25-11.75 21.75-32 27-52.5 0 0 2.25-8.5 13.25-52.25 6.75 12.75 26 23.75 46.5 23.75 61 0 102.5-55.75 102.5-130.25 0-56.25-47.75-108.75-120.25-108.75-90.25 0-135.75 64.75-135.75 118.75 0 32.5 12.5 61.5 39 72.5 4.25 1.75 8.25 0 9.5-4.75 0.75-3.25 2.75-11.75 3.75-15.25 1.25-4.75 0.75-6.5-2.75-10.5-7.5-9.25-12.5-20.75-12.5-37.5 0-48 36-90.75 93.5-90.75 51 0 79 31 79 72.75 0 54.75-24.25 101-60.25 101-19.75 0-34.75-16.5-30-36.75 5.75-24 16.75-50 16.75-67.25 0-15.5-8.25-28.5-25.5-28.5-20.25 0-36.5 21-36.5 49 0 0 0 18 6 30.25-20.75 88-24.5 103.5-24.5 103.5-5.5 23-3.25 49.75-1.75 63.5h-45.75c-39.75 0-72-32.25-72-72v-240c0-39.75 32.25-72 72-72h240z"></path>
                                     </svg>
-                					Pinterest <span class="screen-reader-text">(opens new window)</span>
-                				</span>
-                			</a>
-                		</li>
-                	</ul>
-                </div><!--/.social-links-->
-                    <ul class="Social-actions">
-                        <li class="social-actions__item">
-                            <a href="javascript:window.print()">
+                                    Pinterest <span class="screen-reader-text">(opens new window)</span>
+                                </span>
+                            </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!--/.social-links-->
+                        <ul class="Social-actions">
+                            <li class="social-actions__item">
+                                <a href="javascript:window.print()">
                                 <span>
                                     <svg version="1.1" xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512">
                                     <title></title>
@@ -1030,169 +1044,205 @@ HTML;
                                     Print <span class="screen-reader-text">(opens print dialog window)</span>
                                 </span>
                             </a>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <a href='#details-map' class='SingleProperty-mapLink'>
+                        <img src='<?php echo $map_image; ?>' />
+                        <span class="mapLinkButton">View Map</span>
+                    </a>
+                    <div class="SingleProperty-details">
+                        <div class="SingleProperty-meta">
+                            <?php if ( $price ): ?>
+                            <div class="SingleProperty-price">
+                                <span class="SingleProperty-metaValue"><?php echo $price; ?></span>
+                                <span class="SingleProperty-metaLabel"><?php echo $status; ?></span>
+                            </div>
+                            <?php endif; ?>
+                            <?php if( $beds ): ?>
+                            <div class="SingleProperty-beds">
+                                <span class="SingleProperty-metaValue"><?php echo $beds; ?></span>
+                                <span class="SingleProperty-metaLabel">Bdrms</span>
+                            </div>
+                            <?php endif; ?>
+                            <?php if ( $fullBaths ): ?>
+                            <div class="SingleProperty-fullBaths">
+                                <span class="SingleProperty-metaValue"><?php echo $fullBaths; ?></span>
+                                <span class="SingleProperty-metaLabel">Ba</span>
+                            </div>
+                            <?php endif; ?>
+                            <?php if ( $halfBaths && $halfBaths !== 0 ): ?>
+                            <div class="SingleProperty-halfBaths">
+                                <span class="SingleProperty-metaValue"><?php echo $halfBaths; ?></span>
+                                <span class="SingleProperty-metaLabel">HBa</span>
+                            </div>
+                            <?php endif; ?>
+                            <?php if ( $area ): ?>
+                            <div class="SingleProperty-sqft">
+                                <span class="SingleProperty-metaValue"><?php echo $area; ?></span>
+                                <span class="SingleProperty-metaLabel">LvHtSqFt</span>
+                            </div>
+                            <?php endif; ?>
+                            <?php if( $pricePerUSD ): ?>
+                            <div class="SingleProperty-priceSqft">
+                                <span class="SingleProperty-metaValue"><?php echo $pricePerUSD; ?></span>
+                                <span class="SingleProperty-metaLabel">Price/LvHtSqFt</span>
+                            </div>
+                            <?php endif; ?>
+                            <?php if ( $lotSize ): ?>
+                            <div class="SingleProperty-acres">
+                                <span class="SingleProperty-metaValue"><?php echo $lotSize; ?></span>
+                                <span class="SingleProperty-metaLabel">Lot Size</span>
+                            </div>
+                            <?php endif; ?>
+                            <?php if ( $acres ): ?>
+                            <div class="SingleProperty-acres">
+                                <span class="SingleProperty-metaValue"><?php echo $acres; ?></span>
+                                <span class="SingleProperty-metaLabel">Acres</span>
+                            </div>
+                            <?php endif; ?>
+                            <?php if( $garage ): ?>
+                            <div class="SingleProperty-priceSqft">
+                                <span class="SingleProperty-metaValue"><?php echo $garage; ?></span>
+                                <span class="SingleProperty-metaLabel">Garage</span>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                    </div>
+                    <?php if ( $notes ): ?>
+                    <div class="SingleProperty-remarks">
+                        <h3>Tim's Notes</h3>
+                        <?php echo wpautop( $notes ); ?>
+                    </div>
+                    <?php endif; ?>
+                    <div class="SingleProperty-remarks">
+                        <h3>Listing Description</h3>
+                        <p>
+                            <?php echo $remarks; ?>
+                        </p>
+                    </div>
+                    <div class="SingleProperty-keyDetails">
+                        <?php foreach( $keyDetails as $detail ): ?>
+                        <?php if ( $detail['val'] != null || $detail['val'] != '' ): ?>
+                        <div class="SingleProperty-detail">
+                            <div class="SingleProperty-detailKey">
+                                <?php echo $detail['key']; ?>
+                            </div>
+                            <?php if ( $detail['link'] ): ?>
+                            <div class="SingleProperty-detailVal">
+                                <a href="<?php echo $detail['link']; ?>">
+                                    <?php echo $detail['val']; ?>
+                                </a>
+                            </div>
+                            <?php else: ?>
+                            <div class="SingleProperty-detailVal">
+                                <?php echo $detail['val']; ?>
+                            </div>
+                            <?php endif; ?>
+                        </div>
+                        <?php endif; ?>
+                        <?php endforeach; ?>
+                    </div>
+                    <?php if( $locationFeatures ): ?>
+                    <div class="SingleProperty-location">
+                        <h5>Location</h5>
+                        <div class="SingleProperty-locationInfo">
+                            <div class="SingleProperty-keyDetails no-border">
+                                <?php foreach( $locationFeatures as $detail ): ?>
+                                <?php if ( $detail['val'] != null || $detail['val'] != '' ): ?>
+                                <div class="SingleProperty-detail">
+                                    <div class="SingleProperty-detailKey">
+                                        <?php echo $detail['key']; ?>
+                                    </div>
+                                    <?php if ( $detail['link'] != '' ): ?>
+                                    <div class="SingleProperty-detailVal">
+                                        <a href="<?php echo $detail['link']; ?>">
+                                            <?php echo $detail['val']; ?>
+                                        </a>
+                                    </div>
+                                    <?php else: ?>
+                                    <div class="SingleProperty-detailVal">
+                                        <?php echo $detail['val']; ?>
+                                    </div>
+                                    <?php endif; ?>
+                                </div>
+                                <?php endif; ?>
+                                <?php endforeach; ?>
+                            </div>
+                            <div class="SingleProperty-locationDirections">
+                                <div class="SingleProperty-detailKey">Directions</div>
+                                <p>
+                                    <?php echo $listing->geo->directions; ?>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    <?php if( $financeFeatures ): ?>
+                    <div class="SingleProperty-finance">
+                        <h5>Financial Information</h5>
+                        <div class="SingleProperty-keyDetails no-border">
+                            <?php foreach( $financeFeatures as $detail ): ?>
+                            <?php if ( $detail['val'] != null || $detail['val'] != '' ): ?>
+                            <div class="SingleProperty-detail">
+                                <div class="SingleProperty-detailKey">
+                                    <?php echo $detail['key']; ?>
+                                </div>
+                                <div class="SingleProperty-detailVal">
+                                    <?php echo $detail['val']; ?>
+                                </div>
+                            </div>
+                            <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    <?php if( $details ): ?>
+                    <div class="SingleProperty-moreDetails">
+                        <h5>Details</h5>
+                        <div class="SingleProperty-keyDetails in-thirds no-border">
+                            <?php foreach( $details as $detail ): ?>
+                            <?php if ( $detail['val'] != null || $detail['val'] != '' ): ?>
+                            <div class="SingleProperty-detail">
+                                <div class="SingleProperty-detailKey">
+                                    <?php echo $detail['key']; ?>
+                                </div>
+                                <div class="SingleProperty-detailVal">
+                                    <?php echo $detail['val']; ?>
+                                </div>
+                            </div>
+                            <?php endif; ?>
+                            <?php endforeach; ?>
+                        </div>
+                    </div>
+                    <?php endif; ?>
+                    <?php if ( $history ): ?>
+                    <div class="SingleProperty-history">
+                        <h5>Property &amp; Listing History</h5>
+                        <?php echo $history; ?>
+                    </div>
+                    <?php endif; ?>
+                    <div id="SingleProperty-footer" class="SingleProperty-mapContact">
+                        <?php echo $mapMarkup; ?>
+                        <?php if ( function_exists( 'gravity_form' ) ): ?>
+                        <div class="SingleProperty-contact">
+                            <?php gravity_form( 5, true, true, false, array( 'mlsid' => $listing->mlsId, 'address' => $listing->address->full ) ); ?>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                    <div class="SingleProperty-disclaimer">
+                        <p class="SingleProperty-association">Listing courtesy of
+                            <?php echo $listing->office->servingName; ?>
+                        </p>
+                        <p><img src="<?php echo plugin_dir_url(__FILE__) . 'assets/img/a044-logoURL2.gif'; ?>" style="margin-right: 15px;"
+                            />© 2017 Aspen/Glenwood Springs MLS, Inc. The data relating to real estate on this website comes from
+                            REALTORS® who submit listing information to the Internet Date Exchange (IDX) Program of the Aspen/Glenwood
+                            Springs MLS, Inc. The inclusion of IDX Program data on this website does not constitute an endorsement,
+                            acceptance, or approval by the Aspen/Glenwood Springs MLS, Inc. of this website, or the content of this
+                            website. The data on this website may not be reliable or accurate and is not guaranteed by the Aspen/Glenwood
+                            Springs MLS, Inc.</p>
+                    </div>
                 </div>
-                  <a href='#details-map' class='SingleProperty-mapLink'>
-                      <img src='<?php echo $map_image; ?>' />
-                      <span class="mapLinkButton">View Map</span>
-                  </a>
-                  <div class="SingleProperty-details">
-                      <div class="SingleProperty-meta">
-                          <?php if ( $price ): ?>
-                              <div class="SingleProperty-price">
-                                  <span class="SingleProperty-metaValue"><?php echo $price; ?></span>
-                                  <span class="SingleProperty-metaLabel"><?php echo $status; ?></span>
-                              </div>
-                          <?php endif; ?>
-                          <?php if( $beds ): ?>
-                              <div class="SingleProperty-beds">
-                                  <span class="SingleProperty-metaValue"><?php echo $beds; ?></span>
-                                  <span class="SingleProperty-metaLabel">Bdrms</span>
-                              </div>
-                          <?php endif; ?>
-                          <?php if ( $fullBaths ): ?>
-                              <div class="SingleProperty-fullBaths">
-                                  <span class="SingleProperty-metaValue"><?php echo $fullBaths; ?></span>
-                                  <span class="SingleProperty-metaLabel">Ba</span>
-                              </div>
-                          <?php endif; ?>
-                          <?php if ( $halfBaths && $halfBaths !== 0 ): ?>
-                              <div class="SingleProperty-halfBaths">
-                                  <span class="SingleProperty-metaValue"><?php echo $halfBaths; ?></span>
-                                  <span class="SingleProperty-metaLabel">HBa</span>
-                              </div>
-                          <?php endif; ?>
-                          <?php if ( $area ): ?>
-                              <div class="SingleProperty-sqft">
-                                  <span class="SingleProperty-metaValue"><?php echo $area; ?></span>
-                                  <span class="SingleProperty-metaLabel">LvHtSqFt</span>
-                              </div>
-                          <?php endif; ?>
-                          <?php if( $pricePerUSD ): ?>
-                              <div class="SingleProperty-priceSqft">
-                                  <span class="SingleProperty-metaValue"><?php echo $pricePerUSD; ?></span>
-                                  <span class="SingleProperty-metaLabel">Price/LvHtSqFt</span>
-                              </div>
-                          <?php endif; ?>
-                          <?php if ( $lotSize ): ?>
-                              <div class="SingleProperty-acres">
-                                  <span class="SingleProperty-metaValue"><?php echo $lotSize; ?></span>
-                                  <span class="SingleProperty-metaLabel">Lot Size</span>
-                              </div>
-                          <?php endif; ?>
-                          <?php if ( $acres ): ?>
-                              <div class="SingleProperty-acres">
-                                  <span class="SingleProperty-metaValue"><?php echo $acres; ?></span>
-                                  <span class="SingleProperty-metaLabel">Acres</span>
-                              </div>
-                          <?php endif; ?>
-                          <?php if( $garage ): ?>
-                              <div class="SingleProperty-priceSqft">
-                                  <span class="SingleProperty-metaValue"><?php echo $garage; ?></span>
-                                  <span class="SingleProperty-metaLabel">Garage</span>
-                              </div>
-                          <?php endif; ?>
-                      </div>
-                  </div>
-                  <?php if ( $notes ): ?>
-                      <div class="SingleProperty-remarks">
-                          <h3>Tim's Notes</h3>
-                          <?php echo wpautop( $notes ); ?>
-                      </div>
-                  <?php endif; ?>
-                  <div class="SingleProperty-remarks">
-                      <h3>Listing Description</h3>
-                      <p><?php echo $remarks; ?></p>
-                  </div>
-                  <div class="SingleProperty-keyDetails">
-                      <?php foreach( $keyDetails as $detail ): ?>
-                          <?php if ( $detail['val'] != null || $detail['val'] != '' ): ?>
-                              <div class="SingleProperty-detail">
-                                  <div class="SingleProperty-detailKey"><?php echo $detail['key']; ?></div>
-                                  <?php if ( $detail['link'] ): ?>
-                                      <div class="SingleProperty-detailVal"><a href="<?php echo $detail['link']; ?>"><?php echo $detail['val']; ?></a></div>
-                                  <?php else: ?>
-                                      <div class="SingleProperty-detailVal"><?php echo $detail['val']; ?></div>
-                                  <?php endif; ?>
-                              </div>
-                          <?php endif; ?>
-                      <?php endforeach; ?>
-                  </div>
-                  <?php if( $locationFeatures ): ?>
-                      <div class="SingleProperty-location">
-                          <h5>Location</h5>
-                          <div class="SingleProperty-locationInfo">
-                              <div class="SingleProperty-keyDetails no-border">
-                                  <?php foreach( $locationFeatures as $detail ): ?>
-                                      <?php if ( $detail['val'] != null || $detail['val'] != '' ): ?>
-                                          <div class="SingleProperty-detail">
-                                              <div class="SingleProperty-detailKey"><?php echo $detail['key']; ?></div>
-                                              <?php if ( $detail['link'] != '' ): ?>
-                                                  <div class="SingleProperty-detailVal"><a href="<?php echo $detail['link']; ?>"><?php echo $detail['val']; ?></a></div>
-                                              <?php else: ?>
-                                                  <div class="SingleProperty-detailVal"><?php echo $detail['val']; ?></div>
-                                              <?php endif; ?>
-                                          </div>
-                                      <?php endif; ?>
-                                  <?php endforeach; ?>
-                              </div>
-                              <div class="SingleProperty-locationDirections">
-                                  <div class="SingleProperty-detailKey">Directions</div>
-                                  <p><?php echo $listing->geo->directions; ?></p>
-                              </div>
-                          </div>
-                      </div>
-                  <?php endif; ?>
-                  <?php if( $financeFeatures ): ?>
-                      <div class="SingleProperty-finance">
-                          <h5>Financial Information</h5>
-                          <div class="SingleProperty-keyDetails no-border">
-                              <?php foreach( $financeFeatures as $detail ): ?>
-                                  <?php if ( $detail['val'] != null || $detail['val'] != '' ): ?>
-                                      <div class="SingleProperty-detail">
-                                          <div class="SingleProperty-detailKey"><?php echo $detail['key']; ?></div>
-                                          <div class="SingleProperty-detailVal"><?php echo $detail['val']; ?></div>
-                                      </div>
-                                  <?php endif; ?>
-                              <?php endforeach; ?>
-                          </div>
-                      </div>
-                  <?php endif; ?>
-                  <?php if( $details ): ?>
-                      <div class="SingleProperty-moreDetails">
-                          <h5>Details</h5>
-                          <div class="SingleProperty-keyDetails in-thirds no-border">
-                              <?php foreach( $details as $detail ): ?>
-                                  <?php if ( $detail['val'] != null || $detail['val'] != '' ): ?>
-                                      <div class="SingleProperty-detail">
-                                          <div class="SingleProperty-detailKey"><?php echo $detail['key']; ?></div>
-                                          <div class="SingleProperty-detailVal"><?php echo $detail['val']; ?></div>
-                                      </div>
-                                  <?php endif; ?>
-                              <?php endforeach; ?>
-                          </div>
-                      </div>
-                  <?php endif; ?>
-                  <?php if ( $history ): ?>
-                      <div class="SingleProperty-history">
-                          <h5>Property &amp; Listing History</h5>
-                          <?php echo $history; ?>
-                      </div>
-                  <?php endif; ?>
-                  <div id="SingleProperty-footer" class="SingleProperty-mapContact">
-                      <?php echo $mapMarkup; ?>
-                      <?php if ( function_exists( 'gravity_form' ) ): ?>
-                          <div class="SingleProperty-contact">
-                              <?php gravity_form( 5, true, true, false, array( 'mlsid' => $listing->mlsId, 'address' => $listing->address->full ) ); ?>
-                          </div>
-                      <?php endif; ?>
-                  </div>
-                  <div class="SingleProperty-disclaimer">
-                      <p class="SingleProperty-association">Listing courtesy of <?php echo $listing->office->servingName; ?></p>
-                      <p><img src="<?php echo plugin_dir_url(__FILE__) . 'assets/img/a044-logoURL2.gif'; ?>" style="margin-right: 15px;"/>© 2017 Aspen/Glenwood Springs MLS, Inc. The data relating to real estate on this website comes from REALTORS® who submit listing information to the Internet Date Exchange (IDX) Program of the Aspen/Glenwood Springs MLS, Inc. The inclusion of IDX Program data on this website does not constitute an endorsement, acceptance, or approval by the Aspen/Glenwood Springs MLS, Inc. of this website, or the content of this website. The data on this website may not be reliable or accurate and is not guaranteed by the Aspen/Glenwood Springs MLS, Inc.</p>
-                  </div>
-              </div>
             </div>
         </div>
         <?php
@@ -1855,65 +1905,67 @@ HTML;
             }
 
             ?>
-            <div class="SingleProperty-nav">
-                <div class="wrap">
-                    <div class="SingleProperty-navContent">
-                        <div class="SingleProperty-navAddress"><?php echo $address; ?></div>
-                        <div class="SingleProperty-navMeta">
-                            <div class="SingleProperty-price">
-                                <span class="SingleProperty-metaValue"><?php echo $price; ?></span>
-                                <span class="SingleProperty-metaLabel"><?php echo $status; ?></span>
-                            </div>
-                            <div class="SingleProperty-beds">
-                                <span class="SingleProperty-metaValue"><?php echo $beds; ?></span>
-                                <span class="SingleProperty-metaLabel">Bdrms</span>
-                            </div>
-                            <div class="SingleProperty-fullBaths">
-                                <span class="SingleProperty-metaValue"><?php echo $fullBaths; ?></span>
-                                <span class="SingleProperty-metaLabel">Ba</span>
-                            </div>
-                            <?php if ( $halfBaths !== 0): ?>
-                                <div class="SingleProperty-halfBaths">
-                                    <span class="SingleProperty-metaValue"><?php echo $halfBaths; ?></span>
-                                    <span class="SingleProperty-metaLabel">Hba</span>
-                                </div>
-                            <?php endif; ?>
-                            <div class="SingleProperty-sqft">
-                                <span class="SingleProperty-metaValue"><?php echo $area; ?></span>
-                                <span class="SingleProperty-metaLabel">LvHtSqFt</span>
-                            </div>
-                            <?php if ( $listing->listPrice !== null && $listing->property->area !== null ): ?>
-                                <div class="SingleProperty-priceSqft">
-                                    <span class="SingleProperty-metaValue"><?php echo $pricePerUSD; ?></span>
-                                    <span class="SingleProperty-metaLabel">Price/LvHtSqFt</span>
-                                </div>
-                            <?php endif; ?>
-                            <?php if ( $acres ): ?>
-                                <div class="SingleProperty-acres">
-                                    <span class="SingleProperty-metaValue"><?php echo $acres; ?></span>
-                                    <span class="SingleProperty-metaLabel">Acres</span>
-                                </div>
-                            <?php endif; ?>
-                            <?php if ( $lotsize ): ?>
-                                <div class="SingleProperty-acres">
-                                    <span class="SingleProperty-metaValue"><?php echo $lotsize; ?></span>
-                                    <span class="SingleProperty-metaLabel">Lot Size</span>
-                                </div>
-                            <?php endif; ?>
-                            <?php if ( $yearBuilt ): ?>
-                                <div class="SingleProperty-acres">
-                                    <span class="SingleProperty-metaValue"><?php echo $yearBuilt; ?></span>
-                                    <span class="SingleProperty-metaLabel">Built</span>
-                                </div>
-                            <?php endif; ?>
+        <div class="SingleProperty-nav">
+            <div class="wrap">
+                <div class="SingleProperty-navContent">
+                    <div class="SingleProperty-navAddress">
+                        <?php echo $address; ?>
+                    </div>
+                    <div class="SingleProperty-navMeta">
+                        <div class="SingleProperty-price">
+                            <span class="SingleProperty-metaValue"><?php echo $price; ?></span>
+                            <span class="SingleProperty-metaLabel"><?php echo $status; ?></span>
                         </div>
-                        <div class="SingleProperty-navAction">
-                            <a href="#SingleProperty-footer" class="button">Request Info</a>
+                        <div class="SingleProperty-beds">
+                            <span class="SingleProperty-metaValue"><?php echo $beds; ?></span>
+                            <span class="SingleProperty-metaLabel">Bdrms</span>
                         </div>
+                        <div class="SingleProperty-fullBaths">
+                            <span class="SingleProperty-metaValue"><?php echo $fullBaths; ?></span>
+                            <span class="SingleProperty-metaLabel">Ba</span>
+                        </div>
+                        <?php if ( $halfBaths !== 0): ?>
+                        <div class="SingleProperty-halfBaths">
+                            <span class="SingleProperty-metaValue"><?php echo $halfBaths; ?></span>
+                            <span class="SingleProperty-metaLabel">Hba</span>
+                        </div>
+                        <?php endif; ?>
+                        <div class="SingleProperty-sqft">
+                            <span class="SingleProperty-metaValue"><?php echo $area; ?></span>
+                            <span class="SingleProperty-metaLabel">LvHtSqFt</span>
+                        </div>
+                        <?php if ( $listing->listPrice !== null && $listing->property->area !== null ): ?>
+                        <div class="SingleProperty-priceSqft">
+                            <span class="SingleProperty-metaValue"><?php echo $pricePerUSD; ?></span>
+                            <span class="SingleProperty-metaLabel">Price/LvHtSqFt</span>
+                        </div>
+                        <?php endif; ?>
+                        <?php if ( $acres ): ?>
+                        <div class="SingleProperty-acres">
+                            <span class="SingleProperty-metaValue"><?php echo $acres; ?></span>
+                            <span class="SingleProperty-metaLabel">Acres</span>
+                        </div>
+                        <?php endif; ?>
+                        <?php if ( $lotsize ): ?>
+                        <div class="SingleProperty-acres">
+                            <span class="SingleProperty-metaValue"><?php echo $lotsize; ?></span>
+                            <span class="SingleProperty-metaLabel">Lot Size</span>
+                        </div>
+                        <?php endif; ?>
+                        <?php if ( $yearBuilt ): ?>
+                        <div class="SingleProperty-acres">
+                            <span class="SingleProperty-metaValue"><?php echo $yearBuilt; ?></span>
+                            <span class="SingleProperty-metaLabel">Built</span>
+                        </div>
+                        <?php endif; ?>
+                    </div>
+                    <div class="SingleProperty-navAction">
+                        <a href="#SingleProperty-footer" class="button">Request Info</a>
                     </div>
                 </div>
             </div>
-            <?php
+        </div>
+        <?php
 
         }
     }

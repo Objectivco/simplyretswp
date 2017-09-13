@@ -928,18 +928,8 @@ elsewhere, this should be a breeze.
 	filter: blur(10px);
 }
 
-.SingleProperty-gallery.owl-carousel .owl-nav {
-	display: flex;
-	opacity: 0.6;
-	position: absolute;
-	top: 50%;
-	transform: translateY(-50%);
-	transition: opacity 0.5s ease-in-out;
-	width: 100%;
-}
-
-.SingleProperty-gallery.owl-carousel:hover .owl-nav {
-	opacity: 1;
+.SingleProperty-galleryItem.slick-slide {
+	height: 500px;
 }
 
 .SingleProperty-galleryNav {
@@ -947,7 +937,12 @@ elsewhere, this should be a breeze.
 	display: block;
 	height: 60px;
 	width: 60px;
-	position: relative;
+	position: absolute;
+	top: 50%;
+	-webkit-transform: translateY(-50%);
+	-ms-transform: translateY(-50%);
+	transform: translateY(-50%);
+	z-index: 100;
 }
 
 .SingleProperty-galleryNav:after {
@@ -962,17 +957,19 @@ elsewhere, this should be a breeze.
 	width: 20px;
 }
 
-.SingleProperty-gallery.owl-carousel
-	.owl-nav
-	.owl-next
-	.SingleProperty-galleryNav:after {
+.SingleProperty-galleryNav--next {
+	right: 0;
+}
+
+.SingleProperty-galleryNav--prev {
+	left: 0;
+}
+
+.SingleProperty-galleryNav--next:after {
 	background-image: url("../img/arrow-right.svg");
 }
 
-.SingleProperty-gallery.owl-carousel
-	.owl-nav
-	.owl-prev
-	.SingleProperty-galleryNav:after {
+.SingleProperty-galleryNav--prev:after {
 	background-image: url("../img/arrow-left.svg");
 }
 
