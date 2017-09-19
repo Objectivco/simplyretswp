@@ -247,7 +247,7 @@ class SimplyRetsApiHelper {
             $pag_links = SimplyRetsApiHelper::srPaginationParser($header, 'Red Mountain Properties');
             $last_update = SimplyRetsApiHelper::srLastUpdateHeaderParser($header);
             $count = SimplyRetsApiHelper::objGetResultsCount($header);
-            
+
             // decode the reponse body
             $response_array = json_decode( $body );
 
@@ -592,8 +592,8 @@ HTML;
         if ( in_array( $listing->property->subdivision, $neighborhoodsArray ) ) {
             $neighborhood = str_replace( ' ', '-', $listing->property->subdivision );
             $neighborhoodLink = '/neighborhoods/' . $neighborhood;
-        }   
-    
+        }
+
         $typeArray = array(
             'RES'   => 'Single Family Home',
             'CND'   => 'Condo or Townhome',
@@ -699,7 +699,7 @@ HTML;
                 'val'    => ''
             ),
         );
-        
+
         $hoaFeesUSD = '$' . number_format( $listing->association->fee );
         $hoaAmenitiesArray = explode(',', $listing->association->amenities );
         $hoaAmenities = implode( ', ', $hoaAmenitiesArray );
@@ -742,7 +742,7 @@ HTML;
                 'key'   => 'Tax Year',
                 'val'   => $listing->tax->taxYear
             )
-        ); 
+        );
 
         $exteriorArray = explode( ',', $listing->property->exteriorFeatures );
         $exterior = implode( ', ', $exteriorArray );
