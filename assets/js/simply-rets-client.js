@@ -327,7 +327,7 @@ var getSearchFormValues = function() {
  * Our Map Class
  * Holds some state for working with the map:
  */
-function Map() {
+function SimplyRetsMap() {
 	this.element = "sr-map-search";
 	this.bounds = [];
 	this.markers = [];
@@ -363,7 +363,7 @@ function Map() {
  */
 
 /** `rec`: google.maps.OverlayType === RECTANGLE */
-Map.prototype.getRectanglePoints = function(rec) {
+SimplyRetsMap.prototype.getRectanglePoints = function(rec) {
 	var latLngs = [];
 	var bounds = new google.maps.LatLngBounds();
 
@@ -387,7 +387,7 @@ Map.prototype.getRectanglePoints = function(rec) {
 	return latLngs;
 };
 
-Map.prototype.getPolygonPoints = function(polygon) {
+SimplyRetsMap.prototype.getPolygonPoints = function(polygon) {
 	var paths = polygon.getPaths();
 	var points = [];
 	var bounds = new google.maps.LatLngBounds();
@@ -417,27 +417,27 @@ Map.prototype.getPolygonPoints = function(polygon) {
 	return latLngs;
 };
 
-Map.prototype.addEventListener = function(source, event, fn) {
+SimplyRetsMap.prototype.addEventListener = function(source, event, fn) {
 	return google.maps.event.addListener(source, event, fn);
 };
 
-Map.prototype.searchFormValues = function() {
+SimplyRetsMap.prototype.searchFormValues = function() {
 	return getSearchFormValues();
 };
 
-Map.prototype.clearMarkers = function() {
+SimplyRetsMap.prototype.clearMarkers = function() {
 	if (this.markers.length > 0) this.setMapOnMarkers(null);
 };
 
-Map.prototype.clearPolygon = function() {
+SimplyRetsMap.prototype.clearPolygon = function() {
 	if (this.polygon !== null) this.setMapOnPolygon(null);
 };
 
-Map.prototype.setDrawCtrlOptions = function(opts) {
+SimplyRetsMap.prototype.setDrawCtrlOptions = function(opts) {
 	return this.drawCtrl.setOptions(opts);
 };
 
-Map.prototype.handlePolygonDraw = function(that, overlay) {
+SimplyRetsMap.prototype.handlePolygonDraw = function(that, overlay) {
 	that.clearMarkers();
 	that.clearPolygon();
 	that.setDrawCtrlOptions({ drawingMode: null });
@@ -455,7 +455,7 @@ Map.prototype.handlePolygonDraw = function(that, overlay) {
 	};
 };
 
-Map.prototype.handleRectangleDraw = function(that, overlay) {
+SimplyRetsMap.prototype.handleRectangleDraw = function(that, overlay) {
 	that.clearMarkers();
 	that.clearPolygon();
 	that.setDrawCtrlOptions({ drawingMode: null });
@@ -473,7 +473,7 @@ Map.prototype.handleRectangleDraw = function(that, overlay) {
 	};
 };
 
-Map.prototype.handleFormSubmit = function(e) {
+SimplyRetsMap.prototype.handleFormSubmit = function(e) {
 	e.preventDefault();
 
 	this.clearMarkers();
@@ -492,7 +492,7 @@ Map.prototype.handleFormSubmit = function(e) {
 	};
 };
 
-Map.prototype.setMapOnMarkers = function(map) {
+SimplyRetsMap.prototype.setMapOnMarkers = function(map) {
 	for (var i = 0; i < this.markers.length; i++) {
 		this.markers[i].setMap(map);
 	}
@@ -500,13 +500,13 @@ Map.prototype.setMapOnMarkers = function(map) {
 	return true;
 };
 
-Map.prototype.setMapOnPolygon = function(map) {
+SimplyRetsMap.prototype.setMapOnPolygon = function(map) {
 	this.polygon.setMap(map);
 
 	return true;
 };
 
-Map.prototype.handleRequest = function(that, data) {
+SimplyRetsMap.prototype.handleRequest = function(that, data) {
 	// Remove data from map before request
 	that.setMapOnMarkers(null);
 	that.setLoadMsgMap(null);
@@ -552,7 +552,7 @@ Map.prototype.handleRequest = function(that, data) {
 	that.initPaginationEventHandlers(that, that.pagination);
 };
 
-Map.prototype.initPaginationEventHandlers = function(that, pag) {
+SimplyRetsMap.prototype.initPaginationEventHandlers = function(that, pag) {
 	if (pag.next !== null) {
 		$_(pag.next).on("click", function(e) {
 			e.preventDefault();
@@ -582,14 +582,14 @@ Map.prototype.initPaginationEventHandlers = function(that, pag) {
 	}
 };
 
-Map.prototype.setLoadMsgMap = function(map) {
+SimplyRetsMap.prototype.setLoadMsgMap = function(map) {
 	if (!this.polygon && !this.rectangle) return;
 
 	this.loadMsg.setPosition(this.map.getCenter());
 	this.loadMsg.setMap(map);
 };
 
-Map.prototype.sendRequest = function(points, params, paginate) {
+SimplyRetsMap.prototype.sendRequest = function(points, params, paginate) {
 	this.setLoadMsgMap(this.map);
 
 	/** Update pagination */
@@ -646,7 +646,7 @@ Map.prototype.sendRequest = function(points, params, paginate) {
 	return req;
 };
 
-Map.prototype.setDrawingManager = function() {
+SimplyRetsMap.prototype.setDrawingManager = function() {
 	var that = this;
 
 	// Enable the drawing tools toolbar
@@ -697,8 +697,10 @@ Map.prototype.setDrawingManager = function() {
 	return drawingManager;
 };
 
-Map.prototype.initEventListeners = function() {
+SimplyRetsMap.prototype.initEventListeners = function() {
 	var that = this;
+
+	console.log(this.map);
 
 	// fetch initial listings when map is loaded
 	this.addEventListener(this.map, "idle", function() {
@@ -731,9 +733,9 @@ Map.prototype.initEventListeners = function() {
 };
 
 var startMap = function() {
-	var map = new Map();
+	var Map = new SimplyRetsMap();
 	// map.setDrawingManager();
-	map.initEventListeners();
+	Map.initEventListeners();
 };
 
 $_(document).ready(function() {
