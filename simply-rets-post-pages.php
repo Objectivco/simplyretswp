@@ -680,7 +680,7 @@ class SimplyRetsCustomPostPages
                 }
             }
 
-            $neighborhoods = isset($_GET['sr_neighborhoods']) ? $_GET['sr_neighborhoods'] : '';
+            $neighborhoods = isset($_GET['sr_neighborhood']) ? $_GET['sr_neighborhood'] : '';
             if (!empty($neighborhoods)) {
                 foreach ((array)$neighborhoods as $key => $neighborhood) {
                     $neighborhoods_string .= "&neighborhoods=$neighborhood";
@@ -756,6 +756,9 @@ class SimplyRetsCustomPostPages
              * Make advanced search page with new query
              */
             if (!$advanced || !$advanced == "true") {
+                if ($neighborhoods_string) {
+                    $cities_string="";
+                }
                 $qs = '?'
                   . http_build_query( array_filter( $listing_params ) )
                   . $features_string
