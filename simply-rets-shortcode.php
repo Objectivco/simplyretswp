@@ -462,12 +462,12 @@ HTML;
             }
         }
 
-        if (isset( $_GET['sr_cities'] ) && is_array( $_GET['sr_cities'] )) {
-            $cities = $_GET['sr_cities'];
-            foreach ($cities as $city) {
-                $citiesFields .= '<input type="hidden" name="sr_cities[]" value="' . $city . '" />';
-            }
-        }
+        // if (isset( $_GET['sr_cities'] ) && is_array( $_GET['sr_cities'] )) {
+        //     $cities = $_GET['sr_cities'];
+        //     foreach ($cities as $city) {
+        //         $citiesFields .= '<input type="hidden" name="sr_cities[]" value="' . $city . '" />';
+        //     }
+        // }
 
         if (isset( $_GET['sr_neighborhood'] ) && is_array( $_GET['sr_neighborhood'] )) {
             $neighborhoods = $_GET['sr_neighborhood'];
