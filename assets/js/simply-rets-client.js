@@ -524,7 +524,8 @@ SimplyRetsMap.prototype.handleRequest = function(that, data) {
 	that.siteRoot = data.site_root;
 	that.linkStyle = linkStyle;
 
-	var listings = data.result.response.length > 0 ? data.result.response : [];
+	var listings = data.result.response;
+
 	var markers = makeMapMarkers(
 		that.map,
 		listings,

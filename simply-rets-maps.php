@@ -19,18 +19,19 @@ add_action('wp_ajax_update_int_map_data',
 
 
 /* Code starts here */
-use Ivory\GoogleMap\Map,
-    Ivory\GoogleMap\Helper\MapHelper,
-    Ivory\GoogleMap\MapTypeId,
-    Ivory\GoogleMap\Overlays\Animation,
-    Ivory\GoogleMap\Overlays\Marker,
-    Ivory\GoogleMap\Overlays\InfoWindow,
-    Ivory\HttpAdapter\CurlHttpAdapter;
+use Ivory\GoogleMap\Map;
+use Ivory\GoogleMap\Helper\MapHelper;
+use Ivory\GoogleMap\MapTypeId;
+use Ivory\GoogleMap\Overlays\Animation;
+use Ivory\GoogleMap\Overlays\Marker;
+use Ivory\GoogleMap\Overlays\InfoWindow;
+use Ivory\HttpAdapter\CurlHttpAdapter;
 
+class SrSearchMap
+{
 
-class SrSearchMap {
-
-    public static function mapWithDefaults() {
+    public static function mapWithDefaults()
+    {
         $map = new Map();
         $map->setAsync(true);
         $map->setHtmlContainerId('sr_map_canvas');
@@ -48,7 +49,8 @@ class SrSearchMap {
         return $map;
     }
 
-    public static function markerWithDefaults() {
+    public static function markerWithDefaults()
+    {
         $marker = new Marker();
         $marker->setPrefixJavascriptVariable('marker_');
         $marker->setOptions(array(
@@ -58,7 +60,8 @@ class SrSearchMap {
     }
 
 
-    public static function infoWindowWithDefaults() {
+    public static function infoWindowWithDefaults()
+    {
         $iw = new InfoWindow();
         $iw->setAutoClose(true);
         $iw->setPrefixJavascriptVariable('info_window_');
@@ -66,7 +69,8 @@ class SrSearchMap {
         return $iw;
     }
 
-    public static function srMapHelper() {
+    public static function srMapHelper()
+    {
         return new MapHelper();
     }
 
@@ -111,11 +115,11 @@ class SrSearchMap {
 HTML;
 
         return $markup;
-
     }
 
 
-    public static function defineAjaxUrl() {
+    public static function defineAjaxUrl()
+    {
         ?>
         <script>
             var sr_ajaxUrl = "<?php echo admin_url('admin-ajax.php'); ?>"
@@ -124,12 +128,12 @@ HTML;
     }
 
 
-    public static function update_int_map_data() {
+    public static function update_int_map_data()
+    {
 
         // Ensure we only capture SimplyRETS requests
-        if(array_key_exists('action', $_POST)
+        if (array_key_exists('action', $_POST)
            && $_POST['action'] === "update_int_map_data") {
-
             $permalink_struct = get_option('permalink_structure');
             $showStatusText = get_option('sr_show_mls_status_text', false);
             $site_root = get_site_url();
@@ -141,7 +145,8 @@ HTML;
             );
 
             $req = SimplyRetsApiHelper::makeApiRequest("?".$_POST['parameters']);
-            $con = SimplyRetsApiHelper::srResidentialResultsGenerator($req, $markup_opts);
+            // We don't need this right now.
+            // $con = SimplyRetsApiHelper::srResidentialResultsGenerator($req, $markup_opts);
 
             $response = array(
                 "result" => $req,
@@ -154,10 +159,8 @@ HTML;
 
 
             wp_send_json($response);
-
         }
 
         return;
     }
-
 }
