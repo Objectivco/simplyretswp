@@ -13,12 +13,17 @@
 class SimplyRetsApiHelper {
 
     public static function retrieveRetsListings( $params, $settings = NULL ) {
-        // var_dump($params); die();
         $request_url      = SimplyRetsApiHelper::srRequestUrlBuilder( $params );
         $request_response = SimplyRetsApiHelper::srApiRequest( $request_url );
         foreach( $request_response['response'] as $key => $listing ) {
             if ( $listing->property->type == "RNT" ) {
                 unset($request_response['response'][$key]);
+            }
+
+            if (isset($_GET['sr_stype'])) {
+                if ( $listing->property->subType != $_GET['sr_stype']) {
+                    unset($request_response['response'][$key]);
+                }
             }
         }
         $response_markup  = SimplyRetsApiHelper::srResidentialResultsGenerator( $request_response, $settings, $request_count );

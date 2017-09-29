@@ -598,6 +598,18 @@ class SimplyRetsCustomPostPages
             }
 
             /**
+             * Format the sub type parameter
+             */
+            $s_types = isset($_GET['sr_stype']) ? $_GET['sr_stype'] : '';
+            if (is_array($s_types) && ! empty($s_types)) {
+                foreach ((array) $s_types as $key => $stype) {
+                    $final = trim($stype);
+                    $stypes_string .= "&stype=$final";
+                }
+            }
+
+
+            /**
              * Format the 'status' parameter.
              * Note that the 'status' might come in as an Array or a
              * String.  For strings, we split on ";" to support
@@ -767,6 +779,7 @@ class SimplyRetsCustomPostPages
                   . $neighborhoods_string
                   . $agents_string
                   . $ptypes_string
+                  . $stypes_string
                   . $statuses_string
                   . $amenities_string;
 
