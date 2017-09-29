@@ -1308,7 +1308,11 @@ HTML;
 
         $response_size = sizeof($response);
         if(!array_key_exists("0", $response)) {
-            $response = array($response);
+            if (count($response) > 1) {
+                $response = $response;
+            } else {
+                $response = array($response);
+            }
         }
 
 
