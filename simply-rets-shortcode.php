@@ -672,9 +672,12 @@ HTML;
             <?php
             return ob_get_clean();
         }
-
+        $classes = '';
+        if (isset( $_GET['sr_post_id'] )) {
+            $classes = 'one-click-search';
+        }
         ?>
-        <div id="sr-search-wrapper" class="SearchForm">
+        <div id="sr-search-wrapper" class="SearchForm <?php echo $classes; ?>">
           <h3>Search Listings</h3>
           <form method="get" class="sr-search" action="<?php echo $home_url; ?>">
             <input type="hidden" name="sr-listings" value="sr-search">
