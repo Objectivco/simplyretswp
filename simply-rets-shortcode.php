@@ -51,7 +51,7 @@ class SrShortcodes
         $vendor   = isset($atts['vendor'])  ? $atts['vendor']  : '';
         $brokers  = isset($atts['brokers']) ? $atts['brokers'] : '';
         $agent    = isset($atts['agent'])   ? $atts['agent']   : '';
-        $limit    = isset($atts['limit'])   ? $atts['limit']   : '';
+        $limit    = 99;
         $type_att = isset($atts['type'])    ? $atts['type'] : '';
 
         $content     = "";
@@ -462,12 +462,12 @@ HTML;
             }
         }
 
-        // if (isset( $_GET['sr_cities'] ) && is_array( $_GET['sr_cities'] )) {
-        //     $cities = $_GET['sr_cities'];
-        //     foreach ($cities as $city) {
-        //         $citiesFields .= '<input type="hidden" name="sr_cities[]" value="' . $city . '" />';
-        //     }
-        // }
+        if (isset( $_GET['sr_cities'] ) && is_array( $_GET['sr_cities'] )) {
+            $cities = $_GET['sr_cities'];
+            foreach ($cities as $city) {
+                $citiesFields .= '<input type="hidden" name="sr_cities[]" value="' . $city . '" />';
+            }
+        }
 
         if (isset( $_GET['sr_neighborhood'] ) && is_array( $_GET['sr_neighborhood'] )) {
             $neighborhoods = $_GET['sr_neighborhood'];
@@ -524,6 +524,16 @@ HTML;
             $checked = in_array($feature, (array)$adv_features) ? 'checked="checked"' : '';
             $features_options .= "<li class='sr-adv-search-option'>"
                  ."<label><input name='sr_features[]' type='checkbox' value='$feature' $checked />$feature</label></li>";
+        }
+
+        $search_title = '';
+        if (isset( $_GET['sr_search_title'] )) {
+            $search_title = $_GET['sr_search_title'];
+        }
+
+        $post_id = '';
+        if (isset( $_GET['sr_post_id'] )) {
+            $post_id = $_GET['sr_post_id'];
         }
 
         if (array_key_exists('advanced', $atts) && $atts['advanced'] == 'true' || $atts['advanced'] == 'True') {
@@ -726,6 +736,8 @@ HTML;
             <input type="hidden" name="sr_brokers" value="<?php echo $brokers; ?>" />
             <input type="hidden" name="sr_agent"   value="<?php echo $agent; ?>" />
             <input type="hidden" name="limit"      value="<?php echo $limit; ?>" />
+            <input type="hidden" name="sr_search_title" value="<?php echo $search_title; ?>" />
+            <input type="hidden" name="sr_post_id" value="<?php echo $post_id; ?>" />
             <?php echo $citiesFields; ?>
             <?php echo $neighborhoodFields; ?>
 
@@ -734,7 +746,7 @@ HTML;
 
                 <div class="sr-sort-wrapper">
                     <label for="sr_sort">Sort by: </label>
-                    <select class="select" name="sr_sort">
+                    <select class="select" name="sr_sort" <?php if (isset($_GET['sr_post_id']) ) echo 'onchange="this.form.submit()'; ?>">
                         <option value="-listprice" <?php echo $sort_price_hl ?>> Price - High to Low</option>
                         <option value="listprice"  <?php echo $sort_price_lh ?>> Price - Low to High</option>
                         <option value="-listdate"  <?php echo $sort_date_hl ?> > List Date - New to Old</option>
