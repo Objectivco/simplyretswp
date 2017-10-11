@@ -1019,7 +1019,7 @@ HTML;
                                 </span>
                             </a>
                                 </li>
-                                <li class="social-links__item">
+                                <!-- <li class="social-links__item">
                                     <a href="http://www.pinterest.com/pin/create/bookmarklet/?url=<?php echo $link; ?>&media=<?php echo $listing->photos[0]; ?>"
                                         target="_blank" rel="noopener noreferrer" class="social-links__link">
                                 <span class="social-links__text">
@@ -1032,7 +1032,7 @@ HTML;
                                     Pinterest <span class="screen-reader-text">(opens new window)</span>
                                 </span>
                             </a>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                         <!--/.social-links-->
