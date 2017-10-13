@@ -699,6 +699,13 @@ class SimplyRetsCustomPostPages
                 }
             }
 
+            $streets = isset( $_GET['sr_streets']) ? $_GET['sr_streets'] : '';
+            if (!empty($streets)) {
+                foreach((array)$streets as $key => $street) {
+                    $streets_string .= "&q=$street";
+                }
+            }
+
             $amenities = isset($_GET['sr_amenities']) ? $_GET['sr_amenities'] : '';
             if (!empty($amenities)) {
                 foreach ((array)$amenities as $key => $amenity) {
@@ -773,6 +780,7 @@ class SimplyRetsCustomPostPages
                 }
                 $qs = '?'
                   . http_build_query( array_filter( $listing_params ) )
+                  . $streets_string
                   . $features_string
                   . $cities_string
                   . $counties_string
