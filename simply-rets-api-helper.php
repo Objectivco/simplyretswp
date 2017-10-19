@@ -14,18 +14,17 @@ class SimplyRetsApiHelper {
 
     public static function retrieveRetsListings( $params, $settings = NULL ) {
         $request_url      = SimplyRetsApiHelper::srRequestUrlBuilder( $params );
-        // var_dump($request_url); die();
         $request_response = SimplyRetsApiHelper::srApiRequest( $request_url );
         foreach( $request_response['response'] as $key => $listing ) {
-            if ( $listing->property->type == "RNT" ) {
+            if ( $listing->property->type == "RNT" || $listing->property->type == "CRE" ) {
                 unset($request_response['response'][$key]);
             }
 
-            if (isset($_GET['sr_stype'])) {
-                if ( $listing->property->subType != $_GET['sr_stype']) {
-                    unset($request_response['response'][$key]);
-                }
-            }
+            // if (isset($_GET['sr_stype'])) {
+            //     if ( $listing->property->subType != $_GET['sr_stype']) {
+            //         unset($request_response['response'][$key]);
+            //     }
+            // }
         }
         $response_markup  = SimplyRetsApiHelper::srResidentialResultsGenerator( $request_response, $settings, $request_count );
 
@@ -690,8 +689,8 @@ HTML;
                 'val'   => $listing->geo->marketArea
             ),
             array(
-                'key'    => 'Major Area',
-                'val'    => ''
+                'key'    => 'Minor Area',
+                'val'    => $listing->mls->areaMinor
             ),
             array(
                 'key'    => 'Sub/Loc',

@@ -668,6 +668,13 @@ class SimplyRetsCustomPostPages
                 }
             }
 
+            $minorAreas = isset($_GET['sr_minorareas']) ? $_GET['sr_minorareas'] : '';
+            if (!empty($minorAreas)) {
+                foreach( (array) $minorAreas as $key => $minorArea ) {
+                    $minorAreas_string .= "&areaMinor=$minorArea";
+                }
+            }
+
             $counties = isset($_GET['sr_counties']) ? $_GET['sr_counties'] : '';
             if (!empty($counties)) {
                 foreach ((array)$counties as $key => $county) {
@@ -783,13 +790,16 @@ class SimplyRetsCustomPostPages
                   . $streets_string
                   . $features_string
                   . $cities_string
+                  . $minorAreas_string
                   . $counties_string
-                  . $neighborhoods_string
+                //   . $neighborhoods_string
                   . $agents_string
                   . $ptypes_string
                   . $stypes_string
                   . $statuses_string
                   . $amenities_string;
+
+                // var_dump($qs); die();
 
                 $qs = str_replace(' ', '%20', $qs);
                 $listings_content = SimplyRetsApiHelper::retrieveRetsListings($qs, $settings);
