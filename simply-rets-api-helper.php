@@ -13,7 +13,7 @@
 class SimplyRetsApiHelper {
 
     public static function retrieveRetsListings( $params, $settings = NULL ) {
-        $request_url      = SimplyRetsApiHelper::srRequestUrlBuilder( $params );
+        $request_url = SimplyRetsApiHelper::srRequestUrlBuilder( $params );
         $request_response = SimplyRetsApiHelper::srApiRequest( $request_url );
         foreach( $request_response['response'] as $key => $listing ) {
             if ( $listing->property->type == "RNT" || $listing->property->type == "CRE" ) {

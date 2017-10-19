@@ -792,7 +792,7 @@ class SimplyRetsCustomPostPages
                   . $cities_string
                   . $minorAreas_string
                   . $counties_string
-                //   . $neighborhoods_string
+                  . $neighborhoods_string
                   . $agents_string
                   . $ptypes_string
                   . $stypes_string
