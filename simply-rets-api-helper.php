@@ -26,6 +26,7 @@ class SimplyRetsApiHelper {
             //     }
             // }
         }
+        $request_count = count($request_response['response']);
         $response_markup  = SimplyRetsApiHelper::srResidentialResultsGenerator( $request_response, $settings, $request_count );
 
         return $response_markup;
@@ -1291,7 +1292,7 @@ HTML;
         $cont              = "";
         $pagination        = $response['pagination'];   // get pagination links out of response
         $lastUpdate        = $response['lastUpdate'];   // get lastUpdate time out of response
-        $count             = $response['count'];
+        $count             = $count;
         $response          = $response['response'];     // get listing data out of response
         $map_position      = get_option('sr_search_map_position', 'list_only');
         $show_listing_meta = SrUtils::srShowListingMeta();
