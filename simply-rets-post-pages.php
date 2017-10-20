@@ -900,7 +900,7 @@ class SimplyRetsCustomPostPages
         if ($wp_query->query['sr-listings'] == "sr-search") {
             $post_id = get_query_var( 'sr_minprice', '9998' );
 
-            if (isset( $_GET['sr_search_title'] )) {
+            if ( isset( $_GET['sr_search_title'] ) && ! empty( $_GET['sr_search_title'] ) ) {
                 $title = urldecode( $_GET['sr_search_title'] );
             } else {
                 $title = "Search Results";
