@@ -188,6 +188,11 @@ class SimplyRetsApiHelper {
                 ? $features = $defaultArray
                 : $features = $vendorOptions->fields->features;
 
+            $minorAreas = $vendorOptions->fields->areaMinor;
+            !isset( $minorAreas ) || empty( $minorAreas )
+                ? $minorAreas = $defaultArray
+                : $minorAreas = $vendorOptions->fields->areaMinor;
+
             $neighborhoods = $vendorOptions->fields->neighborhoods;
             !isset( $neighborhoods ) || empty( $neighborhoods )
                 ? $neighborhoods = $defaultArray
@@ -198,6 +203,7 @@ class SimplyRetsApiHelper {
             update_option( "sr_adv_search_meta_types_$vendor", $types );
             update_option( "sr_adv_search_meta_county_$vendor", $counties );
             update_option( "sr_adv_search_meta_city_$vendor", $cities );
+            update_option( "sr_adv_search_meta_minorareas_$vendor", $minorAreas );
             update_option( "sr_adv_search_meta_features_$vendor", $features );
             update_option( "sr_adv_search_meta_neighborhoods_$vendor", $neighborhoods );
 
