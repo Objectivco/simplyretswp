@@ -689,17 +689,7 @@ class SimplyRetsCustomPostPages
                 }
             }
 
-            $areas = isset($_GET['sr_areas']) ? $_GET['sr_areas'] : '';
-            if (!empty($areas)) {
-                foreach ((array)$areas as $key => $area) {
-                    $subdivisions = SimplyRetsCustomPostPages::obj_get_subidivions_by_area( $area );
-                    foreach ((array)$subdivisions as $key => $sub) {
-                        $neighborhoods_string .= "&neighborhoods=$sub";
-                    }
-                }
-            }
-
-            $neighborhoods = isset($_GET['sr_neighborhood']) ? $_GET['sr_neighborhood'] : '';
+            $neighborhoods = isset($_GET['sr_neighborhoods']) ? $_GET['sr_neighborhoods'] : '';
             if (!empty($neighborhoods)) {
                 foreach ((array)$neighborhoods as $key => $neighborhood) {
                     $neighborhoods_string .= "&neighborhoods=$neighborhood";
@@ -799,8 +789,6 @@ class SimplyRetsCustomPostPages
                   . $statuses_string
                   . $amenities_string;
 
-                // var_dump($qs); die();
-
                 $qs = str_replace(' ', '%20', $qs);
                 $listings_content = SimplyRetsApiHelper::retrieveRetsListings($qs, $settings);
                 $content .= SimplyRetsCustomPostPages::getSearchDescription( $postId );
@@ -817,6 +805,7 @@ class SimplyRetsCustomPostPages
                 $qs .= $features_string;
                 $qs .= $cities_string;
                 $qs .= $counties_string;
+                $qs .= $minorAreas_string;
                 $qs .= $agents_string;
                 $qs .= $ptypes_string;
                 $qs .= $neighborhoods_string;
