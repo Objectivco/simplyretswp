@@ -403,7 +403,6 @@ HTML;
         $area       = array_key_exists('area', $atts) ? $atts['area']     : '';
         $adv_features      = isset($_GET['sr_features']) ? $_GET['sr_features'] : array();
         $adv_neighborhoods = isset($_GET['sr_neighborhoods']) ? $_GET['sr_neighborhoods']     : array();
-        $adv_areas = isset($_GET['sr_areas']) ? $_GET['sr_areas'] : array();
 
         /*
          * Get the initial values for `cities`. If a query parameter
@@ -413,6 +412,16 @@ HTML;
         $adv_cities = isset($_GET['sr_cities']) ? $_GET['sr_cities'] : array();
         if (empty($adv_cities) && array_key_exists('cities', $atts)) {
             $adv_cities = $atts['cities'];
+        }
+
+        /*
+         * Get the initial values for `minorareas`. If a query parameter
+           is set, use-that, otherwise check for a 'minorareas' attribute
+           on the [sr_search_form] short-code
+         */
+        $adv_areas = isset( $_GET['sr_areas'] ) ? $_GET['sr_areas'] : array();
+        if ( empty( $adv_areas ) && array_key_exists( 'minorareas', $atts ) ) {
+            $adv_areas = $atts['minorareas'];
         }
 
         if (!$sort  == "") {
@@ -494,6 +503,12 @@ HTML;
             $city_options .= "<option value='$city' $checked>$city</option>";
         }
 
+        $adv_search_minorareas = get_option( "sr_adv_search_meta_minorareas_$vendor", array() );
+        foreach( (array) $adv_search_minorareas as $key => $area ) {
+            $checked = in_array($area, (array) $adv_areas) ? 'selected="selected"' : '';
+            $area_options .= "<option value='$area' $checked>$area</option>";
+        }
+
         $adv_search_status = get_option("sr_adv_search_meta_status_$vendor", array());
         foreach ((array)$adv_search_status as $key => $status) {
             if ($status == $adv_status) {
@@ -501,12 +516,6 @@ HTML;
             } else {
                 $status_options .= "<option value='$status' />$status</option>";
             }
-        }
-
-        $adv_search_minor = SrShortcodes::obj_get_minor_areas();
-        foreach ((array)$adv_search_minor as $key => $area) {
-            $checked = in_array($area, (array)$adv_areas) ? 'selected="selected"' : '';
-            $area_options .= "<option value='$area' $checked>$area</option>";
         }
 
         // $adv_search_neighborhoods= get_option("sr_adv_search_meta_neighborhoods_$vendor", array());
@@ -632,8 +641,8 @@ HTML;
                     </div>
 
                     <div class="sr-adv-search-col2">
-                      <label>Neighborhoods</label>
-                      <select name="sr_areas[]" multiple>
+                      <label>Minor Areas</label>
+                      <select name="sr_minorareas[]" multiple>
                             <?php echo $area_options; ?>
                       </select>
                     </div>
