@@ -683,7 +683,7 @@ HTML;
             return ob_get_clean();
         }
         $classes = '';
-        if (isset( $_GET['sr_post_id'] )) {
+        if (isset( $_GET['sr_post_id'] ) && ! empty( $_GET['sr_post_id'] )) {
             $classes = 'one-click-search';
         }
         ?>
