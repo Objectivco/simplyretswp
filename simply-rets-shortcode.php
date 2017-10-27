@@ -490,7 +490,7 @@ HTML;
         $adv_search_cities = array(
             "Aspen",
             "Basalt",
-            "Brushcreek Village",
+            "Brush Creek Village",
             "Carbondale",
             "Missouri Heights",
             "Old Snowmass",
