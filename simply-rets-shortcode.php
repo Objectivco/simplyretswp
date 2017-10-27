@@ -728,11 +728,11 @@ HTML;
               </div>
               <div class="sr-search-field" id="sr-search-minprice">
                 <label>Min. Price</label>
-                <input name="sr_minprice" step="500000" min="0" type="number" value="<?php echo $minprice; ?>" placeholder="Min Price.." />
+                <input name="sr_minprice" step="150000" min="0" type="number" value="<?php echo $minprice; ?>" placeholder="Min Price.." />
               </div>
               <div class="sr-search-field" id="sr-search-maxprice">
                 <label>Max Price</label>
-                <input name="sr_maxprice" step="500000" min="0" type="number" value="<?php echo $maxprice; ?>" placeholder="Max Price.." />
+                <input name="sr_maxprice" step="150000" min="0" type="number" value="<?php echo $maxprice; ?>" placeholder="Max Price.." />
               </div>
 
               <div class="sr-search-field" id="sr-search-minbeds">
