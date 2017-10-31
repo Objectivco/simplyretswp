@@ -471,20 +471,6 @@ HTML;
             }
         }
 
-        if (isset( $_GET['sr_cities'] ) && is_array( $_GET['sr_cities'] )) {
-            $cities = $_GET['sr_cities'];
-            foreach ($cities as $city) {
-                $citiesFields .= '<input type="hidden" name="sr_cities[]" value="' . $city . '" />';
-            }
-        }
-
-        if (isset( $_GET['sr_neighborhood'] ) && is_array( $_GET['sr_neighborhood'] )) {
-            $neighborhoods = $_GET['sr_neighborhood'];
-            foreach ($neighborhoods as $neighborhood) {
-                $neighborhoodFields .= '<input type="hidden" name="sr_neighborhood[]" value="' . $neighborhood . '" />';
-            }
-        }
-
         // $adv_search_cities = get_option("sr_adv_search_meta_city_$vendor", array());
         // sort($adv_search_cities);
         $adv_search_cities = array(
@@ -499,7 +485,7 @@ HTML;
         );
 
         foreach ((array)$adv_search_cities as $key => $city) {
-            $checked = in_array($city, (array)$adv_cities) ? 'selected="selected"' : '';
+            $checked = in_array($city, (array)$adv_cities) ? 'selected' : '';
             $city_options .= "<option value='$city' $checked>$city</option>";
         }
 
@@ -721,8 +707,8 @@ HTML;
 
             <div class="sr-minmax-filters">
               <div class="sr-adv-search-col2">
-                <label><strong>Cities</strong></label>
-                <select name='sr_cities[]' multiple>
+                    <label><strong>Cities</strong></label>
+                    <select name='sr_cities[]' multiple>
                     <?php echo $city_options ?>
                 </select>
               </div>

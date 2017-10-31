@@ -662,6 +662,7 @@ class SimplyRetsCustomPostPages
             }
 
             $cities = isset($_GET['sr_cities']) ? $_GET['sr_cities'] : '';
+            var_dump($cities);
             if (!empty($cities)) {
                 foreach ((array)$cities as $key => $city) {
                     $cities_string .= "&cities=$city";
@@ -772,9 +773,6 @@ class SimplyRetsCustomPostPages
              * Make advanced search page with new query
              */
             if (!$advanced || !$advanced == "true") {
-                if ($neighborhoods_string) {
-                    $cities_string="";
-                }
                 $qs = '?'
                   . http_build_query( array_filter( $listing_params ) )
                   . $streets_string
