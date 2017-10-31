@@ -731,7 +731,7 @@ HTML;
             <input type="hidden" name="sr_brokers" value="<?php echo $brokers; ?>" />
             <input type="hidden" name="sr_agent"   value="<?php echo $agent; ?>" />
             <input type="hidden" name="limit"      value="<?php echo $limit; ?>" />
-            <input type="hidden" name="sr_search_title" value="<?php echo $search_title; ?>" />
+            <input type="hidden" name="sr_search_title" value="<?php echo esc_attr($search_title); ?>" />
             <input type="hidden" name="sr_post_id" value="<?php echo $post_id; ?>" />
             <?php echo $citiesFields; ?>
             <?php echo $neighborhoodFields; ?>
