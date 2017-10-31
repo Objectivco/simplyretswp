@@ -662,7 +662,6 @@ class SimplyRetsCustomPostPages
             }
 
             $cities = isset($_GET['sr_cities']) ? $_GET['sr_cities'] : '';
-            var_dump($cities);
             if (!empty($cities)) {
                 foreach ((array)$cities as $key => $city) {
                     $cities_string .= "&cities=$city";
