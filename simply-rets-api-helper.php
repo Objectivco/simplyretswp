@@ -29,13 +29,14 @@ class SimplyRetsApiHelper {
                     }
                 }
             }
+            
 
             if ( ! empty($_GET['limit']) && $request_response['count'] < intval($_GET['limit']) ) {
                 unset($request_response['pagination']['next']);
             }
         }
-        $request_count = ( isset( $_GET['sr_post_id'] ) && !empty( $_GET['sr_post_id'] ) ? count( $request_response['response'] ) : $request_response['count'] );
-        $response_markup  = SimplyRetsApiHelper::srResidentialResultsGenerator( $request_response, $settings, $request_count );
+
+        $response_markup  = SimplyRetsApiHelper::srResidentialResultsGenerator( $request_response, $settings, $request_response['count'] );
 
         return $response_markup;
     }
