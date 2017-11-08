@@ -739,7 +739,7 @@ HTML;
             <div>
                 <input class="submit button btn" type="submit" value="Search Properties">
 
-                <div class="sr-sort-wrapper">
+                <div class="sr-sort-wrapper" style="<?php if ( ! empty($_GET['days']) && intval($_GET['days']) > 0) echo 'display:none;'; ?>">
                     <label for="sr_sort">Sort by: </label>
                     <select class="select" name="sr_sort" <?php if (isset($_GET['sr_post_id']) ) echo 'onchange="this.form.submit()'; ?>">
                         <option value="-listprice" <?php echo $sort_price_hl ?>> Price - High to Low</option>
