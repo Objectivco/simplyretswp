@@ -15,6 +15,7 @@ class SimplyRetsApiHelper {
     public static function retrieveRetsListings( $params, $settings = NULL ) {
         $request_url = SimplyRetsApiHelper::srRequestUrlBuilder( $params );
         $request_response = SimplyRetsApiHelper::srApiRequest( $request_url );
+        $request_count = $request_response['count'];
         foreach( $request_response['response'] as $key => $listing ) {
             if ( $listing->property->type == "RNT" || $listing->property->type == "CRE" ) {
                 unset($request_response['response'][$key]);
@@ -33,10 +34,11 @@ class SimplyRetsApiHelper {
 
             if ( ! empty($_GET['limit']) && $request_response['count'] < intval($_GET['limit']) ) {
                 unset($request_response['pagination']['next']);
+	            $request_count = count( $request_response['response'] );
             }
         }
 
-        $response_markup  = SimplyRetsApiHelper::srResidentialResultsGenerator( $request_response, $settings, $request_response['count'] );
+        $response_markup  = SimplyRetsApiHelper::srResidentialResultsGenerator( $request_response, $settings, $request_count );
 
         return $response_markup;
     }
