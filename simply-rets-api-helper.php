@@ -20,6 +20,14 @@ class SimplyRetsApiHelper {
                 unset($request_response['response'][$key]);
             }
 
+            if ( ! empty( $days = $_GET['days']) ) {
+                if ( $days > 0 ) {
+	                if ( strtotime($listing->listDate) < strtotime("-$days day")  ) {
+		                unset($request_response['response'][$key]);
+                    }
+                }
+            }
+
             // if (isset($_GET['sr_stype'])) {
             //     if ( $listing->property->subType != $_GET['sr_stype']) {
             //         unset($request_response['response'][$key]);
