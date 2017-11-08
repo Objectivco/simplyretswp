@@ -392,6 +392,10 @@ class SimplyRetsApiHelper {
                     $output['sr_days'] = $_GET['sr_days'];
                 }
 
+	            if ( isset($_GET['sr_post_id']) ) {
+		            $output['sr_post_id'] = $_GET['sr_post_id'];
+	            }
+
                 $link_parts['query'] = http_build_query( $output );
                 $pag_link_modified = $link_parts['scheme']
                                      . '://'
