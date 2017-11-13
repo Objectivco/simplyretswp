@@ -110,10 +110,10 @@ class SrShortcodes
 
                       <div class="sr-minmax-filters">
                         <div class="sr-search-field" id="sr-search-minprice">
-                          <input name="sr_minprice" step="1000" min="0" type="number" placeholder="Min Price.." />
+                          <input name="sr_minprice" step="1" min="0" type="number" placeholder="Min Price.." />
                         </div>
                         <div class="sr-search-field" id="sr-search-maxprice">
-                          <input name="sr_maxprice" step="1000" min="0" type="number" placeholder="Max Price.." />
+                          <input name="sr_maxprice" step="1" min="0" type="number" placeholder="Max Price.." />
                         </div>
 
                         <div class="sr-search-field" id="sr-search-minbeds">
@@ -565,8 +565,8 @@ HTML;
                   <div class="sr-minmax-filters">
                     <div class="sr-adv-search-col2 sr-adv-search-price">
                       <label><strong>Price Range</strong></label>
-                      <input step="1000" min="0" type="number" name="sr_minprice" placeholder="10000" value="<?php echo $minprice; ?>"/>
-                      <input step="1000" min="0" type="number" name="sr_maxprice" placeholder="1000000" value="<?php echo $maxprice; ?>"/>
+                      <input step="1" min="0" type="number" name="sr_minprice" placeholder="10000" value="<?php echo $minprice; ?>"/>
+                      <input step="1" min="0" type="number" name="sr_maxprice" placeholder="1000000" value="<?php echo $maxprice; ?>"/>
                     </div>
 
                     <div class="sr-adv-search-col4">
@@ -714,11 +714,11 @@ HTML;
               </div>
               <div class="sr-search-field" id="sr-search-minprice">
                 <label>Min. Price</label>
-                <input name="sr_minprice" step="150000" min="0" type="number" value="<?php echo $minprice; ?>" placeholder="Min Price.." />
+                <input name="sr_minprice" step="1" min="0" type="number" value="<?php echo $minprice; ?>" placeholder="Min Price.." />
               </div>
               <div class="sr-search-field" id="sr-search-maxprice">
                 <label>Max Price</label>
-                <input name="sr_maxprice" step="150000" min="0" type="number" value="<?php echo $maxprice; ?>" placeholder="Max Price.." />
+                <input name="sr_maxprice" step="1" min="0" type="number" value="<?php echo $maxprice; ?>" placeholder="Max Price.." />
               </div>
 
               <div class="sr-search-field" id="sr-search-minbeds">
