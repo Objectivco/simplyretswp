@@ -20,11 +20,11 @@ class SimplyRetsApiHelper {
                 unset($request_response['response'][$key]);
             }
 
-            // if (isset($_GET['sr_stype'])) {
-            //     if ( $listing->property->subType != $_GET['sr_stype']) {
-            //         unset($request_response['response'][$key]);
-            //     }
-            // }
+            if (isset($_GET['sr_stype'])) {
+                if ( $listing->property->subType != $_GET['sr_stype']) {
+                    unset($request_response['response'][$key]);
+                }
+            }
         }
         $request_count = ( isset( $_GET['sr_post_id'] ) && !empty( $_GET['sr_post_id'] ) ? count( $request_response['response'] ) : $request_response['count'] );
         $response_markup  = SimplyRetsApiHelper::srResidentialResultsGenerator( $request_response, $settings, $request_count );
