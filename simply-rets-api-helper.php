@@ -15,9 +15,11 @@ class SimplyRetsApiHelper {
     public static function retrieveRetsListings( $params, $settings = NULL ) {
         $request_url = SimplyRetsApiHelper::srRequestUrlBuilder( $params );
         $request_response = SimplyRetsApiHelper::srApiRequest( $request_url );
+        $request_count = $request_response['count'];
         foreach( $request_response['response'] as $key => $listing ) {
             if ( $listing->property->type == "RNT" || $listing->property->type == "CRE" ) {
                 unset($request_response['response'][$key]);
+                $request_response['count']--;
             }
 
             if (isset($_GET['sr_stype'])) {
@@ -25,8 +27,22 @@ class SimplyRetsApiHelper {
                     unset($request_response['response'][$key]);
                 }
             }
+            if ( ! empty( $days = $_GET['sr_days']) ) {
+                if ( $days > 0 ) {
+	                if ( strtotime($listing->listDate) < strtotime("-$days day")  ) {
+		                unset($request_response['response'][$key]);
+		                $request_response['count']--;
+                    }
+                }
+            }
+
+
+            if ( ! empty($_GET['limit']) && $request_response['count'] < intval($_GET['limit']) ) {
+                unset($request_response['pagination']['next']);
+	            $request_count = count( $request_response['response'] );
+            }
         }
-        $request_count = ( isset( $_GET['sr_post_id'] ) && !empty( $_GET['sr_post_id'] ) ? count( $request_response['response'] ) : $request_response['count'] );
+
         $response_markup  = SimplyRetsApiHelper::srResidentialResultsGenerator( $request_response, $settings, $request_count );
 
         return $response_markup;
@@ -257,7 +273,7 @@ class SimplyRetsApiHelper {
             $header = substr( $request, 0, $header_size );
             $body   = substr( $request, $header_size );
 
-            $pag_links = SimplyRetsApiHelper::srPaginationParser($header, 'Red Mountain Properties');
+            $pag_links = SimplyRetsApiHelper::srPaginationParser($header);
             $last_update = SimplyRetsApiHelper::srLastUpdateHeaderParser($header);
             $count = SimplyRetsApiHelper::objGetResultsCount($header);
 
@@ -378,6 +394,15 @@ class SimplyRetsApiHelper {
                         unset( $output[$query] );
                     }
                 }
+
+                if ( isset($_GET['sr_days']) ) {
+                    $output['sr_days'] = $_GET['sr_days'];
+                }
+
+	            if ( isset($_GET['sr_post_id']) ) {
+		            $output['sr_post_id'] = $_GET['sr_post_id'];
+	            }
+
                 $link_parts['query'] = http_build_query( $output );
                 $pag_link_modified = $link_parts['scheme']
                                      . '://'
