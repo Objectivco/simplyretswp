@@ -594,7 +594,7 @@ HTML;
         $halfBaths = $listing->property->bathsHalf;
         $area = $listing->property->area == 0 ? 'n/a' : number_format( $listing->property->area);
         $garage = $listing->property->garageSpaces;
-        $acres = number_format( $listing->property->acres );
+        $acres = number_format( $listing->property->area * 0.000022956, 2 );
         $lotSize = number_format( $listing->property->lotSizeArea );
 
         if ( $listing->listPrice !== null && $listing->property->area !== null ) {
@@ -1394,7 +1394,7 @@ HTML;
             $subdivision        = $listing->property->subdivision;
             $style              = $listing->property->style;
             $yearBuilt          = $listing->property->yearBuilt;
-            $acres              = $listing->property->acres;
+            $acres              = number_format($listing->property->area * 0.000022956, 2);
 
             /**
              * Listing status to show. This may return a statusText.
