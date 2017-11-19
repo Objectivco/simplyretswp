@@ -694,7 +694,7 @@ HTML;
                 'val'   => ''
             ),
             array(
-                'key'   => 'Lot Size',
+                'key'   => 'Lot Sq Ft',
                 'val'   => $lotSize
             ),
             array(
@@ -1160,7 +1160,7 @@ HTML;
                             <?php if ( $lotSize ): ?>
                             <div class="SingleProperty-acres">
                                 <span class="SingleProperty-metaValue"><?php echo $lotSize; ?></span>
-                                <span class="SingleProperty-metaLabel">Lot Size</span>
+                                <span class="SingleProperty-metaLabel">Lot Sq Ft</span>
                             </div>
                             <?php endif; ?>
                             <?php if ( $acres ): ?>
@@ -2022,7 +2022,7 @@ HTML;
                         <?php if ( $lotsize ): ?>
                         <div class="SingleProperty-acres">
                             <span class="SingleProperty-metaValue"><?php echo $lotsize; ?></span>
-                            <span class="SingleProperty-metaLabel">Lot Size</span>
+                            <span class="SingleProperty-metaLabel">Lot Sq Ft</span>
                         </div>
                         <?php endif; ?>
                         <?php if ( $yearBuilt ): ?>
