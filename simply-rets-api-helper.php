@@ -590,13 +590,16 @@ HTML;
         $price = '$' . number_format( $listing->listPrice );
         $status = $listing->mls->status;
         $beds = $listing->property->bedrooms;
+        $bathrooms = $listing->property->bathrooms;
         $fullBaths = $listing->property->bathsFull;
         $halfBaths = $listing->property->bathsHalf;
+        $threeQuarterBaths = $listing->property->bathsThreeQuarter;
         $area = $listing->property->area == 0 ? 'n/a' : number_format( $listing->property->area);
         $garage = $listing->property->garageSpaces;
         $acres = $listing->property->lotSizeArea * 0.000022956;
 	    $acres = $acres > 0 ? number_format( $acres, 2 ) : 0;
         $lotSize = number_format( $listing->property->lotSizeArea );
+        //var_dump($listing->property);
 
         if ( $listing->listPrice !== null && $listing->property->area !== null ) {
             $pricePer = $listing->listPrice / $listing->property->area;
@@ -668,12 +671,20 @@ HTML;
             ),
             array(
                 'key'   => 'Baths',
-                'val'   => $fullBaths
+                'val'   => $bathrooms
             ),
+	        array(
+		        'key'   => 'Full Baths',
+		        'val'   => $fullBaths
+	        ),
             array(
                 'key'   => 'Half Baths',
                 'val'   => $halfBaths
             ),
+	        array(
+		        'key'   => 'Three Quarter Baths',
+		        'val'   => $threeQuarterBaths
+	        ),
             array(
                 'key'   => 'Year Built',
                 'val'   => $listing->property->yearBuilt
@@ -1122,9 +1133,9 @@ HTML;
                                 <span class="SingleProperty-metaLabel">Bdrms</span>
                             </div>
                             <?php endif; ?>
-                            <?php if ( $fullBaths ): ?>
+                            <?php if ( $bathrooms ): ?>
                             <div class="SingleProperty-fullBaths">
-                                <span class="SingleProperty-metaValue"><?php echo $fullBaths; ?></span>
+                                <span class="SingleProperty-metaValue"><?php echo $bathrooms; ?></span>
                                 <span class="SingleProperty-metaLabel">Ba</span>
                             </div>
                             <?php endif; ?>
