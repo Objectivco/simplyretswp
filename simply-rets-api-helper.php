@@ -1965,10 +1965,12 @@ HTML;
             $price = '$' . number_format( $listing->listPrice );
             $status = $listing->mls->status;
             $beds = $listing->property->bedrooms;
+	        $bathrooms = $listing->property->bathrooms;
             $fullBaths = $listing->property->bathsFull;
             $halfBaths = $listing->property->bathsHalf;
             $area = $listing->property->area == 0 ? 'n/a' : number_format( $listing->property->area);
-            $acres = number_format( $listing->property->acres );
+	        $acres = $listing->property->lotSizeArea * 0.000022956;
+	        $acres = $acres > 0 ? number_format( $acres, 2 ) : 0;
             $lotsize = number_format( $listing->property->lotSizeArea );
             $yearBuilt = $listing->property->yearBuilt;
 
@@ -1994,7 +1996,7 @@ HTML;
                             <span class="SingleProperty-metaLabel">Bdrms</span>
                         </div>
                         <div class="SingleProperty-fullBaths">
-                            <span class="SingleProperty-metaValue"><?php echo $fullBaths; ?></span>
+                            <span class="SingleProperty-metaValue"><?php echo $bathrooms; ?></span>
                             <span class="SingleProperty-metaLabel">Ba</span>
                         </div>
                         <?php if ( $halfBaths !== 0): ?>
