@@ -1437,6 +1437,7 @@ HTML;
             }
             $main_photo = trim($listingPhotos[0]);
             $main_photo = str_replace("\\", "", $main_photo);
+	        $main_photo = str_replace("http:", "https:", $main_photo);
 
             // listing link to details
             $link = SrUtils::buildDetailsLink(
