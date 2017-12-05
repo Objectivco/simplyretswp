@@ -863,7 +863,20 @@ class SimplyRetsCustomPostPages
 
             $listing_USD = $post_price == '' ? '' : '$' . number_format( $post_price );
             $title_normalize = "background-color:transparent;padding:0px;";
-            $post_title = preg_replace('/[^-a-zA-Z0-9_\s]/', '', $post_addr);
+
+            $address_transient_key = 'listing_' . $post_id . '_address';
+	        $post_title = get_transient( $address_transient_key );
+
+            if ( empty($post_title) ) {
+	            $request_url      = SimplyRetsApiHelper::srRequestUrlBuilder( '/' . $post_id );
+	            $request_response = SimplyRetsApiHelper::srApiRequest( $request_url );
+	            $listing = $request_response['response'];
+
+	            $post_title = $listing->address->full;
+	            set_transient($address_transient_key, $post_title);
+            }
+
+            $post_title = str_replace('Colorado', 'CO', $post_title);
 
             $post = (object)array(
                 "ID"             => $post_id,
