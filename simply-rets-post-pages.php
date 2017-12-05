@@ -863,7 +863,7 @@ class SimplyRetsCustomPostPages
 
             $listing_USD = $post_price == '' ? '' : '$' . number_format( $post_price );
             $title_normalize = "background-color:transparent;padding:0px;";
-            $post_title = "{$post_addr}";
+            $post_title = preg_replace('/[^-a-zA-Z0-9_\s]/', '', $post_addr);
 
             $post = (object)array(
                 "ID"             => $post_id,
