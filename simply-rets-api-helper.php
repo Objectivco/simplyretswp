@@ -22,12 +22,12 @@ class SimplyRetsApiHelper {
                 $request_response['count']--;
             }
 
-            if (isset($_GET['sr_stype'])) {
-                if ( $listing->property->subType != $_GET['sr_stype']) {
-                    unset($request_response['response'][$key]);
-	                $request_response['count']--;
-                }
-            }
+//            if (isset($_GET['sr_stype'])) {
+//                if ( $listing->property->subType != $_GET['sr_stype']) {
+//                    unset($request_response['response'][$key]);
+//	                $request_response['count']--;
+//                }
+//            }
             
             if ( ! empty( $days = $_GET['sr_days']) ) {
                 if ( $days > 0 ) {
