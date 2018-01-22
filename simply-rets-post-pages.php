@@ -709,6 +709,15 @@ class SimplyRetsCustomPostPages
                     $amenities_string .= "&amenities=$amenity";
                 }
             }
+
+            $subtypes = isset($_GET['sr_stype']) ? $_GET['sr_stype'] : '';
+
+	        if ( ! empty($subtypes) ) {
+		        foreach ((array)$subtypes as $key => $subtype) {
+			        $subtypes_string .= "&subtype=$subtype";
+		        }
+	        }
+
             $searchTitle = isset($_GET['sr_search_title']) ? $_GET['sr_search_title'] : '';
 
             if (! empty( $searchTitle )) {
