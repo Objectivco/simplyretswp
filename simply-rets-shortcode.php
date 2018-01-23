@@ -484,8 +484,8 @@ HTML;
             "Woody Creek"
         );
 
-        foreach ((array)$adv_search_cities as $key => $city) {
-            $checked = in_array($city, (array)$adv_cities) ? 'selected' : '';
+        foreach ( (array)$adv_search_cities as $key => $city) {
+            $checked = in_array( strtolower($city), (array)$adv_cities) || in_array( $city, (array)$adv_cities) ? 'selected' : '';
             $city_options .= "<option value='$city' $checked>$city</option>";
         }
 
