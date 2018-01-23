@@ -604,7 +604,7 @@ class SimplyRetsCustomPostPages
             if (is_array($s_types) && ! empty($s_types)) {
                 foreach ((array) $s_types as $key => $stype) {
                     $final = trim($stype);
-                    $stypes_string .= "&stype=$final";
+                    $stypes_string .= "&subtype=$final";
                 }
             }
 

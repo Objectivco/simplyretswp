@@ -733,6 +733,7 @@ HTML;
             <input type="hidden" name="limit"      value="<?php echo $limit; ?>" />
             <input type="hidden" name="sr_search_title" value="<?php echo esc_attr($search_title); ?>" />
             <input type="hidden" name="sr_post_id" value="<?php echo $post_id; ?>" />
+            <input type="hidden" name="sr_stype" value="<?php echo esc_attr($_GET['sr_stype']); ?>" />
             <?php echo $citiesFields; ?>
             <?php echo $neighborhoodFields; ?>
 
