@@ -146,7 +146,7 @@ class SrShortcodes
                                   <option value="-listprice"> Price - High to Low</option>
                                   <option value="listprice"> Price - Low to High</option>
                                   <option value="-listdate"> List Date - New to Old</option>
-                                  <option value="listdate"> List date - Old to New</option>
+                                  <option value="listdate"> List Date - Old to New</option>
                               </select>
                           </div>
                       </div>
@@ -666,7 +666,7 @@ HTML;
                             <option value="-listprice" <?php echo $sort_price_hl ?>> Price - High to Low</option>
                             <option value="listprice"  <?php echo $sort_price_lh ?>> Price - Low to High</option>
                             <option value="-listdate"  <?php echo $sort_date_hl ?> > List Date - New to Old</option>
-                            <option value="listdate"   <?php echo $sort_date_lh ?> > List date - Old to New</option>
+                            <option value="listdate"   <?php echo $sort_date_lh ?> > List Date - Old to New</option>
                         </select>
                     </div>
                 </div>
@@ -746,7 +746,7 @@ HTML;
                         <option value="-listprice" <?php echo $sort_price_hl ?>> Price - High to Low</option>
                         <option value="listprice"  <?php echo $sort_price_lh ?>> Price - Low to High</option>
                         <option value="-listdate"  <?php echo $sort_date_hl ?> > List Date - New to Old</option>
-                        <option value="listdate"   <?php echo $sort_date_lh ?> > List date - Old to New</option>
+                        <option value="listdate"   <?php echo $sort_date_lh ?> > List Date - Old to New</option>
                     </select>
                 </div>
             </div>
