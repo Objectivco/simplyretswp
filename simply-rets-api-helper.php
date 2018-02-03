@@ -1438,6 +1438,7 @@ HTML;
             $main_photo = trim($listingPhotos[0]);
             $main_photo = str_replace("\\", "", $main_photo);
 	        $main_photo = str_replace("http:", "https:", $main_photo);
+	        $main_photo = get_estin_resized_image_url($main_photo); // default 360x275 at 60 quality
 
             // listing link to details
             $link = SrUtils::buildDetailsLink(
