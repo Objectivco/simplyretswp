@@ -101,7 +101,7 @@ class SrShortcodes
                         </div>
 
                         <div class="sr-search-field" id="sr-search-ptype">
-                          <select name="sr_ptype">
+                          <select name="sr_ptype[]" multiple>
                             <option value="">Property Type</option>
                             <?php echo $type_options; ?>
                           </select>
@@ -414,12 +414,22 @@ HTML;
             $adv_cities = $atts['cities'];
         }
 
+	    /*
+		 * Get the initial values for `ptype`. If a query parameter
+		   is set, use-that, otherwise check for a 'ptype' attribute
+		   on the [sr_search_form] short-code
+		 */
+	    $adv_ptypes = isset($_GET['sr_ptype']) ? $_GET['sr_ptype'] : array();
+	    if (empty($adv_ptypes) && array_key_exists('ptype', $atts)) {
+		    $adv_ptypes = $atts['ptype'];
+	    }
+
         /*
          * Get the initial values for `minorareas`. If a query parameter
            is set, use-that, otherwise check for a 'minorareas' attribute
            on the [sr_search_form] short-code
          */
-        $adv_areas = isset( $_GET['sr_areas'] ) ? $_GET['sr_areas'] : array();
+        $adv_areas = isset( $_GET['sr_minorareas'] ) ? $_GET['sr_minorareas'] : array();
         if ( empty( $adv_areas ) && array_key_exists( 'minorareas', $atts ) ) {
             $adv_areas = $atts['minorareas'];
         }
@@ -441,57 +451,105 @@ HTML;
          * *amenities (int/ext), *status (active, pending, sold), area.
          */
         $type_options             = '';
-        $available_property_types = get_option("sr_adv_search_meta_types_$vendor", array());
+        //$available_property_types = get_option("sr_adv_search_meta_types_$vendor", array());
         $new_property_types = array();
         $default_type_option      = '<option value="">Property Type</option>';
 
         $available_property_types = array(
             'Residential'   => 'Single Family Home',
             'Condominium'   => 'Condominium',
-            'Land'  => 'Farm/Ranch',
-            'Multi-Family' => 'Multi-Family',
+            'Land'  => 'Land',
+            'Farm'  => 'Farm/Ranch',
+            'Multifamily' => 'Multi-Family',
             'Commercial'    => 'Commercial'
         );
 
-        if (is_array( $available_property_types )) {
-            $default_type_options = "<option value='' selected>Property Type</option>";
-            foreach ($available_property_types as $key => $value) {
-                if (is_array( $_GET['sr_ptype'] )) {
-                    $ptype = $_GET['sr_ptype'][0];
-                } else {
-                    $ptype = $_GET['sr_ptype'];
-                }
+	    $type_options = '';
 
-                if ($ptype == $key) {
-                    $selected = 'selected';
-                } else {
-                    $selected = '';
-                }
-                $type_options .= "<option value='$key' $selected/>$value</option>";
-            }
-        }
+	    foreach ( (array)$available_property_types as $key => $ptype) {
+		    $checked = in_array( strtolower($ptype), (array)$adv_ptypes) || in_array( $ptype, (array)$adv_cities) || in_array( strtolower($key), (array)$adv_ptypes ) || in_array( $key, (array)$adv_ptypes ) ? 'selected' : '';
+		    $type_options .= "<option value='$key' $checked>$ptype</option>";
+	    }
 
         // $adv_search_cities = get_option("sr_adv_search_meta_city_$vendor", array());
         // sort($adv_search_cities);
         $adv_search_cities = array(
-            "Aspen",
-            "Basalt",
-            "Brush Creek Village",
-            "Carbondale",
-            "Missouri Heights",
-            "Old Snowmass",
-            "Snowmass Village",
-            "Woody Creek"
+            "Aspen" => "Aspen",
+            "Basalt" => "Basalt",
+            "Brush Creek Village" => "Brush Creek Village",
+            "Carbondale" => "Carbondale",
+            "Missouri Heights" => "Missouri Heights",
+            "Snowmass" => "Old Snowmass",
+            "Snowmass Village" => "Snowmass Village",
+            "Woody Creek" => "Woody Creek",
         );
 
+	    $city_options = '';
+
         foreach ( (array)$adv_search_cities as $key => $city) {
-            $checked = in_array( strtolower($city), (array)$adv_cities) || in_array( $city, (array)$adv_cities) ? 'selected' : '';
-            $city_options .= "<option value='$city' $checked>$city</option>";
+            $checked = in_array( strtolower($city), (array)$adv_cities) || in_array( $city, (array)$adv_cities) || in_array( strtolower($key), (array)$adv_cities ) || in_array( $key, (array)$adv_cities ) ? 'selected' : '';
+            $city_options .= "<option value='$key' $checked>$city</option>";
         }
 
-        $adv_search_minorareas = get_option( "sr_adv_search_meta_minorareas_$vendor", array() );
+        //$adv_search_minorareas = get_option( "sr_adv_search_meta_minorareas_$vendor", array() );
+	    $adv_search_minorareas = array(
+		    "01-Central Core",
+		    "01-East Aspen",
+		    "01-McLain Flats",
+		    "01-Red Mountain",
+		    "01-Smuggler",
+		    "01-West Aspen",
+		    "01-West End",
+		    "02-Snowmass Village",
+		    "03-Brush Creek Village",
+		    "03-Woody Creek",
+		    "04-Old Snowmass",
+		    "05-Basalt Proper",
+		    "05-El Jebel",
+		    "05-Emma/Sopris Creek",
+		    "05-Frying Pan/Ruedi",
+		    "06-Missouri Heights",
+		    "07-Carbondale Proper",
+		    "07-Carbondale Rural",
+		    "08-Crystal Valley",
+		    "08-Marble",
+		    "08-Redstone",
+		    "09-Glenwood Proper",
+		    "09-South of Glenwood",
+		    "09-West of Glenwood",
+		    "10-East of New Castle",
+		    "10-New Castle Proper",
+		    "10-North New Castle",
+		    "10-South New Castle",
+		    "11-East of Silt",
+		    "11-North of Silt",
+		    "11-Silt Proper",
+		    "11-South Silt",
+		    "11-West of Silt",
+		    "12-East Rifle",
+		    "12-North Rifle",
+		    "12-Rifle Proper",
+		    "12-South Rifle",
+		    "12-West Rifle",
+		    "13-East of Parachute",
+		    "13-Parachute Proper",
+		    "13-Parachute Rural",
+		    "13-West of Parachute",
+		    "14-Battlement Mesa",
+		    "15-DeBeque",
+		    "16-Hayden",
+		    "17-Craig",
+		    "18-Meeker",
+		    "19-Steamboat",
+		    "20-Rangely",
+		    "Other Countries",
+		    "Out of Area",
+		    "Within Colorado",
+		    "Within U.S.",
+        );
+
         foreach( (array) $adv_search_minorareas as $key => $area ) {
-            $checked = in_array($area, (array) $adv_areas) ? 'selected="selected"' : '';
+            $checked = in_array($area, (array) $adv_areas) || in_array(strtolower($area), (array) $adv_areas) ? 'selected="selected"' : '';
             $area_options .= "<option value='$area' $checked>$area</option>";
         }
 
@@ -554,11 +612,13 @@ HTML;
 
                       <div class="sr-search-field" id="sr-search-ptype">
                         <label>Property Type</label>
-                        <select name="sr_ptype">
+                        <select name="sr_ptype[]" multiple>
                             <?php echo $default_type_option; ?>
                             <?php echo $type_options; ?>
                         </select>
                       </div>
+
+
                     </div>
                   </div>
 
@@ -698,11 +758,18 @@ HTML;
 
               <div class="sr-search-field" id="sr-search-ptype">
                 <label>Property Search</label>
-                <select name="sr_ptype">
+                <select name="sr_ptype[]" multiple>
                     <?php echo $default_type_option; ?>
                     <?php echo $type_options; ?>
                 </select>
               </div>
+
+            <div class="sr-adv-search-col2" style="display:none">
+                <label>Minor Areas</label>
+                <select name="sr_minorareas[]" multiple>
+                    <?php echo $area_options; ?>
+                </select>
+            </div>
             </div>
 
             <div class="sr-minmax-filters">
